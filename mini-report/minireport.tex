@@ -15,7 +15,8 @@
 
 \subsection*{Minmax Implementation}
 In our approach we will use Alpha-Beta pruning with iterative deepening.
-% TODO add alot more to this
+Iterative deepening is used so that we are able better work within the time limit and explore more of a breadth of possible moves.
+We will also be sorting potential moves in order of highest to lowest for our MAX function and visa versa for our MIN function.
 
 \subsection*{Evaluation Function}
 For our evaluation function we have considered various ways of evaluating the given state in a way that would help us generate a optimal solution. Some evaluations that we have considered are as follows:
@@ -29,7 +30,10 @@ Although min would be minimizing the available moves for max, this does not nece
 
 \end{itemize}
 \subsection*{Representation of State Space}
-To represent our state space we will use an array of 8 16bit integers, such that every two bits is a square on the board.
+To represent our state space we will use an array of 8 16bit integers.
+Every two bits is a square on the board, and every entry in in the array will be a line.
+We do this to reduce our overall memory usage.
+This memory model should increase the speed of the program as it will have to access less memory.
 % TODO add more and figure
 
 \subsection*{Programming language}
