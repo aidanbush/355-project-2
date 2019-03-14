@@ -22,8 +22,9 @@ We will also be sorting potential moves in order of highest to lowest for our MA
 
 \subsection*{Representation of State Space}
 To represent our state space we will use an array of 8 16bit integers.
-Every two bits is a square on the board, and every entry in in the array will be a line.
-We do this to reduce our overall memory usage.
+Every two bits is a square on the board, such that a single 16bit integer is an entire row 1-8.
+Every 2 bits will be the a-h entries for the specific row they are part of.
+We are using this model to reduce our overall memory usage.
 This memory model should increase the speed of the program as it will have to access less memory.
 % TODO add more and figure
 
