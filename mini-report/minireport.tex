@@ -18,9 +18,20 @@ In our approach we will use Alpha-Beta pruning with iterative deepening.
 % TODO add alot more to this
 
 \subsection*{Evaluation Function}
+For our evaluation function we have considered various ways of evaluating the given state in a way that would help us generate a optimal solution. Some evaluations that we have considered are as follows:
+\begin{itemize}
+\item \textbf{Number of moves Heuristic Evaluation} - 
+Takes in the given state and calculates the number of moves available to max for that given state. 
+With this evaluation it will always provide a higher value for the state that has more available moves. 
+This evaluation would not be a good choice for implementing into our minmax algorithm as min choosing the smaller heuristic value would not necessarily be the optimal for that node. 
+This would lead to a suboptimal choice as the heuristic only looks at the number of moves available for max, which leads to min choosing the value that minimizes the number of choices for max. 
+Although min would be minimizing the available moves for max, this does not necessarily mean that we also are maximizing the available moves for min.
 
+\end{itemize}
 \subsection*{Representation of State Space}
 To represent our state space we will use an array of 8 16bit integers, such that every two bits is a square on the board.
 % TODO add more and figure
 
+\subsection*{Programming language}
+We will be using C for imporved efficiency
 \end{document}
