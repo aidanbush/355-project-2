@@ -34,7 +34,12 @@ Takes in the given state and calculates the number of moves for black and white 
 This would provide our minmax algorithm because it would return a larger value for when there are more available moves for black than white and a smaller value for the inverse.
 This would provide both min and max with their respective optimal decisions.
 The problem with using this heuristic is that it would not provide a big range between values resulting in more than one state returning the same value.
-The other concern with using this evaluation is if checking the state for both black and white will be too expensive to do for every state.
+
+\item \textbf{Remaining Stones Evaluation} -
+Takes the given state and counts the amount of remaining stones for both white and black.
+Taking the difference between the two counts would result in the minmax algorithm would return larger values for when the state has more black than white.
+In the other case, for min, the evaluation would return smaller values for when there are more white than black.
+
 
 \end{itemize}
 \subsection*{Representation of State Space}
