@@ -18,9 +18,18 @@ model_s *init_model(model_s *parent) {
     // eval
 
     model->parent = parent;
+
+    model->num_children = 0;
+    model->children = NULL;
+
+    return model;
 }
 
 void free_model(model_s *model) {
+    if (model == NULL)
+        return;
+
+    free(model->children);
     free(model);
 }
 

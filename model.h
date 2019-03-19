@@ -16,8 +16,9 @@
 typedef struct model_s {
     uint16_t state[BOARD_SIZE];
     int eval;
+    int num_children;
     struct model_s *parent;
-    // children
+    struct model_s **children;
 } model_s;
 
 model_s *init_model();
