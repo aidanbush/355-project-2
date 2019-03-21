@@ -43,13 +43,10 @@ In the other case, for min, the evaluation would return smaller values for when 
 
 \end{itemize}
 \subsection*{Representation of State Space}
-To represent our state space we will use an array of 8 16bit integers.
-Every two bits is a square on the board, such that a single 16bit integer is an entire row 1-8.
-Every 2 bits will be the a-h entries for the specific row they are part of.
-We are using this model to reduce our overall memory usage.
-This memory model should increase the speed of the program as it will have to access less memory.
-% TODO add more and figure
+To represent our state space we will use a multi-dimensional array of 8 by 8 one byte integers.
+We are using this model to allow easy access to each of the boards entries.
 
 \subsection*{Programming language}
-We will be using C for imporved efficiency
+We will be using C for improved efficiency, and control.
+
 \end{document}
