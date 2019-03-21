@@ -11,12 +11,16 @@
 
 #include <stdint.h>
 
-#define BOARD_SIZE  8
+#define BOARD_SIZE      8
+#define SQUARE_BLACK    0
+#define SQUARE_WHITE    1
+#define SQUARE_EMPTY    2
 
 typedef struct model_s {
-    uint16_t state[BOARD_SIZE];
+    uint8_t state[BOARD_SIZE][BOARD_SIZE];
     int eval;
-    int num_children;
+    int cur_children;
+    int children_size;
     struct model_s *parent;
     struct model_s **children;
 } model_s;
