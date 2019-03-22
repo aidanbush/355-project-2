@@ -26,7 +26,9 @@ char** copy_state(char** cur_state){
 }
 
 
-
+/*creates an array of every possible state for the given move_set. The move_set is an integer
+* that represents what we are searching for. 0-for the first move, 1-for black moves, 2-for white moves
+*/
 char*** valid_moves(char** cur_state, int move_set){
   int i,j,ind=0;
   char search_char; //whether we are looking for the available moves for white or black
@@ -35,7 +37,7 @@ char*** valid_moves(char** cur_state, int move_set){
     temp_state[i] = malloc(sizeof(char)* 8);
   }
   temp_state = copy_state(cur_state);
-  char*** valid_states = calloc(8,sizeof(temp_state));
+  char*** valid_states = calloc(8,sizeof(temp_state)); //arbitrarily chosen until dynamic memory then initially it will be 4
   if(valid_states == NULL){
     printf("Error in allocation");
   }
@@ -68,7 +70,9 @@ char*** valid_moves(char** cur_state, int move_set){
   temp_state = copy_state(cur_state);
   for(i=0;i<8;i++){
     for(j=0;j<8;j++){
+      //Evaluate based on search_char
       if(temp_state[i][j] == search_char){
+        //check down
         if((i+2 < 8)){
           if(temp_state[i+2][j] == 'O'){
             temp_state[i+2][j] = search_char;
@@ -78,7 +82,7 @@ char*** valid_moves(char** cur_state, int move_set){
             temp_state = copy_state(cur_state);
           }
         }
-
+        //check up
         if(i-2 > 0){
           if(temp_state[i-2][j] == 'O'){
             temp_state[i-2][j] = search_char;
@@ -88,7 +92,7 @@ char*** valid_moves(char** cur_state, int move_set){
             temp_state = copy_state(cur_state);
           }
         }
-
+      //check right
       if(j+2 < 8){
         if(temp_state[i][j+2] == 'O'){
           temp_state[i][j+2] = search_char;
@@ -98,7 +102,7 @@ char*** valid_moves(char** cur_state, int move_set){
           temp_state = copy_state(cur_state);
         }
       }
-
+      //check left
       if(j+2 < 8){
         if(temp_state[i][j-2] == 'O'){
           temp_state[i][j-2] = search_char;
@@ -111,13 +115,7 @@ char*** valid_moves(char** cur_state, int move_set){
       }
     }
   }
-  for(i=0;i<4;i++){
-    print_state(valid_states[i]);
-    printf("\n\n");
-  }
-  
- 
-  return 0;
+  return valid_states;
 }
 
 //temporary main to make sure it handles the input properly
@@ -135,5 +133,10 @@ int main(void){
   state[5] = "WBWBWBWB";
   state[6] = "BWBWBWBW";
   state[7] = "WBWBWBWB";
-  valid_moves(state, 1);
+  
+  char*** states = valid_moves(state, 1);
+  for(i=0;i<4;i++){
+    print_state(states[i]);
+    printf("\n\n");
+  }
 }
