@@ -28,14 +28,14 @@ char** copy_state(char** cur_state){
 
 
 char*** valid_moves(char** cur_state, int move_set){
-  int i,j;
+  int i,j,ind=0;
   char search_char; //whether we are looking for the available moves for white or black
   char** temp_state = malloc(sizeof(char*)*8);
   for(i=0;i<8;i++){
     temp_state[i] = malloc(sizeof(char)* 8);
   }
   temp_state = copy_state(cur_state);
-  char*** valid_states = calloc(4,sizeof(temp_state));
+  char*** valid_states = calloc(8,sizeof(temp_state));
   if(valid_states == NULL){
     printf("Error in allocation");
   }
@@ -65,20 +65,58 @@ char*** valid_moves(char** cur_state, int move_set){
   }
 
   //Search through state for possible moves based off search_char
+  temp_state = copy_state(cur_state);
+  for(i=0;i<8;i++){
+    for(j=0;j<8;j++){
+      if(temp_state[i][j] == search_char){
+        if((i+2 < 8)){
+          if(temp_state[i+2][j] == 'O'){
+            temp_state[i+2][j] = search_char;
+            temp_state[i][j] = 'O';
+            valid_states[ind] = temp_state;
+            ind++;
+            temp_state = copy_state(cur_state);
+          }
+        }
 
+        if(i-2 > 0){
+          if(temp_state[i-2][j] == 'O'){
+            temp_state[i-2][j] = search_char;
+            temp_state[i][j] = 'O';
+            valid_states[ind] = temp_state;
+            ind++;
+            temp_state = copy_state(cur_state);
+          }
+        }
 
+      if(j+2 < 8){
+        if(temp_state[i][j+2] == 'O'){
+          temp_state[i][j+2] = search_char;
+          temp_state[i][j] = 'O';
+          valid_states[ind] = temp_state;
+          ind++;
+          temp_state = copy_state(cur_state);
+        }
+      }
+
+      if(j+2 < 8){
+        if(temp_state[i][j-2] == 'O'){
+          temp_state[i][j-2] = search_char;
+          temp_state[i][j] = 'O';
+          valid_states[ind] = temp_state;
+          ind++;
+          temp_state = copy_state(cur_state);
+          }
+        }
+      }
+    }
+  }
+  for(i=0;i<4;i++){
+    print_state(valid_states[i]);
+    printf("\n\n");
+  }
   
-  printf("Take first B:\n");
-  print_state(valid_states[0]);
-
-  printf("Take second B:\n");
-  print_state(valid_states[1]);
-
-  printf("Take third B:\n");
-  print_state(valid_states[2]);
-
-  printf("Take fourth B:\n");
-  print_state(valid_states[3]);
+ 
   return 0;
 }
 
@@ -92,10 +130,10 @@ int main(void){
   state[0] = "BWBWBWBW";
   state[1] = "WBWBWBWB";
   state[2] = "BWBWBWBW";
-  state[3] = "WBWBWBWB";
+  state[3] = "WBWOWBWB";
   state[4] = "BWBWBWBW";
   state[5] = "WBWBWBWB";
   state[6] = "BWBWBWBW";
   state[7] = "WBWBWBWB";
-  valid_moves(state, 0);
+  valid_moves(state, 1);
 }
