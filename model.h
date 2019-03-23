@@ -12,15 +12,12 @@
 #include <stdint.h>
 
 #define BOARD_SIZE      8
-#define SQUARE_BLACK    0
-#define SQUARE_WHITE    1
-#define SQUARE_EMPTY    2
 
 typedef struct model_s {
     uint8_t state[BOARD_SIZE][BOARD_SIZE];
     int eval;
-    int cur_children;
-    int children_size;
+    int cur_size;
+    int max_size;
     struct model_s *parent;
     struct model_s **children;
 } model_s;
@@ -28,5 +25,7 @@ typedef struct model_s {
 model_s *init_model();
 
 void free_model(model_s *model);
+
+int add_child(model_s *parent, model_s *child);
 
 #endif /* MODEL_H */
