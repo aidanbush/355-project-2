@@ -8,135 +8,163 @@
 #define STONE_WHITE 'W'
 #define EMPTY_SPACE 'O'
 
-
-typedef search_type {
+typedef enum
+{
   INIT_BLACK,
   INIT_WHITE,
   SEARCH_BLACK,
   SEARCH_WHITE,
 } search_type;
 
-
 /*Helper function to print a given state*/
-int print_state(char**cur_state){
+int print_state(char **cur_state)
+{
   int i, j;
-  for(i=0;  i < 8;i++){
-    for(j=0; j < 8; j++){
-      printf("%c", cur_state[i][j]);
+  printf("\n   ");
+  for (i = 0; i < MAX_ROW; i++)
+  {
+    printf("%d ", i);
+  }
+  printf("\n   ");
+  for (i = 0; i < MAX_ROW; i++)
+  {
+    printf("- ");
+  }
+  printf("\n");
+  for (i = 0; i < MAX_ROW; i++)
+  {
+    printf("%d |", i);
+    for (j = 0; j < MAX_ROW; j++)
+    {
+      printf("%c ", cur_state[i][j]);
     }
     printf("\n");
   }
+  printf("\n");
   return 0;
 }
 
 /*Helper function to initialize a new state with the same layout as the current state*/
-char** copy_state(char** cur_state){
+char **copy_state(char **cur_state)
+{
   int i;
-  char** new_state = malloc(sizeof(char*)*MAX_ROW);
-  for(i=0;i<8;i++){
-    new_state[i] = malloc(sizeof(char)* MAX_COL);
-    strcpy(new_state[i],cur_state[i]);
+  char **new_state = malloc(sizeof(char *) * MAX_ROW);
+  for (i = 0; i < MAX_ROW; i++)
+  {
+    new_state[i] = malloc(sizeof(char) * MAX_COL);
+    strcpy(new_state[i], cur_state[i]);
   }
   return new_state;
 }
 
-
 /*creates an array of every possible state for the given move_set. The move_set is an integer
 * that represents what we are searching for. 0-for the first move, 1-for black moves, 2-for white moves
 */
-char*** valid_moves(char** cur_state, search_type move_set){
-  int i,j,ind=0;
+int valid_moves(char **cur_state, search_type move_set)
+{
+  int i, j, ind = 0;
   char search_char; //whether we are looking for the available moves for white or black
-  char** temp_state = malloc(sizeof(char*) * MAX_ROW);
-  for(i=0;i<8;i++){
+  char **temp_state = malloc(sizeof(char *) * MAX_ROW);
+  for (i = 0; i < MAX_ROW; i++)
+  {
     temp_state[i] = malloc(sizeof(char) * MAX_COL);
   }
   temp_state = copy_state(cur_state);
-  if(valid_states == NULL){
-    printf("Error in allocation");
-  }
+
   //Restricted set of possible moves made for initial move
-  if (move_set == INIT_BLACK){
+  if (move_set == INIT_BLACK)
+  {
     temp_state = copy_state(cur_state);
     temp_state[3][3] = EMPTY_SPACE;
-    valid_states[0] = temp_state;
-
     temp_state = copy_state(cur_state);
     temp_state[4][4] = EMPTY_SPACE;
-    valid_states[1] = temp_state;
   }
 
-  if (move_set == INIT_WHITE){
+  if (move_set == INIT_WHITE)
+  {
     temp_state = copy_state(cur_state);
     temp_state[3][4] = EMPTY_SPACE;
-    valid_states[0] = temp_state;
-
     temp_state = copy_state(cur_state);
-    tempstate[4][3] = EMPTY_SPACE;
-    valid_states[1] = temp_state;
+    temp_state[4][3] = EMPTY_SPACE;
   }
 
-  if(move_set == SEARCH_BLACK){
+  if (move_set == SEARCH_BLACK)
+  {
     search_char = STONE_BLACK;
   }
-  else{
-    search_char= STONE_WHITE;
+  else
+  {
+    search_char = STONE_WHITE;
   }
-
   //Search through state for possible moves based off search_char
   temp_state = copy_state(cur_state);
-  for(i=0;i<MAX_ROW;i++){
-    for(j=0;j<MAX_COL;j++){
+  for (i = 0; i < MAX_ROW; i++)
+  {
+    for (j = 0; j < MAX_COL; j++)
+    {
       //Evaluate based on search_char
-      if(temp_state[i][j] == search_char){
-          //check down
-          if((i+2 < 8)){
-            if(temp_state[i+1][j] != EMPTY_SPACE){
-              if(temp_state[i+2][j] == EMPTY_SPACE){
-                temp_state[i+2][j] = search_char;
-                temp_state[i][j] = EMPTY_SPACE;
-                temp_state[i+1][j] = EMPTY_SPACE;
-                valid_states[ind] = temp_state;
-                ind++;
-                temp_state = copy_state(cur_state);
-              }
-            }
-          }
-          //check up
-          if(i-2 > 0){
-            if(temp_state[i-1][j] != EMPTY_SPACE){
-              if(temp_state[i-2][j] == EMPTY_SPACE){
-                temp_state[i-2][j] = search_char;
-                temp_state[i][j] = EMPTY_SPACE;
-                temp_state[i-1][j];
-                valid_states[ind] = temp_state;
-                ind++;
-                temp_state = copy_state(cur_state);
-              }
-            }
-          }
-        //check right
-        if(j+2 < 8){
-          if(temp_state[i][j+1] != EMPTY_SPACE){
-            if(temp_state[i][j+2] == EMPTY_SPACE){
-              temp_state[i][j+2] = search_char;
+      if (temp_state[i][j] == search_char)
+      {
+        //check down
+        if ((i + 2 < 8))
+        {
+          if (temp_state[i + 1][j] != EMPTY_SPACE)
+          {
+            if (temp_state[i + 2][j] == EMPTY_SPACE)
+            {
+              printf("Jump Down From %d, %d:\n", i, j);
+              temp_state[i + 2][j] = search_char;
               temp_state[i][j] = EMPTY_SPACE;
-              temp_state[i][j+1] = EMPTY_SPACE;
-              valid_states[ind] = temp_state;
-              ind++;
+              temp_state[i + 1][j] = EMPTY_SPACE;
+              print_state(temp_state); //ADD CHILD HERE
+              temp_state = copy_state(cur_state);
+            }
+          }
+        }
+        //check up
+        if (i - 2 > 0)
+        {
+          if (temp_state[i - 1][j] != EMPTY_SPACE)
+          {
+            if (temp_state[i - 2][j] == EMPTY_SPACE)
+            {
+              printf("Jump Up From %d, %d:\n", i, j);
+              temp_state[i - 2][j] = search_char;
+              temp_state[i][j] = EMPTY_SPACE;
+              temp_state[i - 1][j];
+              print_state(temp_state); //ADD CHILD HERE
+              temp_state = copy_state(cur_state);
+            }
+          }
+        }
+        //check right
+        if (j + 2 < 8)
+        {
+          if (temp_state[i][j + 1] != EMPTY_SPACE)
+          {
+            if (temp_state[i][j + 2] == EMPTY_SPACE)
+            {
+              printf("Jump Right From %d, %d:\n", i, j);
+              temp_state[i][j + 2] = search_char;
+              temp_state[i][j] = EMPTY_SPACE;
+              temp_state[i][j + 1] = EMPTY_SPACE;
+              print_state(temp_state); //ADD CHILD HERE
               temp_state = copy_state(cur_state);
             }
           }
         }
         //check left
-        if(j+2 < 8){
-          if(temp_state[i][j-1] != EMPTY_SPACE){
-            if(temp_state[i][j-2] == EMPTY_SPACE){
-              temp_state[i][j-2] = search_char;
+        if (j + 2 < 8)
+        {
+          if (temp_state[i][j - 1] != EMPTY_SPACE)
+          {
+            if (temp_state[i][j - 2] == EMPTY_SPACE)
+            {
+              printf("Jump Left From %d, %d:\n", i, j);
+              temp_state[i][j - 2] = search_char;
               temp_state[i][j] = EMPTY_SPACE;
-              temp_state[i][j-1] = EMPTY_SPACE;
-              valid_states[ind] = temp_state;
-              ind++;
+              temp_state[i][j - 1] = EMPTY_SPACE;
+              print_state(temp_state); //ADD CHILD HERE
               temp_state = copy_state(cur_state);
             }
           }
@@ -144,28 +172,26 @@ char*** valid_moves(char** cur_state, search_type move_set){
       }
     }
   }
-  return valid_states;
+  return 0;
 }
 
 //temporary main to make sure it handles the input properly
-int main(void){
-  char **state = malloc(sizeof(char*)*8);
+int main(void)
+{
+  char **state = malloc(sizeof(char *) * 8);
   int i;
-  for(i=0; i<8;i++){
-    state[i] = malloc(sizeof(char)*8);
+  for (i = 0; i < 8; i++)
+  {
+    state[i] = malloc(sizeof(char) * 8);
   }
   state[0] = "BWBWBWBW";
-  state[1] = "WBWBWBWB";
+  state[1] = "WOWBWBWB";
   state[2] = "BWBWBWBW";
-  state[3] = "WBWOWBWB";
-  state[4] = "BWBWBWBW";
-  state[5] = "WBWBWBWB";
-  state[6] = "BWBWBWBW";
-  state[7] = "WBWBWBWB";
+  state[3] = "WBWBOOWB";
+  state[4] = "BWBOBWOW";
+  state[5] = "WBWBWOWB";
+  state[6] = "BOBWBOBW";
+  state[7] = "WBWBWBOB";
 
-  char*** states = valid_moves(state, INIT_BLACK);
-  for(i=0;i<4;i++){
-    print_state(states[i]);
-    printf("\n\n");
-  }
+  valid_moves(state, STONE_WHITE);
 }
