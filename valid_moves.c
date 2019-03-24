@@ -64,8 +64,8 @@ char **copy_state(char **cur_state)
   return new_state;
 }
 
-/*creates an array of every possible state for the given move_set. The move_set is an integer
-* that represents what we are searching for. 0-for the first move, 1-for black moves, 2-for white moves
+/*Determines every possible state for the given move_set. The move_set is an identifier
+* for which stone we will be generating the moves for
 */
 int valid_moves(char **cur_state, search_type move_set)
 {
