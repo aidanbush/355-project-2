@@ -1,3 +1,10 @@
+/* Author: Aidan Bush, David Dowie, Ben Ha
+ * Project: Konane puzzle
+ * Course: CMPT 355
+ * Date: Mar. 24, 19
+ * File: difference_heuristic.c
+ * Description: counts the available moves for black and white and takes the difference for our heuristic value.
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -20,6 +27,8 @@ int difference(char **cur_state, search_type move_set)
 {
     int i, j, count = 0;
     char search_char;
+
+    //decide which stone we are counting the moves for
     if (move_set == SEARCH_BLACK)
     {
         search_char = STONE_BLACK;
@@ -34,17 +43,21 @@ int difference(char **cur_state, search_type move_set)
     {
         for (j = 0; j < MAX_COL; j++)
         {
-            //Evaluate based on search_char
+            //Evaluate if we find our search character
             if (cur_state[i][j] == search_char)
             {
+                //make sure we dont check outside of the array bounds
                 //check down
                 if ((i + 2 < MAX_ROW))
                 {
+                    //check adjacent to the piece to make sure it isnt empty
                     if (cur_state[i + 1][j] != EMPTY_SPACE)
                     {
+                        //check if target space is empty
                         if (cur_state[i + 2][j] == EMPTY_SPACE)
                         {
                             count++;
+                            //similar logic for a double move
                             if ((i + 4 < MAX_ROW))
                             {
                                 if (cur_state[i + 3][j] != EMPTY_SPACE)
@@ -126,11 +139,13 @@ int difference(char **cur_state, search_type move_set)
             }
         }
     }
-    if(move_set == SEARCH_WHITE){
-        return difference(cur_state,SEARCH_BLACK) - count;
+    //after counting white we need to subtract it from the count for black
+    if (move_set == SEARCH_WHITE)
+    {
+        return difference(cur_state, SEARCH_BLACK) - count;
     }
-    else{
-        printf("BLACK: %d\n", count);
+    else
+    {
         return count;
     }
 }
