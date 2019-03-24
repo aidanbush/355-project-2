@@ -112,7 +112,6 @@ int valid_moves(char **cur_state, search_type move_set)
           {
             if (temp_state[i + 2][j] == EMPTY_SPACE)
             {
-              printf("Jump Down From %d, %d:\n", i, j);
               temp_state[i + 2][j] = search_char;
               temp_state[i][j] = EMPTY_SPACE;
               temp_state[i + 1][j] = EMPTY_SPACE;
@@ -123,7 +122,6 @@ int valid_moves(char **cur_state, search_type move_set)
                 {
                   if (temp_state[i + 4][j] == EMPTY_SPACE)
                   {
-                    printf("Double Move Down From %d, %d:\n", i, j);
                     temp_state[i + 4][j] = search_char;
                     temp_state[i + 2][j] = EMPTY_SPACE;
                     temp_state[i + 3][j] = EMPTY_SPACE;
@@ -142,7 +140,6 @@ int valid_moves(char **cur_state, search_type move_set)
           {
             if (temp_state[i - 2][j] == EMPTY_SPACE)
             {
-              printf("Jump Up From %d, %d:\n", i, j);
               temp_state[i - 2][j] = search_char;
               temp_state[i][j] = EMPTY_SPACE;
               temp_state[i - 1][j];
@@ -153,7 +150,6 @@ int valid_moves(char **cur_state, search_type move_set)
                 {
                   if (temp_state[i - 4][j] == EMPTY_SPACE)
                   {
-                    printf("Double Move Up From %d, %d:\n", i, j);
                     temp_state[i - 4][j] = search_char;
                     temp_state[i - 2][j] = EMPTY_SPACE;
                     temp_state[i - 3][j] = EMPTY_SPACE;
@@ -173,7 +169,6 @@ int valid_moves(char **cur_state, search_type move_set)
           {
             if (temp_state[i][j + 2] == EMPTY_SPACE)
             {
-              printf("Jump Right From %d, %d:\n", i, j);
               temp_state[i][j + 2] = search_char;
               temp_state[i][j] = EMPTY_SPACE;
               temp_state[i][j + 1] = EMPTY_SPACE;
@@ -184,7 +179,6 @@ int valid_moves(char **cur_state, search_type move_set)
                 {
                   if (temp_state[i][j + 4] == EMPTY_SPACE)
                   {
-                    printf("Double Move Right From %d, %d:\n", i, j);
                     temp_state[i][j + 4] = search_char;
                     temp_state[i][j + 2] = EMPTY_SPACE;
                     temp_state[i][j + 3] = EMPTY_SPACE;
@@ -204,18 +198,16 @@ int valid_moves(char **cur_state, search_type move_set)
           {
             if (temp_state[i][j - 2] == EMPTY_SPACE)
             {
-              printf("Jump Left From %d, %d:\n", i, j);
               temp_state[i][j - 2] = search_char;
               temp_state[i][j] = EMPTY_SPACE;
               temp_state[i][j - 1] = EMPTY_SPACE;
               print_state(temp_state); //ADD CHILD HERE
               if ((j - 4 > 0))
               {
-                if (temp_state[i][j-3] != EMPTY_SPACE)
+                if (temp_state[i][j - 3] != EMPTY_SPACE)
                 {
-                  if (temp_state[i][j-4] == EMPTY_SPACE)
+                  if (temp_state[i][j - 4] == EMPTY_SPACE)
                   {
-                    printf("Double Move Left From %d, %d:\n", i, j);
                     temp_state[i][j - 4] = search_char;
                     temp_state[i][j - 2] = EMPTY_SPACE;
                     temp_state[i][j - 3] = EMPTY_SPACE;
@@ -251,5 +243,5 @@ int main(void)
   state[6] = "BOBOBOBW";
   state[7] = "WBWBWBOB";
 
-  valid_moves(state, STONE_WHITE);
+  valid_moves(state, SEARCH_WHITE);
 }
