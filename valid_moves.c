@@ -106,7 +106,7 @@ int valid_moves(char **cur_state, search_type move_set)
       if (temp_state[i][j] == search_char)
       {
         //check down
-        if ((i + 2 < 8))
+        if ((i + 2 < MAX_ROW))
         {
           if (temp_state[i + 1][j] != EMPTY_SPACE)
           {
@@ -117,6 +117,20 @@ int valid_moves(char **cur_state, search_type move_set)
               temp_state[i][j] = EMPTY_SPACE;
               temp_state[i + 1][j] = EMPTY_SPACE;
               print_state(temp_state); //ADD CHILD HERE
+              if ((i + 4 < MAX_ROW))
+              {
+                if (temp_state[i + 3][j] != EMPTY_SPACE)
+                {
+                  if (temp_state[i + 4][j] == EMPTY_SPACE)
+                  {
+                    printf("Double Move Down From %d, %d:\n", i, j);
+                    temp_state[i + 4][j] = search_char;
+                    temp_state[i + 2][j] = EMPTY_SPACE;
+                    temp_state[i + 3][j] = EMPTY_SPACE;
+                    print_state(temp_state); //ADD CHILD HERE
+                  }
+                }
+              }
               temp_state = copy_state(cur_state);
             }
           }
@@ -133,12 +147,27 @@ int valid_moves(char **cur_state, search_type move_set)
               temp_state[i][j] = EMPTY_SPACE;
               temp_state[i - 1][j];
               print_state(temp_state); //ADD CHILD HERE
+              if ((i - 4 > 0))
+              {
+                if (temp_state[i - 3][j] != EMPTY_SPACE)
+                {
+                  if (temp_state[i - 4][j] == EMPTY_SPACE)
+                  {
+                    printf("Double Move Up From %d, %d:\n", i, j);
+                    temp_state[i - 4][j] = search_char;
+                    temp_state[i - 2][j] = EMPTY_SPACE;
+                    temp_state[i - 3][j] = EMPTY_SPACE;
+                    print_state(temp_state); //ADD CHILD HERE
+                  }
+                }
+              }
               temp_state = copy_state(cur_state);
             }
           }
         }
+
         //check right
-        if (j + 2 < 8)
+        if (j + 2 < MAX_COL)
         {
           if (temp_state[i][j + 1] != EMPTY_SPACE)
           {
@@ -149,12 +178,27 @@ int valid_moves(char **cur_state, search_type move_set)
               temp_state[i][j] = EMPTY_SPACE;
               temp_state[i][j + 1] = EMPTY_SPACE;
               print_state(temp_state); //ADD CHILD HERE
+              if ((j + 4 < MAX_COL))
+              {
+                if (temp_state[i][j + 3] != EMPTY_SPACE)
+                {
+                  if (temp_state[i][j + 4] == EMPTY_SPACE)
+                  {
+                    printf("Double Move Right From %d, %d:\n", i, j);
+                    temp_state[i][j + 4] = search_char;
+                    temp_state[i][j + 2] = EMPTY_SPACE;
+                    temp_state[i][j + 3] = EMPTY_SPACE;
+                    print_state(temp_state); //ADD CHILD HERE
+                  }
+                }
+              }
               temp_state = copy_state(cur_state);
             }
           }
         }
+
         //check left
-        if (j + 2 < 8)
+        if (j - 2 > 0)
         {
           if (temp_state[i][j - 1] != EMPTY_SPACE)
           {
@@ -165,6 +209,20 @@ int valid_moves(char **cur_state, search_type move_set)
               temp_state[i][j] = EMPTY_SPACE;
               temp_state[i][j - 1] = EMPTY_SPACE;
               print_state(temp_state); //ADD CHILD HERE
+              if ((j - 4 > 0))
+              {
+                if (temp_state[i][j-3] != EMPTY_SPACE)
+                {
+                  if (temp_state[i][j-4] == EMPTY_SPACE)
+                  {
+                    printf("Double Move Left From %d, %d:\n", i, j);
+                    temp_state[i][j - 4] = search_char;
+                    temp_state[i][j - 2] = EMPTY_SPACE;
+                    temp_state[i][j - 3] = EMPTY_SPACE;
+                    print_state(temp_state); //ADD CHILD HERE
+                  }
+                }
+              }
               temp_state = copy_state(cur_state);
             }
           }
@@ -185,12 +243,12 @@ int main(void)
     state[i] = malloc(sizeof(char) * 8);
   }
   state[0] = "BWBWBWBW";
-  state[1] = "WOWBWBWB";
+  state[1] = "WOOBWBWB";
   state[2] = "BWBWBWBW";
-  state[3] = "WBWBOOWB";
+  state[3] = "WBOBOOWB";
   state[4] = "BWBOBWOW";
-  state[5] = "WBWBWOWB";
-  state[6] = "BOBWBOBW";
+  state[5] = "WBWBOBOB";
+  state[6] = "BOBOBOBW";
   state[7] = "WBWBWBOB";
 
   valid_moves(state, STONE_WHITE);
