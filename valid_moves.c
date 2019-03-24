@@ -2,10 +2,25 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_ROW 8
+#define MAX_COL 8
+#define STONE_BLACK 'B'
+#define STONE_WHITE 'W'
+#define EMPTY_SPACE 'O'
+
+
+typedef search_type {
+  INIT_BLACK,
+  INIT_WHITE,
+  SEARCH_BLACK,
+  SEARCH_WHITE,
+} search_type;
+
+
 /*Helper function to print a given state*/
 int print_state(char**cur_state){
   int i, j;
-  for(i=0; i < 8;i++){
+  for(i=0;  i < 8;i++){
     for(j=0; j < 8; j++){
       printf("%c", cur_state[i][j]);
     }
@@ -17,9 +32,9 @@ int print_state(char**cur_state){
 /*Helper function to initialize a new state with the same layout as the current state*/
 char** copy_state(char** cur_state){
   int i;
-  char** new_state = malloc(sizeof(char*)*8);
+  char** new_state = malloc(sizeof(char*)*MAX_ROW);
   for(i=0;i<8;i++){
-    new_state[i] = malloc(sizeof(char)* 8);
+    new_state[i] = malloc(sizeof(char)* MAX_COL);
     strcpy(new_state[i],cur_state[i]);
   }
   return new_state;
@@ -29,87 +44,101 @@ char** copy_state(char** cur_state){
 /*creates an array of every possible state for the given move_set. The move_set is an integer
 * that represents what we are searching for. 0-for the first move, 1-for black moves, 2-for white moves
 */
-char*** valid_moves(char** cur_state, int move_set){
+char*** valid_moves(char** cur_state, search_type move_set){
   int i,j,ind=0;
   char search_char; //whether we are looking for the available moves for white or black
-  char** temp_state = malloc(sizeof(char*)*8);
+  char** temp_state = malloc(sizeof(char*) * MAX_ROW);
   for(i=0;i<8;i++){
-    temp_state[i] = malloc(sizeof(char)* 8);
+    temp_state[i] = malloc(sizeof(char) * MAX_COL);
   }
   temp_state = copy_state(cur_state);
-  char*** valid_states = calloc(8,sizeof(temp_state)); //arbitrarily chosen until dynamic memory then initially it will be 4
   if(valid_states == NULL){
     printf("Error in allocation");
   }
   //Restricted set of possible moves made for initial move
-  if (move_set == 0){
-    temp_state[0][0] = 'O';
+  if (move_set == INIT_BLACK){
+    temp_state = copy_state(cur_state);
+    temp_state[3][3] = EMPTY_SPACE;
     valid_states[0] = temp_state;
 
     temp_state = copy_state(cur_state);
-    temp_state[3][3] = 'O';
+    temp_state[4][4] = EMPTY_SPACE;
     valid_states[1] = temp_state;
-
-    temp_state = copy_state(cur_state);
-    temp_state[4][4] = 'O';
-    valid_states[2] = temp_state;
-
-    temp_state = copy_state(cur_state);
-    temp_state[7][7] = 'O';
-    valid_states[3] = temp_state;
   }
 
-  if(move_set == 1){
-    search_char = 'B';
+  if (move_set == INIT_WHITE){
+    temp_state = copy_state(cur_state);
+    temp_state[3][4] = EMPTY_SPACE;
+    valid_states[0] = temp_state;
+
+    temp_state = copy_state(cur_state);
+    tempstate[4][3] = EMPTY_SPACE;
+    valid_states[1] = temp_state;
+  }
+
+  if(move_set == SEARCH_BLACK){
+    search_char = STONE_BLACK;
   }
   else{
-    search_char='W';
+    search_char= STONE_WHITE;
   }
 
   //Search through state for possible moves based off search_char
   temp_state = copy_state(cur_state);
-  for(i=0;i<8;i++){
-    for(j=0;j<8;j++){
+  for(i=0;i<MAX_ROW;i++){
+    for(j=0;j<MAX_COL;j++){
       //Evaluate based on search_char
       if(temp_state[i][j] == search_char){
-        //check down
-        if((i+2 < 8)){
-          if(temp_state[i+2][j] == 'O'){
-            temp_state[i+2][j] = search_char;
-            temp_state[i][j] = 'O';
-            valid_states[ind] = temp_state;
-            ind++;
-            temp_state = copy_state(cur_state);
+          //check down
+          if((i+2 < 8)){
+            if(temp_state[i+1][j] != EMPTY_SPACE){
+              if(temp_state[i+2][j] == EMPTY_SPACE){
+                temp_state[i+2][j] = search_char;
+                temp_state[i][j] = EMPTY_SPACE;
+                temp_state[i+1][j] = EMPTY_SPACE;
+                valid_states[ind] = temp_state;
+                ind++;
+                temp_state = copy_state(cur_state);
+              }
+            }
+          }
+          //check up
+          if(i-2 > 0){
+            if(temp_state[i-1][j] != EMPTY_SPACE){
+              if(temp_state[i-2][j] == EMPTY_SPACE){
+                temp_state[i-2][j] = search_char;
+                temp_state[i][j] = EMPTY_SPACE;
+                temp_state[i-1][j];
+                valid_states[ind] = temp_state;
+                ind++;
+                temp_state = copy_state(cur_state);
+              }
+            }
+          }
+        //check right
+        if(j+2 < 8){
+          if(temp_state[i][j+1] != EMPTY_SPACE){
+            if(temp_state[i][j+2] == EMPTY_SPACE){
+              temp_state[i][j+2] = search_char;
+              temp_state[i][j] = EMPTY_SPACE;
+              temp_state[i][j+1] = EMPTY_SPACE;
+              valid_states[ind] = temp_state;
+              ind++;
+              temp_state = copy_state(cur_state);
+            }
           }
         }
-        //check up
-        if(i-2 > 0){
-          if(temp_state[i-2][j] == 'O'){
-            temp_state[i-2][j] = search_char;
-            temp_state[i][j] = 'O';
-            valid_states[ind] = temp_state;
-            ind++;
-            temp_state = copy_state(cur_state);
-          }
-        }
-      //check right
-      if(j+2 < 8){
-        if(temp_state[i][j+2] == 'O'){
-          temp_state[i][j+2] = search_char;
-          temp_state[i][j] = 'O';
-          valid_states[ind] = temp_state;
-          ind++;
-          temp_state = copy_state(cur_state);
-        }
-      }
-      //check left
-      if(j+2 < 8){
-        if(temp_state[i][j-2] == 'O'){
-          temp_state[i][j-2] = search_char;
-          temp_state[i][j] = 'O';
-          valid_states[ind] = temp_state;
-          ind++;
-          temp_state = copy_state(cur_state);
+        //check left
+        if(j+2 < 8){
+          if(temp_state[i][j-1] != EMPTY_SPACE){
+            if(temp_state[i][j-2] == EMPTY_SPACE){
+              temp_state[i][j-2] = search_char;
+              temp_state[i][j] = EMPTY_SPACE;
+              temp_state[i][j-1] = EMPTY_SPACE;
+              valid_states[ind] = temp_state;
+              ind++;
+              temp_state = copy_state(cur_state);
+            }
           }
         }
       }
@@ -133,8 +162,8 @@ int main(void){
   state[5] = "WBWBWBWB";
   state[6] = "BWBWBWBW";
   state[7] = "WBWBWBWB";
-  
-  char*** states = valid_moves(state, 1);
+
+  char*** states = valid_moves(state, INIT_BLACK);
   for(i=0;i<4;i++){
     print_state(states[i]);
     printf("\n\n");
