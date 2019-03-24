@@ -19,6 +19,7 @@ typedef enum
 int difference(char **cur_state, search_type move_set)
 {
     int i, j, count = 0;
+    char search_char;
     if (move_set == SEARCH_BLACK)
     {
         search_char = STONE_BLACK;
@@ -71,7 +72,7 @@ int difference(char **cur_state, search_type move_set)
                                 {
                                     if (cur_state[i - 4][j] == EMPTY_SPACE)
                                     {
-                                        count++
+                                        count++;
                                     }
                                 }
                             }
@@ -108,7 +109,8 @@ int difference(char **cur_state, search_type move_set)
                     {
                         if (cur_state[i][j - 2] == EMPTY_SPACE)
                         {
-                            count++ if ((j - 4 > 0))
+                            count++;
+                            if (j - 4 > 0)
                             {
                                 if (cur_state[i][j - 3] != EMPTY_SPACE)
                                 {
@@ -125,9 +127,10 @@ int difference(char **cur_state, search_type move_set)
         }
     }
     if(move_set == SEARCH_WHITE){
-        return difference(SEARCH_BLACK) - count;
+        return difference(cur_state,SEARCH_BLACK) - count;
     }
     else{
+        printf("BLACK: %d\n", count);
         return count;
     }
 }
