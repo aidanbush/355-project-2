@@ -12,15 +12,16 @@
 #include <stdint.h>
 #include <limits.h>
 
-#define BOARD_SIZE  8
+#define BOARD_SIZE      8
 
 #define NEG_INF (INT_MAX)
 #define POS_INT (INT_MIN)
 
 typedef struct model_s {
-    uint16_t state[BOARD_SIZE];
+    uint8_t state[BOARD_SIZE][BOARD_SIZE];
     int eval;
-    int num_children;
+    int cur_size;
+    int max_size;
     struct model_s *parent;
     struct model_s **children;
 } model_s;
@@ -28,5 +29,7 @@ typedef struct model_s {
 model_s *init_model();
 
 void free_model(model_s *model);
+
+int add_child(model_s *parent, model_s *child);
 
 #endif /* MODEL_H */
