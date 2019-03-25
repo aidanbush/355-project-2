@@ -17,6 +17,11 @@
 #define NEG_INF (INT_MAX)
 #define POS_INT (INT_MIN)
 
+#define STONE_BLACK 'B'
+#define STONE_WHITE 'W'
+#define EMPTY_SPACE 'O'
+
+
 typedef struct model_s {
     uint8_t state[BOARD_SIZE][BOARD_SIZE];
     int eval;
