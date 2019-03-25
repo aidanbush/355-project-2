@@ -22,19 +22,19 @@
 #define EMPTY_SPACE 'O'
 
 
-typedef struct model_s {
-    uint8_t state[BOARD_SIZE][BOARD_SIZE];
+typedef struct state_s {
+    uint8_t board[BOARD_SIZE][BOARD_SIZE];
     int eval;
     int cur_size;
     int max_size;
-    struct model_s *parent;
-    struct model_s **children;
-} model_s;
+    struct state_s *parent;
+    struct state_s **children;
+} state_s;
 
-model_s *init_model();
+state_s *init_model();
 
-void free_model(model_s *model);
+void free_model(state_s *model);
 
-int add_child(model_s *parent, model_s *child);
+int add_child(state_s *parent, state_s *child);
 
 #endif /* MODEL_H */
