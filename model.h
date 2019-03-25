@@ -10,8 +10,12 @@
 #define MODEL_H
 
 #include <stdint.h>
+#include <limits.h>
 
 #define BOARD_SIZE  8
+
+#define NEG_INF (INT_MAX)
+#define POS_INT (INT_MIN)
 
 typedef struct model_s {
     uint16_t state[BOARD_SIZE];

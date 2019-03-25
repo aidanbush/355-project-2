@@ -17,5 +17,7 @@ konane.exe: konane
 
 konane: konane.c
 
+minmax.o: minmax.c minmax.h model.h
+
 clean:
 	$(RM) konane.exe
