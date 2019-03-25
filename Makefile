@@ -21,5 +21,9 @@ konane.o: konane.c model.h
 
 model.o: model.c model.h
 
+model.o: model.c model.h
+
+minmax.o: minmax.c minmax.h model.h
+
 clean:
 	$(RM) konane.exe *.o
