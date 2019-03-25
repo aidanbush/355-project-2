@@ -9,11 +9,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "model.h"
+
 #define MAX_ROW 8
 #define MAX_COL 8
-#define STONE_BLACK 'B'
-#define STONE_WHITE 'W'
-#define EMPTY_SPACE 'O'
 
 typedef enum
 {
