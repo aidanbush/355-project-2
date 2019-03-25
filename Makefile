@@ -15,15 +15,15 @@ all: konane.exe
 konane.exe: konane
 	mv konane konane.exe
 
-konane: konane.o model.o
+konane: konane.o state.o
 
-konane.o: konane.c model.h
+konane.o: konane.c state.h
 
-model.o: model.c model.h
+state.o: state.c state.h
 
-model.o: model.c model.h
+minmax.o: minmax.c minmax.h state.h
 
-minmax.o: minmax.c minmax.h model.h
+valid_moves.o: valid_moves.c valid_moves.h state.h
 
 clean:
 	$(RM) konane.exe *.o

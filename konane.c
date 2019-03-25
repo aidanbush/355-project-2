@@ -9,14 +9,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "model.h"
+#include "state.h"
 
-model_s *read_input(char *filename) {
+state_s *read_input(char *filename) {
     FILE *file;
     int row = 0, col = 0;
     int ch, last = '\0';
     int err = 0;
-    model_s *state;
+    state_s *state;
 
     // create model
     state = init_model();
@@ -35,17 +35,17 @@ model_s *read_input(char *filename) {
             case 'B':
                 if (col >= BOARD_SIZE)
                     err = 1;
-                state->state[row][col++] = STONE_BLACK;
+                state->board[row][col++] = STONE_BLACK;
                 break;
             case 'W':
                 if (col >= BOARD_SIZE)
                     err = 1;
-                state->state[row][col++] = STONE_WHITE;
+                state->board[row][col++] = STONE_WHITE;
                 break;
             case 'O':
                 if (col >= BOARD_SIZE)
                     err = 1;
-                state->state[row][col++] = EMPTY_SPACE;
+                state->board[row][col++] = EMPTY_SPACE;
                 break;
             case '\n':
             case '\r':
@@ -71,7 +71,7 @@ model_s *read_input(char *filename) {
     if (!err) {
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                printf("%c", state->state[i][j]);
+                printf("%c", state->board[i][j]);
             }
             printf("\n");
         }
@@ -84,7 +84,7 @@ model_s *read_input(char *filename) {
 
 int main(int argc, char **argv) {
     char *filename, *role;
-    model_s *start_state;
+    state_s *start_state;
 
     filename = argv[1];
     role = argv[2];

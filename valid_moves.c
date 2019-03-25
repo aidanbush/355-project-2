@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "model.h"
+#include "state.h"
 
 #define MAX_ROW 8
 #define MAX_COL 8

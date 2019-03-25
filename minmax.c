@@ -9,9 +9,9 @@
 #include <stddef.h>
 
 #include "minmax.h"
-#include "model.h"
+#include "state.h"
 
-static int max_value(model_s *state, int alpha, int beta) {
+static int max_value(state_s *state, int alpha, int beta) {
     // if terminal  return utility
 
     // v = -inf
@@ -25,7 +25,7 @@ static int max_value(model_s *state, int alpha, int beta) {
     return 0;
 }
 
-static int min_value(model_s *state, int alpha, int beta) {
+static int min_value(state_s *state, int alpha, int beta) {
     // if terminal  return utility
 
     // v = +inf
@@ -39,7 +39,7 @@ static int min_value(model_s *state, int alpha, int beta) {
     return 0;
 }
 
-model_s *minmax(model_s *state) {
+state_s *minmax(state_s *state) {
     // v = max_value
     // return action associated with v
     return NULL;

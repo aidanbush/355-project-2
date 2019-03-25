@@ -9,8 +9,8 @@
 #ifndef MINMAX_H
 #define MINMAX_H
 
-#include "model.h"
+#include "state.h"
 
-model_s *minmax(model_s *state);
+state_s *minmax(state_s *state);
 
 #endif /* MINMAX_H */

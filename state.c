@@ -9,12 +9,12 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "model.h"
+#include "state.h"
 
 #define DEFAULT_CHILD_SIZE  24
 
-model_s *init_model(model_s *parent) {
-    model_s *model = malloc(sizeof(model_s));
+state_s *init_model(state_s *parent) {
+    state_s *model = malloc(sizeof(state_s));
     if (model == NULL)
         return NULL;
 
@@ -29,7 +29,7 @@ model_s *init_model(model_s *parent) {
     return model;
 }
 
-void free_model(model_s *model) {
+void free_model(state_s *model) {
     if (model == NULL)
         return;
 
@@ -41,19 +41,19 @@ void free_model(model_s *model) {
     free(model);
 }
 
-static int resize_children(model_s *model) {
+static int resize_children(state_s *model) {
     int new_size;
-    model_s **tmp;
+    state_s **tmp;
 
     if (model->max_size == 0) {
         new_size = DEFAULT_CHILD_SIZE;
-        model->children = malloc(sizeof(model_s*) * new_size);
+        model->children = malloc(sizeof(state_s*) * new_size);
         if (model->children == NULL)
             return 0;
 
     } else {
         new_size = model->max_size * 2;
-        tmp = realloc(model->children, sizeof(model_s*) * new_size);
+        tmp = realloc(model->children, sizeof(state_s*) * new_size);
         if (tmp == NULL)
             return 0;
 
@@ -67,7 +67,7 @@ static int resize_children(model_s *model) {
     return 1;
 }
 
-int add_child(model_s *parent, model_s *child) {
+int add_child(state_s *parent, state_s *child) {
     if (parent == NULL || child == NULL)
         return 0;
 
@@ -85,8 +85,8 @@ int add_child(model_s *parent, model_s *child) {
 // tests
 #ifdef _TEST_MODEL
 int main() {
-    model_s *model = init_model(NULL);
-    model_s *child;
+    state_s *model = init_model(NULL);
+    state_s *child;
 
     assert(model->cur_size == 0);
     assert(model->max_size == 0);
