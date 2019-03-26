@@ -8,7 +8,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "state.h"
 #include "valid_moves.h"
 
@@ -105,7 +104,6 @@ int main(int argc, char **argv) {
     }
 
     // print move
-
     free_model(start_state);
 
     return 0;
