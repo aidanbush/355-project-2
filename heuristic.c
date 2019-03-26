@@ -17,13 +17,14 @@ int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], int player) {
     int moves = 0;
 
     // row
-    for (int i = 0; i < BOARD_SIZE / 2; i++) {
-        row = i * 2 + player;
-        printf("row %d\n", row);
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        row = i;
         // col
         for (int j = 0; j < BOARD_SIZE / 2; j++) {
-            col = j * 2 + player;
-            printf("col %d\n", col);
+            if (row % 2 == 0)
+                col = j * 2 + player;
+            else
+                col = j * 2 + (player ? 0 : 1);
 
             // left
             dist = 1;
@@ -32,7 +33,6 @@ int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], int player) {
                         board[row][col - dist*2 + 1] == EMPTY_SPACE ||
                         board[row][col - dist*2] != EMPTY_SPACE)
                     break;
-                printf("left\n");
                 dist++;
                 moves++;
             }
@@ -44,7 +44,6 @@ int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], int player) {
                         board[row][col + dist*2 - 1] == EMPTY_SPACE ||
                         board[row][col + dist*2] != EMPTY_SPACE)
                     break;
-                printf("right\n");
                 dist++;
                 moves++;
             }
@@ -56,7 +55,6 @@ int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], int player) {
                         board[row + dist*2 - 1][col] == EMPTY_SPACE ||
                         board[row + dist*2][col] != EMPTY_SPACE)
                     break;
-                printf("down\n");
                 dist++;
                 moves++;
             }
@@ -68,7 +66,6 @@ int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], int player) {
                         board[row - dist*2 + 1][col] == EMPTY_SPACE ||
                         board[row - dist*2][col] != EMPTY_SPACE)
                     break;
-                printf("up\n");
                 dist++;
                 moves++;
             }
@@ -117,18 +114,34 @@ int main() {
         {'W', 'B', 'W', 'B', 'W', 'B', 'W', 'B',},
     };
 
+    uint8_t board_2[BOARD_SIZE][BOARD_SIZE] = {
+        {'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',},
+        {'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',},
+        {'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',},
+        {'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',},
+        {'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',},
+        {'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',},
+        {'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',},
+        {'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',},
+    };
+
     // init black
     assert(num_moves_diff(INIT_BLACK, board_start) == 0);
     // init white
     assert(num_moves_diff(INIT_WHITE, board_start) == 0);
 
     // board_1
-    printf("%d\n", num_moves(board_1, 0));
-    printf("%d\n", num_moves(board_1, 1));
     assert(num_moves(board_1, 0) == 12);
     assert(num_moves(board_1, 1) == 3);
 
     assert(num_moves_diff(SEARCH_BLACK, board_1) == 12 - 3);
     assert(num_moves_diff(SEARCH_WHITE, board_1) == 12 - 3);
+
+    // board_2
+    assert(num_moves(board_2, 0) == 0);
+    assert(num_moves(board_2, 1) == 0);
+
+    assert(num_moves_diff(SEARCH_BLACK, board_2) == 0);
+    assert(num_moves_diff(SEARCH_WHITE, board_2) == 0);
 }
 #endif /* _TEST_HEURISTIC */
