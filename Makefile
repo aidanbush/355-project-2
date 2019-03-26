@@ -15,9 +15,9 @@ all: konane.exe
 konane.exe: konane
 	mv konane konane.exe
 
-konane: konane.o state.o
+konane: konane.o state.o valid_moves.o
 
-konane.o: konane.c state.h
+konane.o: konane.c state.h valid_moves.h
 
 state.o: state.c state.h
 
