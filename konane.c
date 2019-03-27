@@ -111,9 +111,7 @@ search_type get_search_type(state_s *state, uint8_t stone){
             if (state->board[row][col] == EMPTY_SPACE)
                 count++;
         }
-        printf("\n");
     }
-    printf("count: %d\n", count);
     if (count == 0) {
         if (stone_type == STONE_BLACK)
             return INIT_BLACK;
@@ -134,21 +132,13 @@ int main(int argc, char **argv) {
     player_type = argv[2][0];
     start_state = read_input(filename);
     search = get_search_type(start_state, player_type);
+    if (argc < 3) {
+        fprintf(stderr,"Too Few Arguments\n");
+        return 1;
+    }
     if (start_state == NULL) {
         fprintf(stderr, "Error parsing text file\n");
         return 1;
-    }
-    if (search == INIT_BLACK){
-        printf("INIT_BLACK\n");
-    }
-    if (search == INIT_WHITE) {
-        printf("INIT_WHITE\n");
-    }
-    if (search == SEARCH_BLACK) {
-        printf("SEARCH_BLACK\n");
-    }
-    if (search == SEARCH_WHITE) {
-        printf("SEARCH_WHITE\n");
     }
     valid_moves(start_state, search);
     for (int i = 0; i < start_state->cur_size; i++) {
