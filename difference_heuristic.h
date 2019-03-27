@@ -1,8 +1,9 @@
 /* Author: Aidan Bush, David Dowie, Ben Ha
-* Project: Konane puzzle
-* Course: CMPT 355
-* File: difference_heuristic.h
-* Description: Header file for difference heuristic*/
+ * Project: Konane puzzle
+ * Course: CMPT 355
+ * File: difference_heuristic.h
+ * Description: Header file for difference heuristic
+ */
 
 #ifndef DIFFERENCE_HEURISTIC_H
 #define DIFFERENCE_HEURISTIC_H
@@ -18,4 +19,4 @@ typedef enum
 //calculates the difference heuristic
 int difference(char **cur_state, search_type move_set);
 
-#endif
+#endif /* DIFFERENCE_HEURISTIC_H */
