@@ -46,6 +46,9 @@ state_s *parse_move(state_s *cur_state, char *move, int len) {
     // make move
     //printf("%d %d\n",abs(s_row - e_row),abs(s_col - e_col));
 
+    int e1 = e_row;
+    int e2 = e_col;
+
     if (e_row < s_row) {
         int t = s_row;
         s_row = e_row;
@@ -64,7 +67,7 @@ state_s *parse_move(state_s *cur_state, char *move, int len) {
         }
     }
 
-    new_state->board[e_row][e_col] = start_tile;
+    new_state->board[e1][e2] = start_tile;
 
     return new_state;
 }
