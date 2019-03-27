@@ -9,8 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "state.h"
 #include "valid_moves.h"
+#include "input.h"
 
 state_s *read_input(char *filename) {
     FILE *file;
