@@ -51,11 +51,13 @@ state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE]) {
 void print_move(state_s *state) {
     if (state == NULL)
         return;
-
-    // print location
-    printf("%c%d-%c%d", 'A' + state->move.start_row, state->move.start_col,
-        'A' + state->move.end_row, state->move.end_col);
-
+    if (state->move.end_row == 10) {
+        printf("Remove From: %c%d\n",'A' + state->move.start_row, state->move.start_col);
+    } else {
+        // print location
+        printf("%c%d-%c%d", 'A' + state->move.start_row, state->move.start_col,
+            'A' + state->move.end_row, state->move.end_col);
+    }
 }
 
 /* Helper function to print a given state */
