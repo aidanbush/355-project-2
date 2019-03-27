@@ -42,6 +42,11 @@ state_s *parse_move(state_s *cur_state, char *move, int len) {
     new_state->move.end_row = e_row;
     new_state->move.end_col = e_col;
 
+    if (s_row == e_row && s_col == e_col){
+        new_state->board[s_col][s_row] = EMPTY_SPACE;
+        return new_state;
+    }
+
     uint8_t start_tile = new_state->board[s_row][s_col];
     // make move
     //printf("%d %d\n",abs(s_row - e_row),abs(s_col - e_col));
