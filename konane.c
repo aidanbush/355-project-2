@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "state.h"
 #include "valid_moves.h"
@@ -126,6 +127,7 @@ search_type get_search_type(state_s *state, uint8_t stone){
 
 int main(int argc, char **argv) {
     char *filename;
+    char value[5];
     uint8_t player_type;
     search_type search;
     state_s *start_state;
@@ -149,6 +151,12 @@ int main(int argc, char **argv) {
         print_state(start_state->children[i]);
     }
 
+    while(strcmp(value,"quit") != 0) {
+        printf("Enter Next Move: ");
+        scanf("%s", value);
+        printf("Desired move: %s\n", value);
+    }
+    
     // print move
     free_model(start_state);
 
