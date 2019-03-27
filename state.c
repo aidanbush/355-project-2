@@ -29,10 +29,10 @@ state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE]) {
     model->eval = 0;// eval
 
     // move
-    model->move.row = -1;
-    model->move.col = -1;
-    model->move.dir = MOVE_NONE;
-    model->move.hops = 0;
+    model->move.start_row = -1;
+    model->move.start_col = -1;
+    model->move.end_row = -1;
+    model->move.end_col = -1;
 
     // set player
     model->player = PLAYER_NONE;
@@ -53,29 +53,9 @@ void print_move(state_s *state) {
         return;
 
     // print location
-    printf("%c%d ", 'A' + state->move.row, state->move.col);
+    printf("%c%d-%c%d", 'A' + state->move.start_row, state->move.start_col,
+            state->move.end_row, state->move.end_col);
 
-    // print direction
-    switch (state->move.dir) {
-        case MOVE_UP:
-            printf("U");
-            break;
-        case MOVE_DOWN:
-            printf("D");
-            break;
-        case MOVE_RIGHT:
-            printf("R");
-            break;
-        case MOVE_LEFT:
-            printf("L");
-            break;
-        default:
-            printf("ERROR");
-            break;
-    }
-
-    // print hops
-    printf("%d\n", state->move.hops);
 }
 
 /* Helper function to print a given state */

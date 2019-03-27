@@ -36,10 +36,10 @@ typedef enum {
 } direction;
 
 typedef struct {
-    uint8_t row;
-    uint8_t col;
-    direction dir;
-    uint8_t hops;
+    uint8_t start_row;
+    uint8_t start_col;
+    uint8_t end_row;
+    uint8_t end_col;
 } move_s;
 
 typedef struct state_s {
