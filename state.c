@@ -7,7 +7,10 @@
  */
 
 #include <stdlib.h>
+
+#ifdef _TEST_MODEL
 #include <assert.h>
+#endif /* _TEST_MODEL */
 
 #include "state.h"
 
@@ -19,6 +22,17 @@ state_s *init_model(state_s *parent) {
         return NULL;
 
     model->eval = 0;// eval
+
+    // move
+    model->move.row = -1;
+    model->move.col = -1;
+    model->move.direction = MOVE_NONE;
+    model->move.hops = 0;
+
+    // set player
+    model->player = PLAYER_NONE;
+    // set num moves
+    model->num_moves = -1;
 
     model->parent = parent;
 

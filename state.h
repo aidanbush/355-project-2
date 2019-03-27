@@ -21,10 +21,33 @@
 #define STONE_WHITE 'W'
 #define EMPTY_SPACE 'O'
 
+typedef enum {
+    PLAYER_NONE = -1,
+    PLAYER_BLACK = 0,
+    PLAYER_WHITE = 1,
+} player_type;
+
+typedef enum {
+    MOVE_UP,
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_NONE,
+} direction;
+
+typedef struct {
+    uint8_t row;
+    uint8_t col;
+    direction dir;
+    uint8_t hops;
+} move_s;
 
 typedef struct state_s {
     uint8_t board[BOARD_SIZE][BOARD_SIZE];
     int eval;
+    move_s move;
+    player_type player;
+    int num_moves;
     int cur_size;
     int max_size;
     struct state_s *parent;
