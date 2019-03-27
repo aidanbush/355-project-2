@@ -186,7 +186,6 @@ void valid_moves(state_s *cur_state, search_type move_set) {
       multi = false;
       dist = 1;
       while ((col + 2 * dist) < BOARD_SIZE) {
-        printf("dist: %d", dist * 2 - 2);
         if ((temp_state[row][col] == EMPTY_SPACE && multi == false) ||
             temp_state[row][col + dist * 2 - 1] == EMPTY_SPACE ||
             temp_state[row][col + dist * 2] != EMPTY_SPACE) {
