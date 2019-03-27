@@ -20,14 +20,16 @@ state_s *parse_move(state_s *cur_state, char *move, int len) {
         return NULL;
     // error
 
-    new_state = init_model(NULL, cur_state->board);
+    new_state = init_model(cur_state, cur_state->board);
     if (new_state == NULL)
         return NULL;
 
-    s_row = '0' - move[1];
-    s_col = 'A' - move[0];
-    e_row = '0' - move[3];
-    e_col = 'A' - move[2];
+    s_row = move[1] - '0';
+    s_col = move[0] - 'A';
+    e_row = move[4] - '0';
+    e_col = move[3] - 'A';
+
+    printf("s_r%d, s_col%d, e_r%d, e_c%d\n", s_row, s_col, e_row, e_col);
 
     if (s_row < 0 || s_row > 8 || s_col < 0 || s_col > 8 || e_row < 0
             || e_row > 8 || e_col < 0 || e_col > 8) {

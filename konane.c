@@ -130,7 +130,7 @@ int main(int argc, char **argv) {
     char value[5];
     uint8_t player_type;
     search_type search;
-    state_s *start_state;
+    state_s *start_state, *new_state;
 
     filename = argv[1];
     player_type = argv[2][0];
@@ -145,19 +145,47 @@ int main(int argc, char **argv) {
         return 1;
     }
     valid_moves(start_state, search);
+
+    printf("Starting State:\n\n");
+    print_state(start_state);
+
+    printf("Possible moves\n");
     for (int i = 0; i < start_state->cur_size; i++) {
-        printf("Starting State:\n\n");
-        print_state(start_state);
         print_move(start_state->children[i]);
         print_state(start_state->children[i]);
     }
 
-    while(strcmp(value,"quit") != 0) {
-        printf("Enter Next Move: ");
-        scanf("%s", value);
-        printf("Desired move: %s\n", value);
+    printf("Selecting move: ");
+    print_move(start_state->children[0]);
+    printf("Board");
+    print_state(start_state->children[0]);
+
+    scanf("%s", value);
+    printf("Desired move: %s\n", value);
+
+    new_state = parse_move(start_state->children[0], value, 5);
+
+    if (search == INIT_BLACK)
+        search = SEARCH_BLACK;
+    else if (search == INIT_WHITE)
+        search = SEARCH_WHITE;
+
+    valid_moves(new_state, search);
+
+    printf("Starting State:\n\n");
+    print_state(new_state);
+
+    printf("Possible moves\n");
+    for (int i = 0; i < start_state->cur_size; i++) {
+        print_move(new_state->children[i]);
+        print_state(new_state->children[i]);
     }
-    
+
+    printf("Selecting move: ");
+    print_move(new_state->children[0]);
+    printf("Board");
+    print_state(new_state->children[0]);
+
     // print move
     free_model(start_state);
 
