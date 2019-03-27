@@ -146,6 +146,7 @@ int main(int argc, char **argv) {
     for (int i = 0; i < start_state->cur_size; i++) {
         printf("Starting State:\n\n");
         print_state(start_state);
+        print_move(start_state->children[i]);
         print_state(start_state->children[i]);
     }
 

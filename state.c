@@ -54,7 +54,7 @@ void print_move(state_s *state) {
 
     // print location
     printf("%c%d-%c%d", 'A' + state->move.start_row, state->move.start_col,
-            state->move.end_row, state->move.end_col);
+        'A' + state->move.end_row, state->move.end_col);
 
 }
 
@@ -73,7 +73,7 @@ static void print_board(uint8_t state[BOARD_SIZE][BOARD_SIZE]) {
     printf("\n");
 
     for (i = 0; i < BOARD_SIZE; i++) {
-        printf("%d |", i);
+        printf("%c |", 'A' + i);
         for (j = 0; j < BOARD_SIZE; j++) {
             printf("%c ", state[i][j]);
         }
