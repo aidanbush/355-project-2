@@ -76,20 +76,81 @@ state_s *read_input(char *filename) {
     return state;
 }
 
+search_type get_search_type(state_s *state, uint8_t stone){
+    uint8_t stone_type;
+    search_type search;
+    int count = 0, row, col;
+    if (stone == 'B') {
+        search = SEARCH_BLACK;
+        stone_type = STONE_BLACK;
+    } else {
+        search = SEARCH_WHITE;
+        stone_type = STONE_WHITE;
+    }
+    //Will only check rows and columns that belong to the stone type
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        row = i;
+        for (int j = 0; j < BOARD_SIZE / 2; j++) {
+            if (row % 2 == 0) {
+                if (stone_type == STONE_BLACK) {
+                    col = j * 2;
+                } else {
+                    col = j * 2 + 1;
+                }
+            } else {
+                if (stone_type == STONE_BLACK) {
+                col = j * 2 + 1;
+                } else {
+                col = j * 2;
+                }
+            }
+            /* If we find zero empty spaces for the given color then 
+             * we know the init state has been found for the provided 
+             * stone type
+             */
+            if (state->board[row][col] == EMPTY_SPACE)
+                count++;
+        }
+        printf("\n");
+    }
+    printf("count: %d\n", count);
+    if (count == 0) {
+        if (stone_type == STONE_BLACK)
+            return INIT_BLACK;
+        else
+            return INIT_WHITE;
+    }
+    else
+        return search;
+}
+
 int main(int argc, char **argv) {
     char *filename;
+    uint8_t player_type;
+    search_type search;
     state_s *start_state;
 
     filename = argv[1];
-
+    player_type = argv[2][0];
     start_state = read_input(filename);
-
+    search = get_search_type(start_state, player_type);
     if (start_state == NULL) {
         fprintf(stderr, "Error parsing text file\n");
         return 1;
     }
-    valid_moves(start_state, SEARCH_BLACK);
-
+    if (search == INIT_BLACK){
+        printf("INIT_BLACK\n");
+    }
+    if (search == INIT_WHITE) {
+        printf("INIT_WHITE\n");
+    }
+    if (search == SEARCH_BLACK) {
+        printf("SEARCH_BLACK\n");
+    }
+    if (search == SEARCH_WHITE) {
+        printf("SEARCH_WHITE\n");
+    }
+    valid_moves(start_state, search);
     for (int i = 0; i < start_state->cur_size; i++) {
         printf("Starting State:\n\n");
         print_state(start_state);
