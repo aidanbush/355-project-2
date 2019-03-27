@@ -29,8 +29,6 @@ state_s *parse_move(state_s *cur_state, char *move, int len) {
     e_row = move[4] - '0';
     e_col = move[3] - 'A';
 
-    printf("s_r%d, s_col%d, e_r%d, e_c%d\n", s_row, s_col, e_row, e_col);
-
     if (s_row < 0 || s_row > 8 || s_col < 0 || s_col > 8 || e_row < 0
             || e_row > 8 || e_col < 0 || e_col > 8) {
         fprintf(stderr, "Invalid move, out of range\n");
@@ -46,9 +44,25 @@ state_s *parse_move(state_s *cur_state, char *move, int len) {
 
     uint8_t start_tile = new_state->board[s_row][s_col];
     // make move
-    for (int i = 0; i < abs(s_row - e_row); i++)
-        for (int j = 0; j < abs(s_col - e_col); j++)
-            new_state->board[i][j] = EMPTY_SPACE;
+    //printf("%d %d\n",abs(s_row - e_row),abs(s_col - e_col));
+
+    if (e_row < s_row) {
+        int t = s_row;
+        s_row = e_row;
+        e_row = t;
+    }
+    if (e_col < s_col) {
+        int t = s_col;
+        s_col = e_col;
+        e_col = t;
+    }
+
+    for (int i = s_row; i < e_row + 1; i++) {
+        for (int j = s_col; j < e_col + 1; j++) {
+            new_state->board[j][i] = EMPTY_SPACE;
+            //printf("%d %d\n", i, j);
+        }
+    }
 
     new_state->board[e_row][e_col] = start_tile;
 

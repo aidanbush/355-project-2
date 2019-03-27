@@ -176,7 +176,7 @@ int main(int argc, char **argv) {
     print_state(new_state);
 
     printf("Possible moves\n");
-    for (int i = 0; i < start_state->cur_size; i++) {
+    for (int i = 0; i < new_state->cur_size; i++) {
         print_move(new_state->children[i]);
         print_state(new_state->children[i]);
     }
