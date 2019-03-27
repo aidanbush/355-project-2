@@ -91,8 +91,7 @@ void valid_moves(state_s *cur_state, search_type move_set) {
   //assign which colour of stone we are evaluating based off of
   if (move_set == SEARCH_BLACK) {
     search_char = STONE_BLACK;
-  }
-  else {
+  } else {
     search_char = STONE_WHITE;
   }
 
@@ -105,17 +104,13 @@ void valid_moves(state_s *cur_state, search_type move_set) {
       if (row % 2 == 0) {
         if (search_char == STONE_BLACK) {
           col = j * 2;
-        }
-          else {
+        } else {
             col = j * 2 + 1;
           }
-      }
-      else
-      {
+      } else {
         if (search_char == STONE_BLACK) {
           col = j * 2 + 1;
-        }
-        else {
+        } else {
           col = j * 2;
         }
       }

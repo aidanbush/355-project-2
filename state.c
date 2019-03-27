@@ -34,25 +34,20 @@ state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE]) {
 }
 
 /*Helper function to print a given state*/
-void print_state(uint8_t state[BOARD_SIZE][BOARD_SIZE])
-{
+void print_state(uint8_t state[BOARD_SIZE][BOARD_SIZE]) {
   int i, j;
   printf("\n   ");
-  for (i = 0; i < BOARD_SIZE; i++)
-  {
+  for (i = 0; i < BOARD_SIZE; i++) {
     printf("%d ", i);
   }
   printf("\n   ");
-  for (i = 0; i < BOARD_SIZE; i++)
-  {
+  for (i = 0; i < BOARD_SIZE; i++) {
     printf("- ");
   }
   printf("\n");
-  for (i = 0; i < BOARD_SIZE; i++)
-  {
+  for (i = 0; i < BOARD_SIZE; i++) {
     printf("%d |", i);
-    for (j = 0; j < BOARD_SIZE; j++)
-    {
+    for (j = 0; j < BOARD_SIZE; j++) {
       printf("%c ", state[i][j]);
     }
     printf("\n");
