@@ -67,7 +67,7 @@ state_s *parse_move(state_s *cur_state, char *move, int len) {
         }
     }
 
-    new_state->board[e1][e2] = start_tile;
+    new_state->board[e2][e1] = start_tile;
 
     return new_state;
 }
