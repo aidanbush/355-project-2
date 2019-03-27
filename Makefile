@@ -6,7 +6,7 @@
 # Description: It's a Makefile!
 SHELL=/bin/bash
 CC=gcc
-CFLAGS=-Wall -Wextra -pedantic -std=c99 -g -D_TEST_INPUT # -O3
+CFLAGS=-Wall -Wextra -pedantic -std=c99 -g # -O3
 
 .PHONY: all clean
 

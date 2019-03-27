@@ -68,14 +68,8 @@ state_s *read_input(char *filename) {
     }
 
 #ifdef _TEST_INPUT
-    if (!err) {
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                printf("%c", state->board[i][j]);
-            }
-            printf("\n");
-        }
-    }
+    if (!err)
+        print_state(state);
 #endif /* _TEST_INPUT */
 
     fclose(file);
@@ -83,11 +77,10 @@ state_s *read_input(char *filename) {
 }
 
 int main(int argc, char **argv) {
-    char *filename, *role;
+    char *filename;
     state_s *start_state;
 
     filename = argv[1];
-    role = argv[2];
 
     start_state = read_input(filename);
 
@@ -99,8 +92,8 @@ int main(int argc, char **argv) {
 
     for (int i = 0; i < start_state->cur_size; i++) {
         printf("Starting State:\n\n");
-        print_state(start_state->board);
-        print_state(start_state->children[i]->board);
+        print_state(start_state);
+        print_state(start_state->children[i]);
     }
 
     // print move

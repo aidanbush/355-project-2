@@ -42,7 +42,6 @@ typedef struct {
     uint8_t hops;
 } move_s;
 
-
 typedef struct state_s {
     uint8_t board[BOARD_SIZE][BOARD_SIZE];
     int eval;
@@ -63,7 +62,9 @@ typedef enum
   SEARCH_WHITE,
 } search_type;
 
-void print_state(uint8_t state[BOARD_SIZE][BOARD_SIZE]);
+void print_move(state_s *state);
+
+void print_state(state_s *state);
 
 state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE]);
 

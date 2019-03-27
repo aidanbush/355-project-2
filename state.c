@@ -7,6 +7,7 @@
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #ifdef _TEST_MODEL
 #include <assert.h>
@@ -20,17 +21,17 @@ state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE]) {
     state_s *model = malloc(sizeof(state_s));
     if (model == NULL)
         return NULL;
-    for (int i = 0; i < BOARD_SIZE; i++) {
-        for (int j = 0; j < BOARD_SIZE; j++) {
+
+    for (int i = 0; i < BOARD_SIZE; i++)
+        for (int j = 0; j < BOARD_SIZE; j++)
             model->board[i][j] = current[i][j];
-        }
-    }
+
     model->eval = 0;// eval
 
     // move
     model->move.row = -1;
     model->move.col = -1;
-    model->move.direction = MOVE_NONE;
+    model->move.dir = MOVE_NONE;
     model->move.hops = 0;
 
     // set player
@@ -47,26 +48,62 @@ state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE]) {
     return model;
 }
 
-/*Helper function to print a given state*/
-void print_state(uint8_t state[BOARD_SIZE][BOARD_SIZE]) {
-  int i, j;
-  printf("\n   ");
-  for (i = 0; i < BOARD_SIZE; i++) {
-    printf("%d ", i);
-  }
-  printf("\n   ");
-  for (i = 0; i < BOARD_SIZE; i++) {
-    printf("- ");
-  }
-  printf("\n");
-  for (i = 0; i < BOARD_SIZE; i++) {
-    printf("%d |", i);
-    for (j = 0; j < BOARD_SIZE; j++) {
-      printf("%c ", state[i][j]);
+void print_move(state_s *state) {
+    if (state == NULL)
+        return;
+
+    // print location
+    printf("%c%d ", 'A' + state->move.row, state->move.col);
+
+    // print direction
+    switch (state->move.dir) {
+        case MOVE_UP:
+            printf("U");
+            break;
+        case MOVE_DOWN:
+            printf("D");
+            break;
+        case MOVE_RIGHT:
+            printf("R");
+            break;
+        case MOVE_LEFT:
+            printf("L");
+            break;
+        default:
+            printf("ERROR");
+            break;
+    }
+
+    // print hops
+    printf("%d\n", state->move.hops);
+}
+
+/* Helper function to print a given state */
+static void print_board(uint8_t state[BOARD_SIZE][BOARD_SIZE]) {
+    int i, j;
+    printf("\n   ");
+    for (i = 0; i < BOARD_SIZE; i++) {
+        printf("%d ", i);
+    }
+    printf("\n   ");
+
+    for (i = 0; i < BOARD_SIZE; i++) {
+        printf("- ");
     }
     printf("\n");
-  }
-  printf("\n");
+
+    for (i = 0; i < BOARD_SIZE; i++) {
+        printf("%d |", i);
+        for (j = 0; j < BOARD_SIZE; j++) {
+            printf("%c ", state[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+void print_state(state_s *state) {
+    print_board(state->board);
 }
 
 void free_model(state_s *model) {
