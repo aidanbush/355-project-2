@@ -8,8 +8,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "state.h"
+#include "valid_moves.h"
 
 state_s *read_input(char *filename) {
     FILE *file;
@@ -17,11 +17,7 @@ state_s *read_input(char *filename) {
     int ch, last = '\0';
     int err = 0;
     state_s *state;
-
-    // create model
-    state = init_model();
-    if (state == NULL)
-        return NULL;
+    uint8_t temp_state[BOARD_SIZE][BOARD_SIZE];
 
     // open file
     file = fopen(filename, "r");
@@ -35,17 +31,17 @@ state_s *read_input(char *filename) {
             case 'B':
                 if (col >= BOARD_SIZE)
                     err = 1;
-                state->board[row][col++] = STONE_BLACK;
+                temp_state[row][col++] = STONE_BLACK;
                 break;
             case 'W':
                 if (col >= BOARD_SIZE)
                     err = 1;
-                state->board[row][col++] = STONE_WHITE;
+                temp_state[row][col++] = STONE_WHITE;
                 break;
             case 'O':
                 if (col >= BOARD_SIZE)
                     err = 1;
-                state->board[row][col++] = EMPTY_SPACE;
+                temp_state[row][col++] = EMPTY_SPACE;
                 break;
             case '\n':
             case '\r':
@@ -61,6 +57,10 @@ state_s *read_input(char *filename) {
         }
         last = ch;
     }
+    // create model
+    state = init_model(NULL, temp_state);
+    if (state == NULL)
+        return NULL;
 
     if (err) {
         free_model(state);
@@ -95,11 +95,15 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Error parsing text file\n");
         return 1;
     }
+    valid_moves(start_state, SEARCH_BLACK);
 
-    // AB search
+    for (int i = 0; i < start_state->cur_size; i++) {
+        printf("Starting State:\n\n");
+        print_state(start_state->board);
+        print_state(start_state->children[i]->board);
+    }
 
     // print move
-
     free_model(start_state);
 
     return 0;

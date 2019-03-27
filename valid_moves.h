@@ -9,12 +9,12 @@
 #define VALID_MOVES_H
 
 //prints the state
-int print_state(char** cur_state);
+void print_state(uint8_t state[BOARD_SIZE][BOARD_SIZE]);
 
 //copys the state to a new state
-char** copy_state(char** cur_state);
+void copy_state(uint8_t temp[BOARD_SIZE][BOARD_SIZE], state_s *cur_state);
 
 //obtains all the valid_states
-char*** valid_moves(char** cur_state, int move_set);
+void valid_moves(state_s *cur_state, search_type move_set);
 
 #endif /* VALID_MOVES_H */

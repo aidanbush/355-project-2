@@ -16,11 +16,15 @@
 
 #define DEFAULT_CHILD_SIZE  24
 
-state_s *init_model(state_s *parent) {
+state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE]) {
     state_s *model = malloc(sizeof(state_s));
     if (model == NULL)
         return NULL;
-
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            model->board[i][j] = current[i][j];
+        }
+    }
     model->eval = 0;// eval
 
     // move
@@ -41,6 +45,28 @@ state_s *init_model(state_s *parent) {
     model->children = NULL;
 
     return model;
+}
+
+/*Helper function to print a given state*/
+void print_state(uint8_t state[BOARD_SIZE][BOARD_SIZE]) {
+  int i, j;
+  printf("\n   ");
+  for (i = 0; i < BOARD_SIZE; i++) {
+    printf("%d ", i);
+  }
+  printf("\n   ");
+  for (i = 0; i < BOARD_SIZE; i++) {
+    printf("- ");
+  }
+  printf("\n");
+  for (i = 0; i < BOARD_SIZE; i++) {
+    printf("%d |", i);
+    for (j = 0; j < BOARD_SIZE; j++) {
+      printf("%c ", state[i][j]);
+    }
+    printf("\n");
+  }
+  printf("\n");
 }
 
 void free_model(state_s *model) {
