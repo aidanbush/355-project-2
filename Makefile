@@ -25,5 +25,7 @@ minmax.o: minmax.c minmax.h state.h
 
 valid_moves.o: valid_moves.c valid_moves.h state.h
 
+heuristic.o: heuristic.c heuristic.h state.h
+
 clean:
 	$(RM) konane.exe *.o
