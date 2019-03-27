@@ -42,6 +42,9 @@ void valid_moves(state_s *cur_state, search_type move_set) {
       perror("Error: failure to init child");
       return;
     }
+    child->move.start_row = 3;
+    child->move.start_col = 3;
+    child->move.end_row = 10;
     err = add_child(cur_state, child);
     if (err == 0) {
       perror("Error: failure to add child");
@@ -54,6 +57,9 @@ void valid_moves(state_s *cur_state, search_type move_set) {
       perror("Error: failure to init child");
       return;
     }
+    child->move.start_row = 4;
+    child->move.start_col = 4;
+    child->move.end_row = 10;
     err = add_child(cur_state, child);
     if (err == 0) {
       perror("Error: failure to add child");
@@ -69,6 +75,9 @@ void valid_moves(state_s *cur_state, search_type move_set) {
       perror("Error: failure to init child");
       return;
     }
+    child->move.start_row = 3;
+    child->move.start_col = 4;
+    child->move.end_row = 10;
     err = add_child(cur_state, child);
     if (err == 0) {
       perror("Error: failure to add child");
@@ -81,6 +90,9 @@ void valid_moves(state_s *cur_state, search_type move_set) {
       perror("Error: failure to init child");
       return;
     }
+    child->move.start_row = 4;
+    child->move.start_col = 3;
+    child->move.end_row = 10;
     err = add_child(cur_state, child);
     if (err == 0) {
       perror("Error: failure to add child");
@@ -131,6 +143,10 @@ void valid_moves(state_s *cur_state, search_type move_set) {
           perror("Error: failure to init child");
           return;
         }
+        child->move.start_row = row;
+        child->move.start_col = col;
+        child->move.end_row = row + dist * 2;
+        child->move.end_col = col;
         err = add_child(cur_state, child);
         if (err == 0) {
           perror("Error: failure to add child");
@@ -162,6 +178,10 @@ void valid_moves(state_s *cur_state, search_type move_set) {
           perror("Error: failure to init child");
           return;
         }
+        child->move.start_row = row;
+        child->move.start_col = col;
+        child->move.end_row = row - dist * 2;
+        child->move.end_col = col;
         err = add_child(cur_state, child);
         if (err == 0) {
           perror("Error: failure to add child");
@@ -194,6 +214,10 @@ void valid_moves(state_s *cur_state, search_type move_set) {
           perror("Error: failure to init child");
           return;
         }
+        child->move.start_row = row;
+        child->move.start_col = col;
+        child->move.end_row = row;
+        child->move.end_col = col + dist * 2;
         err = add_child(cur_state, child);
         if (err == 0) {
           perror("Error: failure to add child");
@@ -226,6 +250,10 @@ void valid_moves(state_s *cur_state, search_type move_set) {
           perror("Error: failure to init child");
           return;
         }
+        child->move.start_row = row;
+        child->move.start_col = col;
+        child->move.end_row = row;
+        child->move.end_col = col - dist * 2;
         err = add_child(cur_state, child);
         if (err == 0) {
           perror("Error: failure to add child");
