@@ -30,14 +30,14 @@ void valid_moves(state_s *cur_state, search_type move_set) {
   state_s *child;
   char search_char; //whether we are looking for the available moves for white or black
   //allocate memory
-  uint8_t temp_state[BOARD_SIZE][BOARD_SIZE];
+  uint8_t temp_board[BOARD_SIZE][BOARD_SIZE];
   //assign a temporary state with the current state
-  copy_state(temp_state, cur_state);
+  copy_state(temp_board, cur_state);
 
   //Restricted set of possible moves made for initial move
   if (move_set == INIT_BLACK) {
-    temp_state[3][3] = EMPTY_SPACE;
-    child = init_model(cur_state, temp_state);
+    temp_board[3][3] = EMPTY_SPACE;
+    child = init_model(cur_state, temp_board);
     if (child == NULL) {
       perror("Error: failure to init child");
       return;
@@ -45,14 +45,15 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     child->move.start_row = 3;
     child->move.start_col = 3;
     child->move.end_row = 10;
+    child->move.end_col = 10;
     err = add_child(cur_state, child);
     if (err == 0) {
       perror("Error: failure to add child");
       return;
     }
-    copy_state(temp_state, cur_state);
-    temp_state[4][4] = EMPTY_SPACE;
-    child = init_model(cur_state, temp_state);
+    copy_state(temp_board, cur_state);
+    temp_board[4][4] = EMPTY_SPACE;
+    child = init_model(cur_state, temp_board);
     if (child == NULL) {
       perror("Error: failure to init child");
       return;
@@ -60,6 +61,7 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     child->move.start_row = 4;
     child->move.start_col = 4;
     child->move.end_row = 10;
+    child->move.end_col = 10;
     err = add_child(cur_state, child);
     if (err == 0) {
       perror("Error: failure to add child");
@@ -69,8 +71,8 @@ void valid_moves(state_s *cur_state, search_type move_set) {
   }
 
   if (move_set == INIT_WHITE) {
-    temp_state[3][4] = EMPTY_SPACE;
-    child = init_model(cur_state, temp_state);
+    temp_board[3][4] = EMPTY_SPACE;
+    child = init_model(cur_state, temp_board);
     if (child == NULL) {
       perror("Error: failure to init child");
       return;
@@ -78,14 +80,15 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     child->move.start_row = 3;
     child->move.start_col = 4;
     child->move.end_row = 10;
+    child->move.end_col = 10;
     err = add_child(cur_state, child);
     if (err == 0) {
       perror("Error: failure to add child");
       return;
     }
-    copy_state(temp_state, cur_state);
-    temp_state[4][3] = EMPTY_SPACE;
-    child = init_model(cur_state, temp_state);
+    copy_state(temp_board, cur_state);
+    temp_board[4][3] = EMPTY_SPACE;
+    child = init_model(cur_state, temp_board);
     if (child == NULL) {
       perror("Error: failure to init child");
       return;
@@ -93,6 +96,7 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     child->move.start_row = 4;
     child->move.start_col = 3;
     child->move.end_row = 10;
+    child->move.end_col = 10;
     err = add_child(cur_state, child);
     if (err == 0) {
       perror("Error: failure to add child");
@@ -130,15 +134,15 @@ void valid_moves(state_s *cur_state, search_type move_set) {
       //down
       dist = 1;
       while ((row + 2 * dist) < BOARD_SIZE) {
-        if ((temp_state[row][col] == EMPTY_SPACE && multi == false) ||
-            temp_state[row + dist * 2 - 1][col] == EMPTY_SPACE ||
-            temp_state[row + dist * 2][col] != EMPTY_SPACE) {
+        if ((temp_board[row][col] == EMPTY_SPACE && multi == false) ||
+            temp_board[row + dist * 2 - 1][col] == EMPTY_SPACE ||
+            temp_board[row + dist * 2][col] != EMPTY_SPACE) {
           break;
         }
-        temp_state[row + dist * 2][col] = search_char;
-        temp_state[row + dist * 2 - 2][col] = EMPTY_SPACE; //remove the oppositions stone
-        temp_state[row + dist * 2 - 1][col] = EMPTY_SPACE;
-        child = init_model(cur_state, temp_state);
+        temp_board[row + dist * 2][col] = search_char;
+        temp_board[row + dist * 2 - 2][col] = EMPTY_SPACE; //remove the oppositions stone
+        temp_board[row + dist * 2 - 1][col] = EMPTY_SPACE;
+        child = init_model(cur_state, temp_board);
         if (child == NULL) {
           perror("Error: failure to init child");
           return;
@@ -157,23 +161,23 @@ void valid_moves(state_s *cur_state, search_type move_set) {
         multi = true;
       }
       if (found_move == true) {
-        copy_state(temp_state, cur_state);
+        copy_state(temp_board, cur_state);
         found_move = false;
       }
 
       // up
       multi = false;
       dist = 1;
-      while ((row - 2 * dist) > 0) {
-        if ((temp_state[row][col] == EMPTY_SPACE && multi == false) ||
-            temp_state[row - dist * 2 + 1][col] == EMPTY_SPACE ||
-            temp_state[row - dist * 2][col] != EMPTY_SPACE) {
+      while ((row - 2 * dist) >= 0) {
+        if ((temp_board[row][col] == EMPTY_SPACE && multi == false) ||
+            temp_board[row - dist * 2 + 1][col] == EMPTY_SPACE ||
+            temp_board[row - dist * 2][col] != EMPTY_SPACE) {
           break;
         }
-        temp_state[row - dist * 2][col] = search_char;
-        temp_state[row - dist * 2 + 2][col] = EMPTY_SPACE;
-        temp_state[row - dist * 2 + 1][col] = EMPTY_SPACE;
-        child = init_model(cur_state, temp_state);
+        temp_board[row - dist * 2][col] = search_char;
+        temp_board[row - dist * 2 + 2][col] = EMPTY_SPACE;
+        temp_board[row - dist * 2 + 1][col] = EMPTY_SPACE;
+        child = init_model(cur_state, temp_board);
         if (child == NULL) {
           perror("Error: failure to init child");
           return;
@@ -193,7 +197,7 @@ void valid_moves(state_s *cur_state, search_type move_set) {
       }
 
       if (found_move == true) {
-        copy_state(temp_state, cur_state);
+        copy_state(temp_board, cur_state);
         found_move = false;
       }
       
@@ -201,15 +205,15 @@ void valid_moves(state_s *cur_state, search_type move_set) {
       multi = false;
       dist = 1;
       while ((col + 2 * dist) < BOARD_SIZE) {
-        if ((temp_state[row][col] == EMPTY_SPACE && multi == false) ||
-            temp_state[row][col + dist * 2 - 1] == EMPTY_SPACE ||
-            temp_state[row][col + dist * 2] != EMPTY_SPACE) {
+        if ((temp_board[row][col] == EMPTY_SPACE && multi == false) ||
+            temp_board[row][col + dist * 2 - 1] == EMPTY_SPACE ||
+            temp_board[row][col + dist * 2] != EMPTY_SPACE) {
           break;
         }
-        temp_state[row][col + dist * 2] = search_char;
-        temp_state[row][col + dist * 2 - 1] = EMPTY_SPACE;
-        temp_state[row][col + dist * 2 - 2] = EMPTY_SPACE;
-        child = init_model(cur_state, temp_state);
+        temp_board[row][col + dist * 2] = search_char;
+        temp_board[row][col + dist * 2 - 1] = EMPTY_SPACE;
+        temp_board[row][col + dist * 2 - 2] = EMPTY_SPACE;
+        child = init_model(cur_state, temp_board);
         if (child == NULL)  {
           perror("Error: failure to init child");
           return;
@@ -229,23 +233,23 @@ void valid_moves(state_s *cur_state, search_type move_set) {
       }
 
       if (found_move == true) {
-        copy_state(temp_state, cur_state);
+        copy_state(temp_board, cur_state);
         found_move = false;
       }
       
       // left
       dist = 1;
       multi = false;
-      while ((col - 2 * dist) > 0) {
-        if ((temp_state[row][col] == EMPTY_SPACE && multi == false) ||
-            temp_state[row][col - dist * 2 + 1] == EMPTY_SPACE ||
-            temp_state[row][col - dist * 2] != EMPTY_SPACE) {
+      while ((col - 2 * dist) >= 0) {
+        if ((temp_board[row][col] == EMPTY_SPACE && multi == false) ||
+            temp_board[row][col - dist * 2 + 1] == EMPTY_SPACE ||
+            temp_board[row][col - dist * 2] != EMPTY_SPACE) {
           break;
         }
-        temp_state[row][col - dist * 2] = search_char;
-        temp_state[row][col - dist * 2 + 2] = EMPTY_SPACE;
-        temp_state[row][col - dist * 2 + 1] = EMPTY_SPACE;
-        child = init_model(cur_state, temp_state);
+        temp_board[row][col - dist * 2] = search_char;
+        temp_board[row][col - dist * 2 + 2] = EMPTY_SPACE;
+        temp_board[row][col - dist * 2 + 1] = EMPTY_SPACE;
+        child = init_model(cur_state, temp_board);
         if (child == NULL) {
           perror("Error: failure to init child");
           return;
