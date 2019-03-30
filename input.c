@@ -14,7 +14,7 @@
 #include "state.h"
 #include "input.h"
 
-state_s *parse_move(state_s *cur_state, char *move) {
+bool check_opponent_move(state_s *cur_state, char *move) {
     int s_row, s_col, e_row = 10, e_col = 10;
     int i, len;
     bool valid = false;
@@ -23,7 +23,7 @@ state_s *parse_move(state_s *cur_state, char *move) {
     len = strlen(move);
     if (len != 5 && len != 2) {
         printf("Invalid move syntax\n");
-        return NULL;
+        return false;
     }
 
     s_row = BOARD_SIZE - (move[1] - '0');
@@ -45,8 +45,10 @@ state_s *parse_move(state_s *cur_state, char *move) {
     }
 
     if (valid) {
-        return cur_state->children[i];
+        cur_state->successor = i;
+        return true;
     }
     
-    return NULL;
+    printf("Invalid move.\n");
+    return false;
 }
