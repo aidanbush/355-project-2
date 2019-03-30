@@ -9,38 +9,64 @@
 #include <stddef.h>
 
 #include "minmax.h"
+#include "heuristic.h"
 #include "state.h"
 
-static int max_value(state_s *state, int alpha, int beta) {
-    // if terminal  return utility
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
 
-    // v = -inf
 
-    // for action, new_state in successors
-    //  v = max(v, min_value(state, alpha, beta))
-    //  if v >= beta    return v
-    //  alpha = max(alpha, v)
+static int max_value(state_s *state, int alpha, int beta, state_s **selected_state) {
+    selected_state = NULL;
+    if (state == NULL)
+        return NEG_INF;
 
-    // return v
-    return 0;
+    if (state->children == NULL) { //OR time restriction met
+        return num_moves_diff(state->board);
+    }
+
+    int v = NEG_INF;
+    state_s *best_state = NULL;
+
+    for (int i = 0; i < state->cur_size; i++) {
+        v = MAX(v, min_value(state->children[i], alpha, beta, &best_state));
+        *selected_state = state->children[i];
+
+        if (v >= beta)
+            return v;
+
+        alpha = MAX(alpha, v);
+    }
+    return v;
 }
 
-static int min_value(state_s *state, int alpha, int beta) {
-    // if terminal  return utility
+static int min_value(state_s *state, int alpha, int beta, state_s **selected_state) {
+    selected_state = NULL;
+    if (state == NULL)
+        return POS_INF;
 
-    // v = +inf
+    if (state->children == NULL) { //OR time restriction met
+        return num_moves_diff(state->board);
+    }
 
-    // for action, new_state in successors
-    //  v = min(v, max_value(state, alpha, beta))
-    //  if v <= alpha   return v
-    //  beta = min(beta, v)
+    int v = POS_INF;
+    state_s *best_state = NULL;
 
-    // return v
-    return 0;
+    for (int i = 0; i < state->cur_size; i++) {
+        v = MIN(v, max_value(state->children[i], alpha, beta, &best_state));
+        *selected_state = state->children[i];
+
+        if (v <= alpha)
+            return v;
+        beta = MIN(beta, v);
+    }
+
+    return v;
 }
 
 state_s *minmax(state_s *state) {
-    // v = max_value
+    int v = max_value(state, NEG_INF, POS_INF);
+
     // return action associated with v
     return NULL;
 }
