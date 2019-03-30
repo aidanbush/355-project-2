@@ -52,11 +52,12 @@ void print_move(state_s *state) {
     if (state == NULL)
         return;
     if (state->move.end_row == 10) {
-        printf("Remove From: %c%d\n",'A' + state->move.start_row, state->move.start_col);
+        printf("Remove From: %c%d\n",'A' + state->move.start_col, BOARD_SIZE - state->move.start_row);
+        //printf("Remove From: %c%d\n",'A' + state->move.start_row, state->move.start_col);
     } else {
         // print location
-        printf("%c%d-%c%d", 'A' + state->move.start_row, state->move.start_col,
-            'A' + state->move.end_row, state->move.end_col);
+        printf("%c%d-%c%d", 'A' + state->move.start_col, BOARD_SIZE - state->move.start_row,
+            'A' + state->move.end_col, BOARD_SIZE - state->move.end_row);
     }
 }
 
@@ -65,8 +66,9 @@ static void print_board(uint8_t state[BOARD_SIZE][BOARD_SIZE]) {
     int i, j;
     printf("\n   ");
     for (i = 0; i < BOARD_SIZE; i++) {
-        printf("%d ", i);
+        printf("%c ", 'A' + i);
     }
+    
     printf("\n   ");
 
     for (i = 0; i < BOARD_SIZE; i++) {
@@ -75,7 +77,7 @@ static void print_board(uint8_t state[BOARD_SIZE][BOARD_SIZE]) {
     printf("\n");
 
     for (i = 0; i < BOARD_SIZE; i++) {
-        printf("%c |", 'A' + i);
+        printf("%d |", BOARD_SIZE - i);
         for (j = 0; j < BOARD_SIZE; j++) {
             printf("%c ", state[i][j]);
         }

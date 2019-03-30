@@ -9,6 +9,6 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-state_s *parse_move(state_s *cur_state, char *move, int len);
+state_s *parse_move(state_s *cur_state, char *move);
 
 #endif /* INPUT_H */

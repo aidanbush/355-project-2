@@ -160,15 +160,22 @@ int main(int argc, char **argv) {
     printf("Board");
     print_state(start_state->children[0]);
 
+    if (search == INIT_BLACK)
+        search = INIT_WHITE;
+    else if (search == INIT_WHITE)
+        search = INIT_BLACK;
+
+    valid_moves(start_state->children[0], search);
+
     scanf("%s", value);
     printf("Desired move: %s\n", value);
 
-    new_state = parse_move(start_state->children[0], value, 5);
+    new_state = parse_move(start_state->children[0], value);
 
     if (search == INIT_BLACK)
-        search = SEARCH_BLACK;
-    else if (search == INIT_WHITE)
         search = SEARCH_WHITE;
+    else if (search == INIT_WHITE)
+        search = SEARCH_BLACK;
 
     valid_moves(new_state, search);
 
