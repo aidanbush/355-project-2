@@ -8,6 +8,8 @@
 
 #include <unistd.h>
 #include <pthread.h>
+#include <stdio.h>
+#include <errno.h>
 
 #include "manager.h"
 #include "heuristic.h"
