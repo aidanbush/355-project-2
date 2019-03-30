@@ -14,6 +14,8 @@
 #include "state.h"
 #include "valid_moves.h"
 #include "input.h"
+#include "heuristic.h"
+#include "manager.h"
 
 state_s *read_input(char *filename) {
     FILE *file;
@@ -26,7 +28,7 @@ state_s *read_input(char *filename) {
     // open file
     file = fopen(filename, "r");
     if (file == NULL) {
-        perror("Error: Invalid file name.\n");
+        perror("fopen");
         return NULL;
     }
 

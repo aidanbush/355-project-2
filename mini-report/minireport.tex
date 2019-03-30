@@ -19,13 +19,34 @@ Iterative deepening is used so that we are able better work within the time limi
 We will also be sorting potential moves in order of highest to lowest for our MAX function and visa versa for our MIN function.
 
 \subsection*{Evaluation Function}
+For our evaluation function we have considered various ways of evaluating the given state in a way that would help us generate a optimal solution.
+Some evaluations that we have considered are as follows:
 
+\begin{itemize}
+\item \textbf{Number of moves Heuristic Evaluation} - 
+Takes in the given state and calculates the number of moves available to max for that state. 
+With this evaluation it will always provide a higher value for the state that has more available moves. 
+This would lead to a suboptimal heuristic as it only looks at the number of moves available for max, which leads to min choosing the value that minimizes the number of choices for max. 
+Although min would be minimizing the available moves for max, this does not necessarily mean that we also are maximizing the available moves for min.
+
+\item \textbf{Difference Heuristic Evaluation} -
+Takes in the given state and calculates the number of moves for black and white then takes the difference of the two. 
+This would provide our minmax algorithm because it would return a larger value for when there are more available moves for black than white and a smaller value for the inverse.
+This would provide both min and max with their respective optimal decisions.
+The problem with using this heuristic is that it would not provide a big range between values resulting in more than one state returning the same value.
+
+\item \textbf{Remaining Stones Evaluation} -
+Takes the given state and counts the amount of remaining stones for both white and black.
+Taking the difference between the two counts would result in the minmax algorithm would return larger values for when the state has more black than white.
+In the other case, for min, the evaluation would return smaller values for when there are more white than black.
+
+
+\end{itemize}
 \subsection*{Representation of State Space}
-To represent our state space we will use an array of 8 16bit integers.
-Every two bits is a square on the board, such that a single 16bit integer is an entire row 1-8.
-Every 2 bits will be the a-h entries for the specific row they are part of.
-We are using this model to reduce our overall memory usage.
-This memory model should increase the speed of the program as it will have to access less memory.
-% TODO add more and figure
+To represent our state space we will use a multi-dimensional array of 8 by 8 one byte integers.
+We are using this model to allow easy access to each of the boards entries.
+
+\subsection*{Programming language}
+We will be using C for improved efficiency, and control.
 
 \end{document}
