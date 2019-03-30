@@ -75,10 +75,7 @@ int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], int player) {
     return moves;
 }
 
-int num_moves_diff(search_type type, uint8_t board [BOARD_SIZE][BOARD_SIZE]) {
-    if (type == INIT_BLACK || type == INIT_WHITE)
-        return 0;
-
+int num_moves_diff(uint8_t board [BOARD_SIZE][BOARD_SIZE]) {
     // black:0 white:1
     int moves[2] = {0};
     int row, col;
