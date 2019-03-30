@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "state.h"
 #include "valid_moves.h"
@@ -125,76 +126,98 @@ search_type get_search_type(state_s *state, uint8_t stone){
         return search;
 }
 
+bool check_game_over(state_s *state) {
+    int moves = state->cur_size;
+    return (moves == 0);
+}
+
 int main(int argc, char **argv) {
     char *filename;
-    char value[5];
+    char opponent_move[5];
     uint8_t player_type;
+    uint8_t opponent_type;
     search_type search;
-    state_s *start_state, *new_state;
+    state_s *cur_state;
 
-    filename = argv[1];
-    player_type = argv[2][0];
-    start_state = read_input(filename);
-    search = get_search_type(start_state, player_type);
+    // Deal with command line arguments
     if (argc < 3) {
         fprintf(stderr,"Too Few Arguments\n");
         return 1;
     }
-    if (start_state == NULL) {
+    filename = argv[1];
+    cur_state = read_input(filename);
+    player_type = argv[2][0];
+    if (player_type == STONE_BLACK) {
+        opponent_type = STONE_WHITE;
+        cur_state->player = STONE_BLACK;
+    }
+    else {
+        opponent_type = STONE_BLACK;
+        cur_state->player = STONE_WHITE;
+    }
+    
+    search = get_search_type(cur_state, player_type);
+    
+    if (cur_state == NULL) {
         fprintf(stderr, "Error parsing text file\n");
         return 1;
     }
-    valid_moves(start_state, search);
 
-    printf("Starting State:\n\n");
-    print_state(start_state);
+    // The game loop
+    valid_moves(cur_state, search); // Create all children for current state
+    while (!check_game_over(cur_state)) {
+        printf("Current stage:");
+        print_state(cur_state);
+        printf("-----%c's turn-----\n", cur_state->player);
+        
+        if (cur_state->player == player_type) {
+            // TODO: Run minimax on current state
+            //cur_state = cur_state->children[cur_state->successor];
+            cur_state = cur_state->children[0];
+            cur_state->player = opponent_type;
 
-    printf("Possible moves\n");
-    for (int i = 0; i < start_state->cur_size; i++) {
-        print_move(start_state->children[i]);
-        print_state(start_state->children[i]);
+            printf("Selected move: ");
+            print_move(cur_state);
+
+            // Change search type
+            if (search == INIT_BLACK)
+                search = INIT_WHITE;
+            else if (search == INIT_WHITE)
+                search = SEARCH_BLACK;
+            else if (search == SEARCH_BLACK)
+                search = SEARCH_WHITE;
+            else if (search == SEARCH_WHITE)
+                search = SEARCH_BLACK;
+        }
+        else {
+            printf("Enter move: ");
+            scanf("%s", opponent_move);
+            while (!check_opponent_move(cur_state, opponent_move)) {
+                printf("Enter move again: ");
+                scanf("%s", opponent_move);
+            }
+            cur_state = cur_state->children[cur_state->successor];
+            cur_state->player = player_type;
+
+            // Change search type
+            if (search == INIT_BLACK)
+                search = INIT_WHITE;
+            else if (search == INIT_WHITE)
+                search = SEARCH_BLACK;
+            else if (search == SEARCH_BLACK)
+                search = SEARCH_WHITE;
+            else if (search == SEARCH_WHITE)
+                search = SEARCH_BLACK;
+        }
+        valid_moves(cur_state, search);
     }
+    if (cur_state->player == STONE_BLACK)
+        printf("White wins!\n");
+    else
+        printf("Black wins!\n");
 
-    printf("Selecting move: ");
-    print_move(start_state->children[0]);
-    printf("Board");
-    print_state(start_state->children[0]);
-
-    if (search == INIT_BLACK)
-        search = INIT_WHITE;
-    else if (search == INIT_WHITE)
-        search = INIT_BLACK;
-
-    valid_moves(start_state->children[0], search);
-
-    scanf("%s", value);
-    printf("Desired move: %s\n", value);
-
-    new_state = parse_move(start_state->children[0], value);
-
-    if (search == INIT_BLACK)
-        search = SEARCH_WHITE;
-    else if (search == INIT_WHITE)
-        search = SEARCH_BLACK;
-
-    valid_moves(new_state, search);
-
-    printf("Starting State:\n\n");
-    print_state(new_state);
-
-    printf("Possible moves\n");
-    for (int i = 0; i < new_state->cur_size; i++) {
-        print_move(new_state->children[i]);
-        print_state(new_state->children[i]);
-    }
-
-    printf("Selecting move: ");
-    print_move(new_state->children[0]);
-    printf("Board");
-    print_state(new_state->children[0]);
-
-    // print move
-    free_model(start_state);
+    // Clear memory
+    free_model(cur_state);
 
     return 0;
 }
