@@ -45,6 +45,7 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     child->move.start_row = 3;
     child->move.start_col = 3;
     child->move.end_row = 10;
+    child->move.end_col = 10;
     err = add_child(cur_state, child);
     if (err == 0) {
       perror("Error: failure to add child");
@@ -60,6 +61,7 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     child->move.start_row = 4;
     child->move.start_col = 4;
     child->move.end_row = 10;
+    child->move.end_col = 10;
     err = add_child(cur_state, child);
     if (err == 0) {
       perror("Error: failure to add child");
@@ -78,6 +80,7 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     child->move.start_row = 3;
     child->move.start_col = 4;
     child->move.end_row = 10;
+    child->move.end_col = 10;
     err = add_child(cur_state, child);
     if (err == 0) {
       perror("Error: failure to add child");
@@ -93,6 +96,7 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     child->move.start_row = 4;
     child->move.start_col = 3;
     child->move.end_row = 10;
+    child->move.end_col = 10;
     err = add_child(cur_state, child);
     if (err == 0) {
       perror("Error: failure to add child");

@@ -9,6 +9,8 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-state_s *parse_move(state_s *cur_state, char *move, int len);
+#include <stdbool.h>
+
+bool check_opponent_move(state_s *cur_state, char *move);
 
 #endif /* INPUT_H */

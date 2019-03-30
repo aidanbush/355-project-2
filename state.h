@@ -22,9 +22,9 @@
 #define EMPTY_SPACE 'O'
 
 typedef enum {
-    PLAYER_NONE = -1,
-    PLAYER_BLACK = 0,
-    PLAYER_WHITE = 1,
+    PLAYER_NONE = EMPTY_SPACE,
+    PLAYER_BLACK = STONE_BLACK,
+    PLAYER_WHITE = STONE_WHITE,
 } player_type;
 
 typedef enum {
@@ -48,10 +48,11 @@ typedef struct state_s {
     move_s move;
     player_type player;
     int num_moves;
-    int cur_size;
+    int cur_size; // number of children
     int max_size;
     struct state_s *parent;
     struct state_s **children;
+    int successor; // index of selected child state
 } state_s;
 
 typedef enum
