@@ -8,6 +8,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #ifdef _TEST_MODEL
 #include <assert.h>
@@ -93,10 +94,6 @@ void free_model(state_s *model) {
     if (model == NULL)
         return;
 
-    if (model->children != NULL)
-        for (int i = 0; i < model->cur_size; i++)
-            free_model(model->children[i]);
-
     free(model->children);
     free(model);
 }
@@ -147,6 +144,30 @@ state_s *best_move(state_s *state) {
         return NULL;
 
     return state->children[0];
+}
+
+int duplicate_state(state_s *state_1, state_s *state_2) {
+    if (state_1 == NULL || state_2 == NULL)
+        return 0;
+
+    for (int i = 0; i < BOARD_SIZE; i++)
+        if (memcmp(state_1->board[i], state_2->board[i], BOARD_SIZE * sizeof(uint8_t)) != 0)
+            return 0;
+
+    return 1;
+}
+
+uint64_t hash_state(state_s *state) {
+    if (state == NULL)
+        return 0;
+
+    uint64_t hash = 0;
+
+    for (int i = 0; i < BOARD_SIZE; i++)
+        for (int j = 0; j < BOARD_SIZE; j++)
+            hash = hash * 3571 + state->board[i][j];
+
+    return hash;
 }
 
 // tests
