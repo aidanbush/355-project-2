@@ -35,6 +35,13 @@ typedef enum {
     MOVE_NONE,
 } direction;
 
+typedef enum {
+  INIT_BLACK,
+  INIT_WHITE,
+  SEARCH_BLACK,
+  SEARCH_WHITE,
+} search_type;
+
 typedef struct {
     uint8_t start_row;
     uint8_t start_col;
@@ -54,14 +61,6 @@ typedef struct state_s {
     struct state_s **children;
     int successor; // index of selected child state
 } state_s;
-
-typedef enum
-{
-  INIT_BLACK,
-  INIT_WHITE,
-  SEARCH_BLACK,
-  SEARCH_WHITE,
-} search_type;
 
 void print_move(state_s *state);
 
