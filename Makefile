@@ -32,5 +32,7 @@ input.o: input.c input.h state.h
 
 manager.o: manager.c manager.h heuristic.h state.h
 
+hashtable.o: hashtable.c hashtable.h
+
 clean:
 	$(RM) konane.exe *.o
