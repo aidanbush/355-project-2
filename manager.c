@@ -31,6 +31,12 @@ void init_manager() {
 
 void set_manager_heuristic(int heuristic) {
     switch (heuristic) {
+        case 1:
+            manager.heuristic = num_moves_diff;
+            break;
+        case 2:
+            manager.heuristic = num_stones_diff;
+            break;
         default:
             manager.heuristic = num_moves_diff;
     }
