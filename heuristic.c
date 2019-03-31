@@ -75,19 +75,41 @@ int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], int player) {
     return moves;
 }
 
-int num_moves_diff(search_type type, uint8_t board [BOARD_SIZE][BOARD_SIZE]) {
+int num_moves_diff(search_type type, uint8_t board[BOARD_SIZE][BOARD_SIZE]) {
     if (type == INIT_BLACK || type == INIT_WHITE)
         return 0;
 
     // black:0 white:1
     int moves[2] = {0};
-    int row, col;
 
     for (int player = 0; player < 2; player++) {
         moves[player] = num_moves(board, player);
     }
 
     return moves[0] - moves[1];
+}
+
+static int remaining_stones(search_type type,
+        uint8_t board[BOARD_SIZE][BOARD_SIZE]) {
+    int start;
+    int count = 0;
+
+    if (type == SEARCH_BLACK || type == INIT_BLACK)
+        start = 0;
+    else
+        start = 1;
+
+    for (int i = 0; i < BOARD_SIZE; i++)
+        for (int j = (i + start) % 2; j < BOARD_SIZE; j += 2)
+            if (board[i][j] != EMPTY_SPACE)
+                count++;
+
+    return count;
+}
+
+int num_stones_diff(search_type type, uint8_t board[BOARD_SIZE][BOARD_SIZE]) {
+    return remaining_stones(SEARCH_BLACK, board)
+        - remaining_stones(SEARCH_WHITE, board);
 }
 
 #ifdef _TEST_HEURISTIC
@@ -125,6 +147,7 @@ int main() {
         {'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',},
     };
 
+    // test num_moves_diff
     // init black
     assert(num_moves_diff(INIT_BLACK, board_start) == 0);
     // init white
@@ -143,5 +166,24 @@ int main() {
 
     assert(num_moves_diff(SEARCH_BLACK, board_2) == 0);
     assert(num_moves_diff(SEARCH_WHITE, board_2) == 0);
+
+    // test num_stones_diff
+    // board_start
+    assert(remaining_stones(SEARCH_BLACK, board_start) == 32);
+    assert(remaining_stones(SEARCH_WHITE, board_start) == 32);
+
+    assert(num_stones_diff(SEARCH_BLACK, board_start) == 0);
+
+    // board_1
+    assert(remaining_stones(SEARCH_BLACK, board_1) == 28);
+    assert(remaining_stones(SEARCH_WHITE, board_1) == 31);
+
+    assert(num_stones_diff(SEARCH_BLACK, board_1) == (28 - 31));
+
+    // board_2
+    assert(remaining_stones(SEARCH_BLACK, board_2) == 0);
+    assert(remaining_stones(SEARCH_WHITE, board_2) == 0);
+
+    assert(num_stones_diff(SEARCH_BLACK, board_2) == 0);
 }
 #endif /* _TEST_HEURISTIC */
