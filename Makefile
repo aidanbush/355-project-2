@@ -15,13 +15,13 @@ all: konane.exe
 konane.exe: konane
 	mv konane konane.exe
 
-konane: konane.o state.o valid_moves.o input.o
+konane: konane.o state.o valid_moves.o input.o minmax.o heuristic.o
 
-konane.o: konane.c state.h valid_moves.h input.h
+konane.o: konane.c state.h valid_moves.h input.h heuristic.h minmax.h
 
 state.o: state.c state.h
 
-minmax.o: minmax.c minmax.h state.h
+minmax.o: minmax.c minmax.h state.h valid_moves.h heuristic.h
 
 valid_moves.o: valid_moves.c valid_moves.h state.h
 

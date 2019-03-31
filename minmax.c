@@ -7,6 +7,8 @@
  */
 
 #include <stddef.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "minmax.h"
 #include "heuristic.h"
@@ -16,57 +18,74 @@
 #define MAX(a,b) (((a)>(b))?(a):(b))
 
 
-static int max_value(state_s *state, int alpha, int beta, state_s **selected_state) {
+int max_value(state_s *state, int alpha, int beta, state_s *selected_state, int depth) {
     selected_state = NULL;
+    state_s *best_state = malloc(sizeof(state_s));
+    if (best_state == NULL){
+        fprintf(stderr, "Error Allocating best_state");
+    }
+    valid_moves(state, SEARCH_BLACK);
     if (state == NULL)
         return NEG_INF;
 
-    if (state->children == NULL) { //OR time restriction met
+    if (depth == 0) { //OR time restriction met
         return num_moves_diff(state->board);
     }
 
     int v = NEG_INF;
-    state_s *best_state = NULL;
-
     for (int i = 0; i < state->cur_size; i++) {
-        v = MAX(v, min_value(state->children[i], alpha, beta, &best_state));
-        *selected_state = state->children[i];
-
-        if (v >= beta)
-            return v;
-
+        v = MAX(v, min_value(state->children[i], alpha, beta, selected_state, depth - 1));
+        best_state = state->children[i];
         alpha = MAX(alpha, v);
+        if (alpha >= beta) {
+            break; //beta cutoff
+        }
     }
+    selected_state = best_state;
+    print_move(selected_state);
+    printf("\n");
+    print_state(selected_state);
     return v;
 }
 
-static int min_value(state_s *state, int alpha, int beta, state_s **selected_state) {
+int min_value(state_s *state, int alpha, int beta, state_s *selected_state, int depth) {
     selected_state = NULL;
+    state_s *best_state = malloc(sizeof(state_s*));
+    int heur;
+    if (best_state == NULL){
+        fprintf(stderr, "Error Allocating best_state");
+    }
+    valid_moves(state, SEARCH_WHITE);
     if (state == NULL)
         return POS_INF;
 
-    if (state->children == NULL) { //OR time restriction met
+    if (depth == 0) {
         return num_moves_diff(state->board);
     }
 
     int v = POS_INF;
-    state_s *best_state = NULL;
 
     for (int i = 0; i < state->cur_size; i++) {
-        v = MIN(v, max_value(state->children[i], alpha, beta, &best_state));
-        *selected_state = state->children[i];
-
-        if (v <= alpha)
-            return v;
+        v = MIN(v, max_value(state->children[i], alpha, beta, selected_state, depth - 1));
+        best_state = state->children[i]; 
         beta = MIN(beta, v);
+        if (alpha >= beta)
+            break;
     }
-
+    selected_state = best_state;
+    print_move(selected_state);
+    printf("\n");
+    print_state(selected_state);
     return v;
 }
 
-state_s *minmax(state_s *state) {
-    int v = max_value(state, NEG_INF, POS_INF);
-
-    // return action associated with v
-    return NULL;
+state_s *minmax(state_s *state, int depth) {
+    state_s *best_state = malloc(sizeof(state_s));
+    if (best_state == NULL){
+        fprintf(stderr, "Error Allocating best_state");
+    }
+    max_value(state, POS_INF, NEG_INF, best_state, depth);
+    printf("Chosen State: \n");
+    print_state(best_state);
+    return best_state;
 }

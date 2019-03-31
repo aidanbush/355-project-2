@@ -78,8 +78,6 @@ int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], int player) {
 int num_moves_diff(uint8_t board [BOARD_SIZE][BOARD_SIZE]) {
     // black:0 white:1
     int moves[2] = {0};
-    int row, col;
-
     for (int player = 0; player < 2; player++) {
         moves[player] = num_moves(board, player);
     }

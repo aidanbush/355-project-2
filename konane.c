@@ -13,6 +13,8 @@
 #include "state.h"
 #include "valid_moves.h"
 #include "input.h"
+#include "minmax.h"
+#include "heuristic.h"
 
 state_s *read_input(char *filename) {
     FILE *file;
@@ -149,18 +151,16 @@ int main(int argc, char **argv) {
     printf("Starting State:\n\n");
     print_state(start_state);
 
-    printf("Possible moves\n");
-    for (int i = 0; i < start_state->cur_size; i++) {
-        print_move(start_state->children[i]);
-        print_state(start_state->children[i]);
-    }
+    // printf("Possible moves\n");
+    // for (int i = 0; i < start_state->cur_size; i++) {
+    //     print_move(start_state->children[i]);
+    //     print_state(start_state->children[i]);
+    // }
 
-    printf("Selecting move: ");
-    print_move(start_state->children[0]);
-    printf("Board");
-    print_state(start_state->children[0]);
+    printf("Selecting move 1: ");
+    print_move(minmax(start_state, 8));
 
-    scanf("%s", value);
+    scanf("\n%s", value);
     printf("Desired move: %s\n", value);
 
     new_state = parse_move(start_state->children[0], value, 5);
@@ -175,16 +175,14 @@ int main(int argc, char **argv) {
     printf("Starting State:\n\n");
     print_state(new_state);
 
-    printf("Possible moves\n");
-    for (int i = 0; i < new_state->cur_size; i++) {
-        print_move(new_state->children[i]);
-        print_state(new_state->children[i]);
-    }
+    // printf("Possible moves\n");
+    // for (int i = 0; i < new_state->cur_size; i++) {
+    //     print_move(new_state->children[i]);
+    //     print_state(new_state->children[i]);
+    // }
 
-    printf("Selecting move: ");
-    print_move(new_state->children[0]);
-    printf("Board");
-    print_state(new_state->children[0]);
+    printf("Selecting move 2: ");
+    print_move(minmax(start_state, 4));
 
     // print move
     free_model(start_state);

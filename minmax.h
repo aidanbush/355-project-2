@@ -11,6 +11,10 @@
 
 #include "state.h"
 
-state_s *minmax(state_s *state);
+int max_value(state_s *state, int alpha, int beta, state_s **selected_state, int depth);
+
+int min_value(state_s *state, int alpha, int beta, state_s **selected_state, int depth);
+
+state_s *minmax(state_s *state, int depth);
 
 #endif /* MINMAX_H */
