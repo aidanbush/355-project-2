@@ -10,12 +10,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <unistd.h>
+#include <libgen.h>
+#include <pthread.h>
 
 #include "state.h"
 #include "valid_moves.h"
 #include "input.h"
 #include "heuristic.h"
 #include "manager.h"
+
+extern manager_s manager;
+int verbosity;
 
 state_s *read_input(char *filename) {
     FILE *file;
@@ -105,9 +111,9 @@ search_type get_search_type(state_s *state, uint8_t stone){
                 }
             } else {
                 if (stone_type == STONE_BLACK) {
-                col = j * 2 + 1;
+                    col = j * 2 + 1;
                 } else {
-                col = j * 2;
+                    col = j * 2;
                 }
             }
             /* If we find zero empty spaces for the given color then 
@@ -129,97 +135,99 @@ search_type get_search_type(state_s *state, uint8_t stone){
 }
 
 bool check_game_over(state_s *state) {
-    int moves = state->cur_size;
-    return (moves == 0);
+    return state->cur_size == 0;
 }
 
-int main(int argc, char **argv) {
-    char *filename;
-    char opponent_move[5];
-    uint8_t player_type;
-    uint8_t opponent_type;
-    search_type search;
-    state_s *cur_state;
+void print_usage(char *p_name) {
+    printf("Usage: %s [OPTIONS...] Boardfile Player\n"
+            "Konane (Hawaiian Checkers) agent.\n\n"
+            "Player is either \"B\" or \"W\"\n"
+            "Options\n"
+            "  -v verbosity (increases with more)\n"
+            "  -g specify heuristic:\n"
+            "     1 - difference in moves\n"
+            "     2 - difference in stones\n"
+            "  -h this usage message\n", basename(p_name));
+}
 
-    // Deal with command line arguments
-    if (argc < 3) {
-        fprintf(stderr,"Too Few Arguments\n");
-        return 1;
-    }
-    filename = argv[1];
-    cur_state = read_input(filename);
-    player_type = argv[2][0];
-    if (player_type == STONE_BLACK) {
-        opponent_type = STONE_WHITE;
-        cur_state->player = STONE_BLACK;
-    }
-    else {
-        opponent_type = STONE_BLACK;
-        cur_state->player = STONE_WHITE;
-    }
-    
-    search = get_search_type(cur_state, player_type);
-    
-    if (cur_state == NULL) {
-        fprintf(stderr, "Error parsing text file\n");
-        return 1;
-    }
+void play_game(state_s *cur_state, char player) {
+    int depth;
+    pthread_t man_thread;
+    state_s *new_state = NULL;
+
+    search_type search = get_search_type(cur_state, player);
 
     // The game loop
     valid_moves(cur_state, search); // Create all children for current state
     while (!check_game_over(cur_state)) {
-        printf("Current stage:");
-        print_state(cur_state);
-        printf("-----%c's turn-----\n", cur_state->player);
-        
-        if (cur_state->player == player_type) {
-            // TODO: Run minimax on current state
-            //cur_state = cur_state->children[cur_state->successor];
-            cur_state = cur_state->children[0];
-            cur_state->player = opponent_type;
-
-            printf("Selected move: ");
-            print_move(cur_state);
-
-            // Change search type
-            if (search == INIT_BLACK)
-                search = INIT_WHITE;
-            else if (search == INIT_WHITE)
-                search = SEARCH_BLACK;
-            else if (search == SEARCH_BLACK)
-                search = SEARCH_WHITE;
-            else if (search == SEARCH_WHITE)
-                search = SEARCH_BLACK;
+        manager.top_move = cur_state;
+        // start timer
+        if (pthread_create(&man_thread, NULL, move_timer, NULL)) {
+            perror("pthread_create");
+            // free up memory
+            return;
         }
-        else {
-            printf("Enter move: ");
-            scanf("%s", opponent_move);
-            while (!check_opponent_move(cur_state, opponent_move)) {
-                printf("Enter move again: ");
-                scanf("%s", opponent_move);
-            }
-            cur_state = cur_state->children[cur_state->successor];
-            cur_state->player = player_type;
 
-            // Change search type
-            if (search == INIT_BLACK)
-                search = INIT_WHITE;
-            else if (search == INIT_WHITE)
-                search = SEARCH_BLACK;
-            else if (search == SEARCH_BLACK)
-                search = SEARCH_WHITE;
-            else if (search == SEARCH_WHITE)
-                search = SEARCH_BLACK;
+        depth = 0;
+        while (!manager.stop) {
+            // minmax
+            depth++;
         }
-        valid_moves(cur_state, search);
+
+        // clean up thread
+        pthread_join(man_thread, NULL);
+
+        // free space
+
+        // get move
+
+        break;
     }
-    if (cur_state->player == STONE_BLACK)
-        printf("White wins!\n");
-    else
-        printf("Black wins!\n");
-
-    // Clear memory
     free_model(cur_state);
+
+    return;
+}
+
+int main(int argc, char **argv) {
+    char *filename;
+    char player;
+    state_s *start_state;
+    int c;
+
+    init_manager();
+
+    while ((c = getopt(argc, argv, "g:vh")) != -1) {
+        switch (c) {
+            case 'v':
+                verbosity++;
+                break;
+            case 'h':
+                print_usage(argv[0]);
+                return 0;
+            case 'g':
+                set_manager_heuristic(atoi(optarg));
+                break;
+            default:
+                print_usage(argv[0]);
+                return 1;
+        }
+    }
+
+    if (argc - optind != 2) {
+        print_usage(argv[0]);
+        return 1;
+    }
+
+    filename = argv[optind];
+    player = argv[optind + 1][0];
+
+    start_state = read_input(filename);
+    if (start_state == NULL) {
+        fprintf(stderr, "Error parsing text file\n");
+        return 1;
+    }
+
+    play_game(start_state, player);
 
     return 0;
 }
