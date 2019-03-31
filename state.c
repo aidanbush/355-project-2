@@ -63,22 +63,21 @@ void print_move(state_s *state) {
 
 /* Helper function to print a given state */
 static void print_board(uint8_t state[BOARD_SIZE][BOARD_SIZE]) {
-    int i, j;
     printf("\n   ");
-    for (i = 0; i < BOARD_SIZE; i++) {
+    for (int i = 0; i < BOARD_SIZE; i++) {
         printf("%c ", 'A' + i);
     }
-    
+
     printf("\n   ");
 
-    for (i = 0; i < BOARD_SIZE; i++) {
+    for (int i = 0; i < BOARD_SIZE; i++) {
         printf("- ");
     }
     printf("\n");
 
-    for (i = 0; i < BOARD_SIZE; i++) {
+    for (int i = 0; i < BOARD_SIZE; i++) {
         printf("%d |", BOARD_SIZE - i);
-        for (j = 0; j < BOARD_SIZE; j++) {
+        for (int j = 0; j < BOARD_SIZE; j++) {
             printf("%c ", state[i][j]);
         }
         printf("\n");
@@ -141,6 +140,13 @@ int add_child(state_s *parent, state_s *child) {
     parent->cur_size++;
 
     return 1;
+}
+
+state_s *best_move(state_s *state) {
+    if (state == NULL || state->children == NULL)
+        return NULL;
+
+    return state->children[0];
 }
 
 // tests

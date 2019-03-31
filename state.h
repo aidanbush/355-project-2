@@ -73,4 +73,6 @@ void free_model(state_s *model);
 
 int add_child(state_s *parent, state_s *child);
 
+state_s *best_move(state_s *state);
+
 #endif /* MODEL_H */
