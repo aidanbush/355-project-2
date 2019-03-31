@@ -72,4 +72,8 @@ void free_model(state_s *model);
 
 int add_child(state_s *parent, state_s *child);
 
+int duplicate_state(state_s *state_1, state_s *state_2);
+
+uint64_t hash_state(state_s *state);
+
 #endif /* MODEL_H */
