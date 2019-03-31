@@ -21,6 +21,8 @@
 #define STONE_WHITE 'W'
 #define EMPTY_SPACE 'O'
 
+#define DEFAULT_MOVE_POS    (BOARD_SIZE)
+
 typedef enum {
     PLAYER_NONE = EMPTY_SPACE,
     PLAYER_BLACK = STONE_BLACK,

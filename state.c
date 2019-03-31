@@ -30,10 +30,10 @@ state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE]) {
     model->eval = 0;// eval
 
     // move
-    model->move.start_row = -1;
-    model->move.start_col = -1;
-    model->move.end_row = -1;
-    model->move.end_col = -1;
+    model->move.start_row = DEFAULT_MOVE_POS;
+    model->move.start_col = DEFAULT_MOVE_POS;
+    model->move.end_row = DEFAULT_MOVE_POS;
+    model->move.end_col = DEFAULT_MOVE_POS;
 
     // set player
     model->player = PLAYER_NONE;
@@ -52,7 +52,7 @@ state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE]) {
 void print_move(state_s *state) {
     if (state == NULL)
         return;
-    if (state->move.end_row == 10) {
+    if (state->move.end_row == DEFAULT_MOVE_POS) {
         printf("Remove From: %c%d\n",'A' + state->move.start_col, BOARD_SIZE - state->move.start_row);
         //printf("Remove From: %c%d\n",'A' + state->move.start_row, state->move.start_col);
     } else {
