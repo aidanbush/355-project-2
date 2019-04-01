@@ -42,8 +42,8 @@ int alpha_beta(state_s *state, int depth, int alpha, int beta, search_type searc
 	}
 }
 
-state_s *minmax(state_s *state, int depth) {
+state_s *minmax(state_s *state, int depth, search_type search) {
 	state_s *best_state = NULL;
-	alpha_beta(state, depth, NEG_INF, POS_INF, SEARCH_BLACK, &best_state);
+	alpha_beta(state, depth, NEG_INF, POS_INF, search, &best_state);
 	return best_state;
 }
