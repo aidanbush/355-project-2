@@ -214,6 +214,12 @@ void play_game(state_s *cur_state, char player) {
         if (depth < 0)
             depth = 0;
 
+        if (search == INIT_BLACK)
+            search = SEARCH_BLACK;
+
+        if (search == INIT_WHITE)
+            search = SEARCH_WHITE;
+
         break;
     } while (!check_game_over(cur_state));
 
