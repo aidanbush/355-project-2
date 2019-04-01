@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 #include <unistd.h>
 #include <libgen.h>
 #include <pthread.h>
@@ -135,7 +134,7 @@ search_type get_search_type(state_s *state, uint8_t stone){
         return search;
 }
 
-bool check_game_over(state_s *state) {
+int check_game_over(state_s *state) {
     return state->cur_size == 0;
 }
 
