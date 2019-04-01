@@ -28,7 +28,7 @@ int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], int player) {
 
             // left
             dist = 1;
-            while ((col - 2*dist) > 0) {
+            while ((col - 2*dist) >= 0) {
                 if (board[row][col] == EMPTY_SPACE ||
                         board[row][col - dist*2 + 1] == EMPTY_SPACE ||
                         board[row][col - dist*2] != EMPTY_SPACE)
@@ -61,7 +61,7 @@ int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], int player) {
 
             // up
             dist = 1;
-            while ((row - 2*dist) > 0) {
+            while ((row - 2*dist) >= 0) {
                 if (board[row][col] == EMPTY_SPACE ||
                         board[row - dist*2 + 1][col] == EMPTY_SPACE ||
                         board[row - dist*2][col] != EMPTY_SPACE)
@@ -78,10 +78,11 @@ int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], int player) {
 int num_moves_diff(uint8_t board [BOARD_SIZE][BOARD_SIZE]) {
     // black:0 white:1
     int moves[2] = {0};
+    int internal_heur;
     for (int player = 0; player < 2; player++) {
         moves[player] = num_moves(board, player);
     }
-
+    // printf("Black: %d, White: %d\n", moves[0], moves[1]);
     return moves[0] - moves[1];
 }
 
