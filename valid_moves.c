@@ -10,6 +10,7 @@
 #include <stdbool.h>
 
 #include "state.h"
+#include "valid_moves.h"
 
 /*Helper function to initialize a new state with the same layout as the current state*/
 void copy_state(uint8_t temp[BOARD_SIZE][BOARD_SIZE], state_s *cur_state) {
@@ -41,6 +42,7 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     if (child == NULL) {
       fprintf(stderr, "Error: failure to init child\n");
       return;
+    }
   
     child->move.start_row = 3;
     child->move.start_col = 3;
@@ -57,7 +59,8 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     if (child == NULL) {
       fprintf(stderr, "Error: failure to init child\n");
       return;
-  
+    }
+
     child->move.start_row = 4;
     child->move.start_col = 4;
     child->move.end_row = DEFAULT_MOVE_POS;
@@ -76,6 +79,7 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     if (child == NULL) {
       fprintf(stderr, "Error: failure to init child\n");
       return;
+    }
   
     child->move.start_row = 3;
     child->move.start_col = 4;
@@ -92,6 +96,7 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     if (child == NULL) {
       fprintf(stderr, "Error: failure to init child\n");
       return;
+    }
   
     child->move.start_row = 4;
     child->move.start_col = 3;

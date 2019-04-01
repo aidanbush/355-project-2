@@ -8,6 +8,8 @@
 #ifndef VALID_MOVES_H
 #define VALID_MOVES_H
 
+#include "state.h"
+
 //copys the state to a new state
 void copy_state(uint8_t temp[BOARD_SIZE][BOARD_SIZE], state_s *cur_state);
 

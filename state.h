@@ -21,6 +21,8 @@
 #define STONE_WHITE 'W'
 #define EMPTY_SPACE 'O'
 
+#define DEFAULT_MOVE_POS    (BOARD_SIZE)
+
 typedef enum {
     PLAYER_BLACK = STONE_BLACK,
     PLAYER_WHITE = STONE_WHITE,
@@ -68,6 +70,10 @@ void print_state(state_s *state);
 state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE], player_type player);
 
 void free_model(state_s *model);
+
+void free_model_children(state_s *state);
+
+void free_all_but_child(state_s *state, int child);
 
 int add_child(state_s *parent, state_s *child);
 

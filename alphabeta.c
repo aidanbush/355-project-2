@@ -1,18 +1,21 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "alphabeta.h"
+#include "manager.h"
+
+extern manager_s manager;
 
 int alpha_beta(state_s *state, int depth, int alpha, int beta, search_type search,state_s **selected_state) {
 	int value;
 	state_s *child;
 	state_s *best;
-	int heur;
-	if (depth == 0) {
-		heur = num_moves_diff(state->board);
-		state->eval = heur;
-		return heur;
+
+	if (depth == 0 || manager.stop) {
+		return state->eval;
 	}
+
 	if (state->cur_size == 0)
 		valid_moves(state, search);
 

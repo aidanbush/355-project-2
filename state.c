@@ -15,8 +15,12 @@
 #endif /* _TEST_MODEL */
 
 #include "state.h"
+#include "heuristic.h"
+#include "manager.h"
 
 #define DEFAULT_CHILD_SIZE  24
+
+manager_s manager;
 
 state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE], player_type player) {
     state_s *model = malloc(sizeof(state_s));
@@ -27,13 +31,13 @@ state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE], pl
         for (int j = 0; j < BOARD_SIZE; j++)
             model->board[i][j] = current[i][j];
 
-    model->eval = 0;// eval
+    model->eval = manager.heuristic(current);
 
     // move
-    model->move.start_row = -1;
-    model->move.start_col = -1;
-    model->move.end_row = -1;
-    model->move.end_col = -1;
+    model->move.start_row = DEFAULT_MOVE_POS;
+    model->move.start_col = DEFAULT_MOVE_POS;
+    model->move.end_row = DEFAULT_MOVE_POS;
+    model->move.end_col = DEFAULT_MOVE_POS;
 
     // set player
     model->player = player;
@@ -52,9 +56,8 @@ state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE], pl
 void print_move(state_s *state) {
     if (state == NULL)
         return;
-    if (state->move.end_row == 10) {
-        printf("Remove From: %c%d\n",'A' + state->move.start_col, BOARD_SIZE - state->move.start_row);
-        //printf("Remove From: %c%d\n",'A' + state->move.start_row, state->move.start_col);
+    if (state->move.end_row == DEFAULT_MOVE_POS) {
+        printf("%c%d\n",'A' + state->move.start_col, BOARD_SIZE - state->move.start_row);
     } else {
         // print location
         printf("%c%d-%c%d\n", 'A' + state->move.start_col, BOARD_SIZE - state->move.start_row,
@@ -96,6 +99,31 @@ void free_model(state_s *model) {
 
     free(model->children);
     free(model);
+}
+
+void free_model_children(state_s *state) {
+    if (state == NULL)
+        return;
+
+    if (state->children != NULL)
+        for (int i = 0; i < state->cur_size; i++)
+            free_model_children(state->children[i]);
+
+    free(state->children);
+    free(state);
+}
+
+void free_all_but_child(state_s *state, int child) {
+    if (state == NULL)
+        return;
+
+    if (state->children != NULL)
+        for (int i = 0; i < state->cur_size; i++)
+            if (i != child)
+                free_model_children(state->children[i]);
+
+    free(state->children);
+    free(state);
 }
 
 static int resize_children(state_s *model) {
