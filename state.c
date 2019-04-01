@@ -53,8 +53,7 @@ void print_move(state_s *state) {
     if (state == NULL)
         return;
     if (state->move.end_row == DEFAULT_MOVE_POS) {
-        printf("Remove From: %c%d\n",'A' + state->move.start_col, BOARD_SIZE - state->move.start_row);
-        //printf("Remove From: %c%d\n",'A' + state->move.start_row, state->move.start_col);
+        printf("%c%d\n",'A' + state->move.start_col, BOARD_SIZE - state->move.start_row);
     } else {
         // print location
         printf("%c%d-%c%d\n", 'A' + state->move.start_col, BOARD_SIZE - state->move.start_row,
