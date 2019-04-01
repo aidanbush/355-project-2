@@ -15,8 +15,12 @@
 #endif /* _TEST_MODEL */
 
 #include "state.h"
+#include "heuristic.h"
+#include "manager.h"
 
 #define DEFAULT_CHILD_SIZE  24
+
+manager_s manager;
 
 state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE]) {
     state_s *model = malloc(sizeof(state_s));
@@ -27,7 +31,7 @@ state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE]) {
         for (int j = 0; j < BOARD_SIZE; j++)
             model->board[i][j] = current[i][j];
 
-    model->eval = 0;// eval
+    model->eval = manager.heuristic(current);
 
     // move
     model->move.start_row = -1;
