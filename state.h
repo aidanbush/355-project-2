@@ -22,7 +22,6 @@
 #define EMPTY_SPACE 'O'
 
 typedef enum {
-    PLAYER_NONE = EMPTY_SPACE,
     PLAYER_BLACK = STONE_BLACK,
     PLAYER_WHITE = STONE_WHITE,
 } player_type;

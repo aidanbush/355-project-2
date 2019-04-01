@@ -39,32 +39,34 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     temp_board[3][3] = EMPTY_SPACE;
     child = init_model(cur_state, temp_board);
     if (child == NULL) {
-      perror("Error: failure to init child");
+      fprintf(stderr, "Error: failure to init child\n");
       return;
     }
+    child->player = search_char;
     child->move.start_row = 3;
     child->move.start_col = 3;
-    child->move.end_row = 10;
-    child->move.end_col = 10;
+    child->move.end_row = DEFAULT_MOVE_POS;
+    child->move.end_col = DEFAULT_MOVE_POS;
     err = add_child(cur_state, child);
     if (err == 0) {
-      perror("Error: failure to add child");
+      fprintf(stderr, "Error: failure to add child\n");
       return;
     }
     copy_state(temp_board, cur_state);
     temp_board[4][4] = EMPTY_SPACE;
     child = init_model(cur_state, temp_board);
     if (child == NULL) {
-      perror("Error: failure to init child");
+      fprintf(stderr, "Error: failure to init child\n");
       return;
     }
+    child->player = search_char;
     child->move.start_row = 4;
     child->move.start_col = 4;
-    child->move.end_row = 10;
-    child->move.end_col = 10;
+    child->move.end_row = DEFAULT_MOVE_POS;
+    child->move.end_col = DEFAULT_MOVE_POS;
     err = add_child(cur_state, child);
     if (err == 0) {
-      perror("Error: failure to add child");
+      fprintf(stderr, "Error: failure to add child\n");
       return;
     }
     return;
@@ -74,32 +76,34 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     temp_board[3][4] = EMPTY_SPACE;
     child = init_model(cur_state, temp_board);
     if (child == NULL) {
-      perror("Error: failure to init child");
+      fprintf(stderr, "Error: failure to init child\n");
       return;
     }
+    child->player = search_char;
     child->move.start_row = 3;
     child->move.start_col = 4;
-    child->move.end_row = 10;
-    child->move.end_col = 10;
+    child->move.end_row = DEFAULT_MOVE_POS;
+    child->move.end_col = DEFAULT_MOVE_POS;
     err = add_child(cur_state, child);
     if (err == 0) {
-      perror("Error: failure to add child");
+      fprintf(stderr, "Error: failure to add child\n");
       return;
     }
     copy_state(temp_board, cur_state);
     temp_board[4][3] = EMPTY_SPACE;
     child = init_model(cur_state, temp_board);
     if (child == NULL) {
-      perror("Error: failure to init child");
+      fprintf(stderr, "Error: failure to init child\n");
       return;
     }
+    child->player = search_char;
     child->move.start_row = 4;
     child->move.start_col = 3;
-    child->move.end_row = 10;
-    child->move.end_col = 10;
+    child->move.end_row = DEFAULT_MOVE_POS;
+    child->move.end_col = DEFAULT_MOVE_POS;
     err = add_child(cur_state, child);
     if (err == 0) {
-      perror("Error: failure to add child");
+      fprintf(stderr, "Error: failure to add child\n");
       return;
     }
     return;
@@ -144,16 +148,17 @@ void valid_moves(state_s *cur_state, search_type move_set) {
         temp_board[row + dist * 2 - 1][col] = EMPTY_SPACE;
         child = init_model(cur_state, temp_board);
         if (child == NULL) {
-          perror("Error: failure to init child");
+          fprintf(stderr, "Error: failure to init child\n");
           return;
         }
+        child->player = search_char;
         child->move.start_row = row;
         child->move.start_col = col;
         child->move.end_row = row + dist * 2;
         child->move.end_col = col;
         err = add_child(cur_state, child);
         if (err == 0) {
-          perror("Error: failure to add child");
+          fprintf(stderr, "Error: failure to add child\n");
           return;
         }
         found_move = true;
@@ -179,16 +184,17 @@ void valid_moves(state_s *cur_state, search_type move_set) {
         temp_board[row - dist * 2 + 1][col] = EMPTY_SPACE;
         child = init_model(cur_state, temp_board);
         if (child == NULL) {
-          perror("Error: failure to init child");
+          fprintf(stderr, "Error: failure to init child\n");
           return;
         }
+        child->player = search_char;
         child->move.start_row = row;
         child->move.start_col = col;
         child->move.end_row = row - dist * 2;
         child->move.end_col = col;
         err = add_child(cur_state, child);
         if (err == 0) {
-          perror("Error: failure to add child");
+          fprintf(stderr, "Error: failure to add child\n");
           return;
         }
         found_move = true;
@@ -215,16 +221,17 @@ void valid_moves(state_s *cur_state, search_type move_set) {
         temp_board[row][col + dist * 2 - 2] = EMPTY_SPACE;
         child = init_model(cur_state, temp_board);
         if (child == NULL)  {
-          perror("Error: failure to init child");
+          fprintf(stderr, "Error: failure to init child\n");
           return;
         }
+        child->player = search_char;
         child->move.start_row = row;
         child->move.start_col = col;
         child->move.end_row = row;
         child->move.end_col = col + dist * 2;
         err = add_child(cur_state, child);
         if (err == 0) {
-          perror("Error: failure to add child");
+          fprintf(stderr, "Error: failure to add child\n");
           return;
         }
         found_move = true;
@@ -251,16 +258,17 @@ void valid_moves(state_s *cur_state, search_type move_set) {
         temp_board[row][col - dist * 2 + 1] = EMPTY_SPACE;
         child = init_model(cur_state, temp_board);
         if (child == NULL) {
-          perror("Error: failure to init child");
+          fprintf(stderr, "Error: failure to init child\n");
           return;
         }
+        child->player = search_char;
         child->move.start_row = row;
         child->move.start_col = col;
         child->move.end_row = row;
         child->move.end_col = col - dist * 2;
         err = add_child(cur_state, child);
         if (err == 0) {
-          perror("Error: failure to add child");
+          fprintf(stderr, "Error: failure to add child\n");
           return;
         }
         found_move = true;
