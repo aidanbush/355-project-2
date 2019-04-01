@@ -102,6 +102,31 @@ void free_model(state_s *model) {
     free(model);
 }
 
+void free_model_children(state_s *state) {
+    if (state == NULL)
+        return;
+
+    if (state->children != NULL)
+        for (int i = 0; i < state->cur_size; i++)
+            free_model_children(state->children[i]);
+
+    free(state->children);
+    free(state);
+}
+
+void free_all_but_child(state_s *state, int child) {
+    if (state == NULL)
+        return;
+
+    if (state->children != NULL)
+        for (int i = 0; i < state->cur_size; i++)
+            if (i != child)
+                free_model_children(state->children[i]);
+
+    free(state->children);
+    free(state);
+}
+
 static int resize_children(state_s *model) {
     int new_size;
     state_s **tmp;
