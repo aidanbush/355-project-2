@@ -67,7 +67,7 @@ void print_move(state_s *state);
 
 void print_state(state_s *state);
 
-state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE]);
+state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE], player_type player);
 
 void free_model(state_s *model);
 

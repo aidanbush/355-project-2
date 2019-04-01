@@ -22,7 +22,7 @@
 
 manager_s manager;
 
-state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE]) {
+state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE], player_type player) {
     state_s *model = malloc(sizeof(state_s));
     if (model == NULL)
         return NULL;
@@ -40,7 +40,7 @@ state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE]) {
     model->move.end_col = DEFAULT_MOVE_POS;
 
     // set player
-    model->player = PLAYER_NONE;
+    model->player = player;
     // set num moves
     model->num_moves = -1;
 
@@ -198,20 +198,20 @@ uint64_t hash_state(state_s *state) {
     return hash;
 }
 
-int comparator(const void *p, const void *q) 
-{ 
-    // Get the values at given addresses 
-    state_s *first = (const state_s *)p; 
-    state_s *second = (const state_s *)q; 
-    if (first->player == STONE_BLACK) {
-        return first->eval - second->eval;
-    } else {
-        return second->eval - first->eval;
-    }    
-} 
+int comparator(const void *p, const void *q) {
+    // Get the values at given addresses
+    state_s *first = (state_s *)p;
+    state_s *second = (state_s *)q;
 
-void sort_children(state_s *state, search_type search) {
-    qsort((void*)state->children, state->cur_size, sizeof(state->children[0]), comparator); 
+    if (first->player == STONE_BLACK)
+        return first->eval - second->eval;
+
+    return second->eval - first->eval;
+
+}
+
+void sort_children(state_s *state) {
+    qsort((void*)state->children, state->cur_size, sizeof(state->children[0]), comparator);
 }
 
 // tests

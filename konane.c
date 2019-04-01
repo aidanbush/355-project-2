@@ -23,7 +23,7 @@
 extern manager_s manager;
 int verbosity;
 
-state_s *read_input(char *filename) {
+state_s *read_input(char *filename, player_type type) {
     FILE *file;
     int row = 0, col = 0;
     int ch, last = '\0';
@@ -70,7 +70,7 @@ state_s *read_input(char *filename) {
         last = ch;
     }
     // create model
-    state = init_model(NULL, temp_state);
+    state = init_model(NULL, temp_state, type);
     if (state == NULL)
         return NULL;
 
@@ -199,9 +199,21 @@ void play_game(state_s *cur_state, char player) {
     return;
 }
 
+int get_player(char player, player_type *type) {
+    if (player == 'B') {
+        *type = PLAYER_BLACK;
+        return 1;
+    } else if (player == 'W') {
+        *type = PLAYER_WHITE;
+        return 1;
+    }
+    return 0;
+}
+
 int main(int argc, char **argv) {
     char *filename;
     char player;
+    player_type type;
     state_s *start_state;
     int c;
 
@@ -230,9 +242,14 @@ int main(int argc, char **argv) {
     }
 
     filename = argv[optind];
-    player = argv[optind + 1][0];
 
-    start_state = read_input(filename);
+    player = argv[optind + 1][0];
+    if (!get_player(player, &type)) {
+        print_usage(argv[0]);
+        return 1;
+    }
+
+    start_state = read_input(filename, type);
     if (start_state == NULL) {
         fprintf(stderr, "Error parsing text file\n");
         return 1;
