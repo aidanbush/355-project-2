@@ -71,6 +71,10 @@ state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE]);
 
 void free_model(state_s *model);
 
+void free_model_children(state_s *state);
+
+void free_all_but_child(state_s *state, int child);
+
 int add_child(state_s *parent, state_s *child);
 
 state_s *best_move(state_s *state);

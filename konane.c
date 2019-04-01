@@ -159,8 +159,11 @@ void play_game(state_s *cur_state, char player) {
 
     // The game loop
     valid_moves(cur_state, search); // Create all children for current state
+    depth = 0;
+
     while (!check_game_over(cur_state)) {
         manager.top_move = cur_state;
+
         // start timer
         if (pthread_create(&man_thread, NULL, move_timer, NULL)) {
             perror("pthread_create");
@@ -168,7 +171,6 @@ void play_game(state_s *cur_state, char player) {
             return;
         }
 
-        depth = 0;
         while (!manager.stop) {
             new_state = minmax(cur_state, depth, search);
             depth++;
@@ -177,13 +179,22 @@ void play_game(state_s *cur_state, char player) {
         // clean up thread
         pthread_join(man_thread, NULL);
 
-        // free space
+        new_state = cur_state->children[0];
+
+        // free non selected states
+        free_all_but_child(cur_state, 0);
+        cur_state = new_state;
 
         // get move
 
+        depth -= 3;
+        if (depth < 0)
+            depth = 0;
+
         break;
     }
-    free_model(cur_state);
+
+    free_model_children(cur_state);
 
     return;
 }
