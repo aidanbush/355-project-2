@@ -17,16 +17,16 @@ int check_opponent_move(state_s *cur_state, char *move, int move_len) {
     uint8_t s_row, s_col, e_row = DEFAULT_MOVE_POS, e_col = DEFAULT_MOVE_POS;
 
     // Check if move syntax is correct (either "XX" or "XX-XX")
-    if (move_len != 5 && move_len != 2) {
-        fprintf(stderr, "Invalid move syntax\n");
+    if (move_len != 6 && move_len != 3) {
+        fprintf(stderr, "Move string len %d\n", move_len);
         return -1;
     }
 
-    s_row = BOARD_SIZE - (move[1] - '0');
+    s_row = BOARD_SIZE - (move[1] - '1');
     s_col = move[0] - 'A';
 
     if (move_len == 5) {
-        e_row = BOARD_SIZE - (move[4] - '0');
+        e_row = BOARD_SIZE - (move[4] - '1');
         e_col = move[3] - 'A';
     }
 
