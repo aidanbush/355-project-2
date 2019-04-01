@@ -28,7 +28,7 @@ void valid_moves(state_s *cur_state, search_type move_set) {
   int row, col, dist, err;
   bool found_move = false, multi = false;
   state_s *child;
-  char search_char; //whether we are looking for the available moves for white or black
+  player_type search_char; //whether we are looking for the available moves for white or black
   //allocate memory
   uint8_t temp_board[BOARD_SIZE][BOARD_SIZE];
   //assign a temporary state with the current state
@@ -37,12 +37,11 @@ void valid_moves(state_s *cur_state, search_type move_set) {
   //Restricted set of possible moves made for initial move
   if (move_set == INIT_BLACK) {
     temp_board[3][3] = EMPTY_SPACE;
-    child = init_model(cur_state, temp_board);
+    child = init_model(cur_state, temp_board, STONE_BLACK);
     if (child == NULL) {
       fprintf(stderr, "Error: failure to init child\n");
       return;
-    }
-    child->player = search_char;
+  
     child->move.start_row = 3;
     child->move.start_col = 3;
     child->move.end_row = DEFAULT_MOVE_POS;
@@ -54,12 +53,11 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     }
     copy_state(temp_board, cur_state);
     temp_board[4][4] = EMPTY_SPACE;
-    child = init_model(cur_state, temp_board);
+    child = init_model(cur_state, temp_board, STONE_BLACK);
     if (child == NULL) {
       fprintf(stderr, "Error: failure to init child\n");
       return;
-    }
-    child->player = search_char;
+  
     child->move.start_row = 4;
     child->move.start_col = 4;
     child->move.end_row = DEFAULT_MOVE_POS;
@@ -74,12 +72,11 @@ void valid_moves(state_s *cur_state, search_type move_set) {
 
   if (move_set == INIT_WHITE) {
     temp_board[3][4] = EMPTY_SPACE;
-    child = init_model(cur_state, temp_board);
+    child = init_model(cur_state, temp_board, STONE_WHITE);
     if (child == NULL) {
       fprintf(stderr, "Error: failure to init child\n");
       return;
-    }
-    child->player = search_char;
+  
     child->move.start_row = 3;
     child->move.start_col = 4;
     child->move.end_row = DEFAULT_MOVE_POS;
@@ -91,12 +88,11 @@ void valid_moves(state_s *cur_state, search_type move_set) {
     }
     copy_state(temp_board, cur_state);
     temp_board[4][3] = EMPTY_SPACE;
-    child = init_model(cur_state, temp_board);
+    child = init_model(cur_state, temp_board, STONE_WHITE);
     if (child == NULL) {
       fprintf(stderr, "Error: failure to init child\n");
       return;
-    }
-    child->player = search_char;
+  
     child->move.start_row = 4;
     child->move.start_col = 3;
     child->move.end_row = DEFAULT_MOVE_POS;
@@ -146,12 +142,11 @@ void valid_moves(state_s *cur_state, search_type move_set) {
         temp_board[row + dist * 2][col] = search_char;
         temp_board[row + dist * 2 - 2][col] = EMPTY_SPACE; //remove the oppositions stone
         temp_board[row + dist * 2 - 1][col] = EMPTY_SPACE;
-        child = init_model(cur_state, temp_board);
+        child = init_model(cur_state, temp_board, search_char);
         if (child == NULL) {
           fprintf(stderr, "Error: failure to init child\n");
           return;
         }
-        child->player = search_char;
         child->move.start_row = row;
         child->move.start_col = col;
         child->move.end_row = row + dist * 2;
@@ -182,12 +177,11 @@ void valid_moves(state_s *cur_state, search_type move_set) {
         temp_board[row - dist * 2][col] = search_char;
         temp_board[row - dist * 2 + 2][col] = EMPTY_SPACE;
         temp_board[row - dist * 2 + 1][col] = EMPTY_SPACE;
-        child = init_model(cur_state, temp_board);
+        child = init_model(cur_state, temp_board, search_char);
         if (child == NULL) {
           fprintf(stderr, "Error: failure to init child\n");
           return;
         }
-        child->player = search_char;
         child->move.start_row = row;
         child->move.start_col = col;
         child->move.end_row = row - dist * 2;
@@ -219,12 +213,11 @@ void valid_moves(state_s *cur_state, search_type move_set) {
         temp_board[row][col + dist * 2] = search_char;
         temp_board[row][col + dist * 2 - 1] = EMPTY_SPACE;
         temp_board[row][col + dist * 2 - 2] = EMPTY_SPACE;
-        child = init_model(cur_state, temp_board);
+        child = init_model(cur_state, temp_board, search_char);
         if (child == NULL)  {
           fprintf(stderr, "Error: failure to init child\n");
           return;
         }
-        child->player = search_char;
         child->move.start_row = row;
         child->move.start_col = col;
         child->move.end_row = row;
@@ -256,12 +249,11 @@ void valid_moves(state_s *cur_state, search_type move_set) {
         temp_board[row][col - dist * 2] = search_char;
         temp_board[row][col - dist * 2 + 2] = EMPTY_SPACE;
         temp_board[row][col - dist * 2 + 1] = EMPTY_SPACE;
-        child = init_model(cur_state, temp_board);
+        child = init_model(cur_state, temp_board, search_char);
         if (child == NULL) {
           fprintf(stderr, "Error: failure to init child\n");
           return;
         }
-        child->player = search_char;
         child->move.start_row = row;
         child->move.start_col = col;
         child->move.end_row = row;
