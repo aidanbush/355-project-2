@@ -162,10 +162,10 @@ void play_game(state_s *cur_state, char player) {
     search_type search = get_search_type(cur_state, player);
 
     // The game loop
-    valid_moves(cur_state, search); // Create all children for current state
+    //valid_moves(cur_state, search); // Create all children for current state
     depth = 0;
 
-    while (!check_game_over(cur_state)) {
+    do {
         manager.top_move = cur_state;
 
         // start timer
@@ -215,7 +215,7 @@ void play_game(state_s *cur_state, char player) {
             depth = 0;
 
         break;
-    }
+    } while (!check_game_over(cur_state));
 
     free(move);
 
