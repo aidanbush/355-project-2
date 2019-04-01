@@ -19,6 +19,7 @@
 #include "input.h"
 #include "heuristic.h"
 #include "manager.h"
+#include "alphabeta.h"
 
 extern manager_s manager;
 int verbosity;
@@ -170,7 +171,7 @@ void play_game(state_s *cur_state, char player) {
 
         depth = 0;
         while (!manager.stop) {
-            // minmax
+            new_state = minmax(cur_state, depth, search);
             depth++;
         }
 

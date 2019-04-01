@@ -75,10 +75,7 @@ int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], int player) {
     return moves;
 }
 
-int num_moves_diff(search_type type, uint8_t board[BOARD_SIZE][BOARD_SIZE]) {
-    if (type == INIT_BLACK || type == INIT_WHITE)
-        return 0;
-
+int num_moves_diff(uint8_t board[BOARD_SIZE][BOARD_SIZE]) {
     // black:0 white:1
     int moves[2] = {0};
 
@@ -89,8 +86,7 @@ int num_moves_diff(search_type type, uint8_t board[BOARD_SIZE][BOARD_SIZE]) {
     return moves[0] - moves[1];
 }
 
-static int remaining_stones(search_type type,
-        uint8_t board[BOARD_SIZE][BOARD_SIZE]) {
+static int remaining_stones(search_type type, uint8_t board[BOARD_SIZE][BOARD_SIZE]) {
     int start;
     int count = 0;
 
@@ -107,7 +103,7 @@ static int remaining_stones(search_type type,
     return count;
 }
 
-int num_stones_diff(search_type type, uint8_t board[BOARD_SIZE][BOARD_SIZE]) {
+int num_stones_diff(uint8_t board[BOARD_SIZE][BOARD_SIZE]) {
     return remaining_stones(SEARCH_BLACK, board)
         - remaining_stones(SEARCH_WHITE, board);
 }

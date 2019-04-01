@@ -14,8 +14,8 @@
 
 #define BOARD_SIZE 8
 
-#define NEG_INF (INT_MAX)
-#define POS_INT (INT_MIN)
+#define NEG_INF (INT_MIN)
+#define POS_INF (INT_MAX)
 
 #define STONE_BLACK 'B'
 #define STONE_WHITE 'W'
