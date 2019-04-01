@@ -14,28 +14,29 @@
 #include "state.h"
 
 int check_opponent_move(state_s *cur_state, char *move, int move_len) {
-    uint8_t s_row, s_col, e_row = DEFAULT_MOVE_POS, e_col = DEFAULT_MOVE_POS;
+    uint8_t s_row, s_col;
+    uint8_t e_row = DEFAULT_MOVE_POS, e_col = DEFAULT_MOVE_POS;
 
     // Check if move syntax is correct (either "XX" or "XX-XX")
-    if (move_len != 5 && move_len != 2) {
-        fprintf(stderr, "Invalid move syntax\n");
+    if (move_len != 6 && move_len != 3) {
+        fprintf(stderr, "Move string len %d\n", move_len);
         return -1;
     }
 
-    s_row = BOARD_SIZE - (move[1] - '0');
+    s_row = BOARD_SIZE + '0' - move[1];
     s_col = move[0] - 'A';
 
-    if (move_len == 5) {
-        e_row = BOARD_SIZE - (move[4] - '0');
+    if (move_len == 6) {
+        e_row = BOARD_SIZE + '0' - move[4];
         e_col = move[3] - 'A';
     }
 
     // Check if the move is in the list of valid moves
     for (int i = 0; i<cur_state->cur_size; i++) {
         if (cur_state->children[i]->move.start_row == s_row
-        && cur_state->children[i]->move.start_col == s_col
-        && cur_state->children[i]->move.end_row == e_row
-        && cur_state->children[i]->move.end_col == e_col) {
+                && cur_state->children[i]->move.start_col == s_col
+                && cur_state->children[i]->move.end_row == e_row
+                && cur_state->children[i]->move.end_col == e_col) {
             return i;
         }
     }
