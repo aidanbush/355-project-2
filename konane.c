@@ -201,9 +201,7 @@ void play_game(state_s *cur_state, char player) {
             fprintf(stderr, "Invalid move\n");
             break;
         }
-        
         new_state = cur_state->children[opp_move];
-        
 
         // free non opponent move_state
         free_all_but_child(cur_state, opp_move);

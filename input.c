@@ -39,8 +39,6 @@ int check_opponent_move(state_s *cur_state, char *move, int move_len) {
                 && cur_state->children[i]->move.end_col == e_col) {
             return i;
         }
-        // fprintf(stderr,"CHILD #%d\n", i);
-        // print_state(cur_state->children[i]);
     }
     return -1;
 }
