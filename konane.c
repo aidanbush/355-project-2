@@ -176,7 +176,7 @@ void play_game(state_s *cur_state, char player) {
         }
 
         while (!manager.stop) {
-            new_state = minmax(cur_state, depth, search);
+            minmax(cur_state, depth, search);
             depth++;
             fprintf(stderr, "depth: %d\n", depth);
         }
@@ -190,12 +190,6 @@ void play_game(state_s *cur_state, char player) {
         free_all_but_child(cur_state, 0);
         // set cur state to be selected state
         cur_state = new_state;
-
-        for (int i = 0; i < cur_state->cur_size; i++) {
-            printf("child %d\n", i);
-            print_move(cur_state->children[i]);
-            print_state(cur_state->children[i]);
-        }
 
         // get move
         read = getline(&move, &move_len, stdin);
