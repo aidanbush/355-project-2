@@ -162,23 +162,24 @@ void play_game(state_s *cur_state, char player) {
     search_type search = get_search_type(cur_state, player);
 
     // The game loop
-    //valid_moves(cur_state, search); // Create all children for current state
     depth = 0;
 
     do {
-        manager.top_move = cur_state;
+        if (!setup_manager_timer(cur_state)) {
+            fprintf(stderr, "error in setting up timer\n");
+            break;
+        }
 
         // start timer
         if (pthread_create(&man_thread, NULL, move_timer, NULL)) {
             perror("pthread_create");
-            // free up memory
-            return;
+            break;
         }
 
         while (!manager.stop) {
+            fprintf(stderr, "searching depth: %d\n", depth);
             new_state = minmax(cur_state, depth, search);
             depth++;
-            fprintf(stderr, "depth: %d\n", depth);
         }
 
         // clean up thread
@@ -224,8 +225,6 @@ void play_game(state_s *cur_state, char player) {
     free(move);
 
     free_model_children(cur_state);
-
-    return;
 }
 
 int get_player(char player, player_type *type) {
