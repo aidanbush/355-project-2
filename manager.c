@@ -58,7 +58,7 @@ int setup_manager_timer(state_s *top_move) {
 }
 
 void *move_timer(__attribute__((unused)) void *_) {
-    state_s *best_state;
+    // state_s *best_state;
     if (usleep(SLEEP_TIME) == -1) {
         // handle error
         perror("usleep");
@@ -70,8 +70,8 @@ void *move_timer(__attribute__((unused)) void *_) {
     // print move
     pthread_mutex_lock(&(manager.top_move_mutex));
 
-    best_state = best_move(manager.top_move);
-    print_move(best_state);
+    // best_state = best_move(manager.top_move);
+    // print_move(best_state);
 
     pthread_mutex_unlock(&(manager.top_move_mutex));
 

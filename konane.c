@@ -175,17 +175,16 @@ void play_game(state_s *cur_state, char player) {
             perror("pthread_create");
             break;
         }
-
         while (!manager.stop) {
-            fprintf(stderr, "searching depth: %d\n", depth);
             minmax(cur_state, depth, search);
             depth++;
         }
-
         // clean up thread
         pthread_join(man_thread, NULL);
 
         new_state = cur_state->children[0];
+        print_move(new_state);
+        
 
         // free non selected states
         free_all_but_child(cur_state, 0);
@@ -199,7 +198,9 @@ void play_game(state_s *cur_state, char player) {
             fprintf(stderr, "Invalid move\n");
             break;
         }
+        
         new_state = cur_state->children[opp_move];
+        
 
         // free non opponent move_state
         free_all_but_child(cur_state, opp_move);
@@ -215,7 +216,6 @@ void play_game(state_s *cur_state, char player) {
         if (search == INIT_WHITE)
             search = SEARCH_WHITE;
     } while (!check_game_over(cur_state));
-
     free(move);
 
     free_model_children(cur_state);

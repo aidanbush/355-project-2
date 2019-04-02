@@ -20,6 +20,7 @@ extern manager_s manager;
 int alpha_beta(state_s *state, int depth, int alpha, int beta, search_type search) {
 	int value;
 	state_s *child;
+
 	if (state->cur_size == 0)
 		valid_moves(state, search);
 
