@@ -162,23 +162,24 @@ void play_game(state_s *cur_state, char player) {
     search_type search = get_search_type(cur_state, player);
 
     // The game loop
-    //valid_moves(cur_state, search); // Create all children for current state
     depth = 0;
 
     do {
-        manager.top_move = cur_state;
+        if (!setup_manager_timer(cur_state)) {
+            fprintf(stderr, "error in setting up timer\n");
+            break;
+        }
 
         // start timer
         if (pthread_create(&man_thread, NULL, move_timer, NULL)) {
             perror("pthread_create");
-            // free up memory
-            return;
+            break;
         }
 
         while (!manager.stop) {
-            new_state = minmax(cur_state, depth, search);
+            fprintf(stderr, "searching depth: %d\n", depth);
+            minmax(cur_state, depth, search);
             depth++;
-            fprintf(stderr, "depth: %d\n", depth);
         }
 
         // clean up thread
@@ -191,18 +192,12 @@ void play_game(state_s *cur_state, char player) {
         // set cur state to be selected state
         cur_state = new_state;
 
-        for (int i = 0; i < cur_state->cur_size; i++) {
-            printf("child %d\n", i);
-            print_move(cur_state->children[i]);
-            print_state(cur_state->children[i]);
-        }
-
         // get move
         read = getline(&move, &move_len, stdin);
         opp_move = check_opponent_move(cur_state, move, read);
         if (opp_move == -1) {
             fprintf(stderr, "Invalid move\n");
-            return;
+            break;
         }
         new_state = cur_state->children[opp_move];
 
@@ -219,15 +214,11 @@ void play_game(state_s *cur_state, char player) {
 
         if (search == INIT_WHITE)
             search = SEARCH_WHITE;
-
-        break;
     } while (!check_game_over(cur_state));
 
     free(move);
 
     free_model_children(cur_state);
-
-    return;
 }
 
 int get_player(char player, player_type *type) {

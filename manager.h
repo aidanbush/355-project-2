@@ -25,4 +25,6 @@ void set_manager_heuristic(int heuristic);
 
 void *move_timer(__attribute__((unused)) void *_);
 
+int setup_manager_timer(state_s *top_move);
+
 #endif /* MANAGER_H */

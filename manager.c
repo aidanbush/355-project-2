@@ -42,6 +42,21 @@ void set_manager_heuristic(int heuristic) {
     }
 }
 
+int setup_manager_timer(state_s *top_move) {
+    if (top_move == NULL)
+        return 0;
+
+    pthread_mutex_lock(&(manager.top_move_mutex));
+
+    manager.top_move = top_move;
+
+    pthread_mutex_unlock(&(manager.top_move_mutex));
+
+    manager.stop = 0;
+
+    return 1;
+}
+
 void *move_timer(__attribute__((unused)) void *_) {
     state_s *best_state;
     if (usleep(SLEEP_TIME) == -1) {

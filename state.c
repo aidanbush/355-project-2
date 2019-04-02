@@ -198,16 +198,15 @@ uint64_t hash_state(state_s *state) {
     return hash;
 }
 
-int comparator(const void *p, const void *q) {
+static int comparator(const void *p, const void *q) {
     // Get the values at given addresses
-    state_s *first = (state_s *)p;
-    state_s *second = (state_s *)q;
+    state_s *first = *(state_s **)p;
+    state_s *second = *(state_s **)q;
 
     if (first->player == STONE_BLACK)
-        return first->eval - second->eval;
+        return second->eval - first->eval;
 
-    return second->eval - first->eval;
-
+    return first->eval - second->eval;
 }
 
 void sort_children(state_s *state) {
