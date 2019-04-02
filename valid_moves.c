@@ -272,6 +272,10 @@ void valid_moves(state_s *cur_state, search_type move_set) {
                 dist++;
                 multi = true;
             }
+            if (found_move == true) {
+                copy_state(temp_board, cur_state);
+                found_move = false;
+            }
         }
     }
 }
