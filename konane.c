@@ -191,6 +191,9 @@ void play_game(state_s *cur_state, char player) {
         // set cur state to be selected state
         cur_state = new_state;
 
+        fprintf(stderr, "After Move\n");
+        print_state(cur_state);
+
         // get move
         read = getline(&move, &move_len, stdin);
         opp_move = check_opponent_move(cur_state, move, read);
@@ -206,9 +209,12 @@ void play_game(state_s *cur_state, char player) {
         free_all_but_child(cur_state, opp_move);
         cur_state = new_state;
 
+        fprintf(stderr, "Opp Move\n");
+        print_state(cur_state);
+
         depth -= 3;
-        if (depth < 0)
-            depth = 0;
+        if (depth < 1)
+            depth = 1;
 
         if (search == INIT_BLACK)
             search = SEARCH_BLACK;
@@ -219,6 +225,12 @@ void play_game(state_s *cur_state, char player) {
     free(move);
 
     free_model_children(cur_state);
+
+    printf("game over\n");
+    if (num_moves(cur_state->board, 0) == 0)
+        printf("WIN\n");
+    else
+        printf("LOSE\n");
 }
 
 int get_player(char player, player_type *type) {
