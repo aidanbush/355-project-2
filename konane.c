@@ -134,8 +134,13 @@ search_type get_search_type(state_s *state, uint8_t stone){
         return search;
 }
 
-int check_game_over(state_s *state) {
-    return state->cur_size == 0;
+int check_game_over(state_s *state, search_type search) {
+    if (search == INIT_BLACK || search == INIT_WHITE)
+        return 0;
+
+    if (search == SEARCH_BLACK)
+        return num_moves(state->board, 0) == 0;
+    return num_moves(state->board, 1) == 0;
 }
 
 void print_usage(char *p_name) {
@@ -182,6 +187,8 @@ void play_game(state_s *cur_state, char player) {
             depth++;
         }
 
+        print_move(cur_state->children[0]);
+
         // clean up thread
         pthread_join(man_thread, NULL);
 
@@ -220,17 +227,17 @@ void play_game(state_s *cur_state, char player) {
 
         if (search == INIT_WHITE)
             search = SEARCH_WHITE;
-    } while (!check_game_over(cur_state));
+    } while (!check_game_over(cur_state, search));
 
     free(move);
 
     free_model_children(cur_state);
 
-    printf("game over\n");
+    fprintf(stderr, "game over\n");
     if (num_moves(cur_state->board, 0) == 0)
-        printf("WIN\n");
+        fprintf(stderr, "WIN\n");
     else
-        printf("LOSE\n");
+        fprintf(stderr, "LOSE\n");
 }
 
 int get_player(char player, player_type *type) {
