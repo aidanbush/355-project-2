@@ -41,6 +41,6 @@ int check_opponent_move(state_s *cur_state, char *move, int move_len) {
         }
     }
 
-    fprintf(stderr, "Unable to find valid move");
+    fprintf(stderr, "Unable to find valid move\n");
     return -1;
 }

@@ -66,31 +66,31 @@ void print_move(state_s *state) {
 }
 
 /* Helper function to print a given state */
-static void print_board(uint8_t state[BOARD_SIZE][BOARD_SIZE]) {
-    printf("\n   ");
+static void print_board(uint8_t state[BOARD_SIZE][BOARD_SIZE], FILE *file) {
+    fprintf(file, "\n   ");
     for (int i = 0; i < BOARD_SIZE; i++) {
-        printf("%c ", 'A' + i);
+        fprintf(file, "%c ", 'A' + i);
     }
 
-    printf("\n   ");
+    fprintf(file, "\n   ");
 
     for (int i = 0; i < BOARD_SIZE; i++) {
-        printf("- ");
+        fprintf(file, "- ");
     }
-    printf("\n");
+    fprintf(file, "\n");
 
     for (int i = 0; i < BOARD_SIZE; i++) {
-        printf("%d |", BOARD_SIZE - i);
+        fprintf(file, "%d |", BOARD_SIZE - i);
         for (int j = 0; j < BOARD_SIZE; j++) {
-            printf("%c ", state[i][j]);
+            fprintf(file, "%c ", state[i][j]);
         }
-        printf("\n");
+        fprintf(file, "\n");
     }
-    printf("\n");
+    fprintf(file, "\n");
 }
 
 void print_state(state_s *state) {
-    print_board(state->board);
+    print_board(state->board, stderr);
 }
 
 void free_model(state_s *model) {
