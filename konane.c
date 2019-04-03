@@ -134,13 +134,20 @@ search_type get_search_type(state_s *state, uint8_t stone){
         return search;
 }
 
+static void declare_winner(state_s * state) {
+    if (num_moves(state->board, PLAYER_BLACK) == 0) {
+        fprintf(stderr, "WHITE WINS\n");
+    } else
+        fprintf(stderr, "BLACK WINS\n");
+}
+
 int check_game_over(state_s *state, search_type search) {
     if (search == INIT_BLACK || search == INIT_WHITE)
         return 0;
 
     if (search == SEARCH_BLACK)
-        return num_moves(state->board, 0) == 0;
-    return num_moves(state->board, 1) == 0;
+        return num_moves(state->board, PLAYER_BLACK) == 0;
+    return num_moves(state->board, PLAYER_WHITE) == 0;
 }
 
 void print_usage(char *p_name) {
@@ -181,7 +188,6 @@ void play_game(state_s *cur_state, char player) {
             perror("pthread_create");
             break;
         }
-
         while (!manager.stop) {
             // fprintf(stderr, "searching depth: %d\n", depth);
             minmax(cur_state, depth, search);
@@ -194,7 +200,6 @@ void play_game(state_s *cur_state, char player) {
         pthread_join(man_thread, NULL);
 
         new_state = cur_state->children[0];
-
         // free non selected states
         free_all_but_child(cur_state, 0);
         // set cur state to be selected state
@@ -228,8 +233,8 @@ void play_game(state_s *cur_state, char player) {
 
         if (search == INIT_WHITE)
             search = SEARCH_WHITE;
-    } while (1);
-
+    } while (!check_game_over(cur_state, search));
+    declare_winner(cur_state);
     free(move);
 
     free_model_children(cur_state);
