@@ -17,7 +17,7 @@
 
 #define MICROSECOND 1000
 #define SECOND      1000 * (MICROSECOND)
-#define SLEEP_TIME  9.5 * (SECOND)
+#define SLEEP_TIME  10 * (SECOND)
 
 manager_s manager;
 
