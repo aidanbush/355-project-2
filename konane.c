@@ -189,7 +189,7 @@ void play_game(state_s *cur_state, char player) {
             break;
         }
         while (!manager.stop) {
-            if (depth < 20)
+            if (verbosity >= 1)
                 fprintf(stderr, "searching depth: %d\n", depth);
             minmax(cur_state, depth, search);
             depth++;
@@ -206,8 +206,10 @@ void play_game(state_s *cur_state, char player) {
         // set cur state to be selected state
         cur_state = new_state;
 
-        // fprintf(stderr, "After Move\n");
-        // print_state(cur_state);
+        if (verbosity >= 2) {
+            fprintf(stderr, "After our move\n");
+            print_state(cur_state);
+        }
 
         // get move
         read = getline(&move, &move_len, stdin);
@@ -222,8 +224,10 @@ void play_game(state_s *cur_state, char player) {
         free_all_but_child(cur_state, opp_move);
         cur_state = new_state;
 
-        // fprintf(stderr, "Opp Move\n");
-        // print_state(cur_state);
+        if (verbosity >= 2) {
+            fprintf(stderr, "After opponents move\n");
+            print_state(cur_state);
+        }
 
         depth -= 3;
         if (depth < 1)
