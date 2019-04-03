@@ -8,14 +8,22 @@
 
 #include <stdint.h>
 #include <assert.h>
+#include <stdio.h>
 
 #include "heuristic.h"
 #include "state.h"
 
-int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], int player) {
+#define NEG_BOUND -100
+#define POS_BOUND 100
+
+int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], player_type player_color) {
     int row, col, dist;
     int moves = 0;
-
+    int player;
+    if (player_color == PLAYER_BLACK)
+        player = 0;
+    else
+        player = 1;
     // row
     for (int i = 0; i < BOARD_SIZE; i++) {
         row = i;
@@ -71,19 +79,19 @@ int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], int player) {
             }
         }
     }
-
     return moves;
 }
 
 int num_moves_diff(uint8_t board[BOARD_SIZE][BOARD_SIZE]) {
-    // black:0 white:1
-    int moves[2] = {0};
 
-    for (int player = 0; player < 2; player++) {
-        moves[player] = num_moves(board, player);
-    }
+    int black, white, multiplier = 1;
+    black = num_moves(board, PLAYER_BLACK);
+    white = num_moves(board, PLAYER_WHITE);
 
-    return moves[0] - moves[1];
+    if (black == 0 || white == 0)
+        multiplier = 5;
+
+    return (black - white) * multiplier;
 }
 
 static int remaining_stones(search_type type, uint8_t board[BOARD_SIZE][BOARD_SIZE]) {
@@ -106,6 +114,12 @@ static int remaining_stones(search_type type, uint8_t board[BOARD_SIZE][BOARD_SI
 int num_stones_diff(uint8_t board[BOARD_SIZE][BOARD_SIZE]) {
     return remaining_stones(SEARCH_BLACK, board)
         - remaining_stones(SEARCH_WHITE, board);
+}
+
+int combined(uint8_t board[BOARD_SIZE][BOARD_SIZE]) {
+    int moves = num_moves_diff(board);
+    int stones = num_stones_diff(board);
+    return moves * 2 + stones;
 }
 
 #ifdef _TEST_HEURISTIC

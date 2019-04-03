@@ -37,6 +37,9 @@ void set_manager_heuristic(int heuristic) {
         case 2:
             manager.heuristic = num_stones_diff;
             break;
+        case 3:
+            manager.heuristic = combined;
+            break;
         default:
             manager.heuristic = num_moves_diff;
     }

@@ -14,10 +14,11 @@
 
 typedef int (*heur_func)(uint8_t board[BOARD_SIZE][BOARD_SIZE]);
 
-int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], int player);
+int num_moves(uint8_t board[BOARD_SIZE][BOARD_SIZE], player_type player_color);
 
 int num_moves_diff(uint8_t board[BOARD_SIZE][BOARD_SIZE]);
 
 int num_stones_diff(uint8_t board[BOARD_SIZE][BOARD_SIZE]);
 
+int combined(uint8_t board[BOARD_SIZE][BOARD_SIZE]);
 #endif /* HEURISTIC_H */
