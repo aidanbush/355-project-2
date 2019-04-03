@@ -20,7 +20,7 @@
 
 #define DEFAULT_CHILD_SIZE  24
 
-manager_s manager;
+extern manager_s manager;
 
 state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE], player_type player) {
     state_s *model = malloc(sizeof(state_s));
@@ -203,7 +203,7 @@ static int comparator(const void *p, const void *q) {
     state_s *first = *(state_s **)p;
     state_s *second = *(state_s **)q;
 
-    if (first->player == STONE_BLACK)
+    if (first->player == PLAYER_BLACK)
         return second->eval - first->eval;
 
     return first->eval - second->eval;

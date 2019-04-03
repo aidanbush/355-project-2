@@ -182,7 +182,8 @@ void play_game(state_s *cur_state, char player) {
         }
 
         while (!manager.stop) {
-            fprintf(stderr, "searching depth: %d\n", depth);
+            if (depth < 20)
+                fprintf(stderr, "searching depth: %d\n", depth);
             minmax(cur_state, depth, search);
             depth++;
         }
