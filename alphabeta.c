@@ -27,6 +27,8 @@ int alpha_beta(state_s *state, int depth, int alpha, int beta, search_type searc
 		return state->eval;
 	}
 
+    manager.explored++;
+
 	if (search == SEARCH_BLACK) {
 			value = NEG_INF;
 			for (int i = 0; i < state->cur_size; i++) {

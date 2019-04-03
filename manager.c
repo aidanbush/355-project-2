@@ -26,6 +26,9 @@ void init_manager() {
     manager.stop = 0;
     manager.top_move = NULL;
 
+    manager.explored = 0;
+    manager.created = 0;
+
     manager.top_move_mutex = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 }
 
