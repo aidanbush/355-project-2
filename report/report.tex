@@ -1,0 +1,63 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{fancyhdr}
+
+\pagestyle{fancyplain}
+\headheight 35pt
+\lhead{Aidan Bush, David Dowie, Ben Ha}
+\rhead{CMPT 355 \\ \today}
+\headsep 1.5em
+
+\begin{document}
+
+\section*{Project 2-Konane}
+
+\subsection*{Minmax Implementation}
+In our approach we used Alpha-Beta pruning with iterative deepening.
+Iterative deepening was used so that we are able better work within the time limit.
+The iterative deepening also resulted in our agent in exploring an entire depth of possible moves.
+We also sorted potential moves by their evaluation values to allow for Alpha-Beta pruning.
+
+\subsection*{Evaluation Function}
+For our evaluation function we considered various ways of evaluating the given state in a way that would help us generate a optimal solution.
+In the end we decided to use our Difference in moves heuristic as it preformed the best, when compared to the others.
+
+\begin{itemize}
+\item \textbf{Difference in moves} -
+Takes in the given state and calculates the number of moves for black and white then takes the difference of the two. 
+This would provide our minmax algorithm because it would return a larger value for when there are more available moves for black than white and a smaller value for the inverse.
+This would provide both min and max with their respective optimal decisions.
+The problem with using this heuristic is that it would not provide a big range between values resulting in more than one state returning the same value.
+
+\item \textbf{Remaining stones} -
+Takes the given state and counts the amount of remaining stones for both white and black.
+Taking the difference between the two counts would result in the minmax algorithm would return larger values for when the state has more black than white.
+In the other case, for min, the evaluation would return smaller values for when there are more white than black.
+
+\item \textbf{Combined heuristic} - 
+
+\end{itemize}
+
+\subsection*{Representation of State Space}
+To represent our state space we will use a multi-dimensional array of 8 by 8 one byte integers.
+We are using this model to allow easy access to each of the boards entries.
+
+\subsection*{Improvements}
+If we had the time, we would have liked to make a few improvements.
+Firstly we would introduce a memory pool for our states and their arrays of children.
+A memory pool would allow us to make less alloc system calls.
+This would then reduce the number of context switches and letting our program to spend more time on the CPU.
+This would allow our agent to spend more time exploring nodes, so that we could find more optimal paths to take.
+
+Another improvement we would make, would be to modify our board representation to use just a single 64 bit integer.
+Ideally we would union this with an array of 8 8 bit integers for easier interfacing with the representation.
+This reduction is space used should speed up our agent as it would have to access less memory.
+The memory would also be less spread allowing it to take advantage of the principal of spacial locality, which modern caching systems are built on.
+
+Our most effective heuristic included calculating the number of moves possible for both players.
+If we modified our agent to only support this heuristic, we would know exactly how many children each node would have.
+With this number it would then not have to resize its array of children, reducing the time we spent resizing arrays as we grew the tree of moves.
+Improvements from this agent would likely be minimal though, so it may be better to not add this as it severely limited the types of heuristics you can test.
+
+\end{document}
