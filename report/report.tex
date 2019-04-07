@@ -19,10 +19,24 @@ Iterative deepening was used so that we are able better work within the time lim
 The iterative deepening also resulted in our agent in exploring an entire depth of possible moves.
 We also sorted potential moves by their evaluation values to allow for Alpha-Beta pruning.
 
+% timing
+To time our agent, and ensure It had a move in the time allotted we used a separate thread with a timer.
+Before we started our search for each move we would create the thread to be our timer.
+The thread would sleep for the time allotted for the move, and then would wake up and set a variable to signify that the time was up.
+The search would check the timer variable and then recurse back out of the iterative deepening loop before printing off the move.
+
 To represent our state space we used a multi-dimensional array of 8 by 8 one byte integers.
 We used this model to allow easy access to each of the boards entries, and to simplify development.
 
-\subsection*{Evaluation Function}
+\subsection*{Enhancements}
+% saving moves
+
+% timer in separate thread
+
+\subsection*{Problems}
+% TODO add
+
+\subsection*{Heuristic}
 For our evaluation function we considered various ways of evaluating the given state in a way that would help us generate a optimal solution.
 In the end we decided to use our Difference in moves heuristic as it preformed the best, when compared to the others.
 
