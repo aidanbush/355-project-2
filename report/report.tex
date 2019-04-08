@@ -44,6 +44,7 @@ We implemented our timer in a separate thread from our main search.
 Using a second thread made checking the time easier, as we could just used a flag that would be set when the time was up.
 Using the flag resulted in searching though more moves and finding better moves, along with winning moves quicker.
 The second thread also slept which meant that it would not take up time from our main thread.
+
 % compiler optimization
 We introduced compiler optimization though the -O3 optimization flag.
 Using compiler optimization improved performance of the agent allowing it to explore many more moves.
