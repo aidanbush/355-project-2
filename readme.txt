@@ -24,3 +24,14 @@ state.c: Handles the model of our state. Adding children, freeing memory, and pr
 valid_moves.c: Generates all the valid_moves and adds them to the children of a given state.
 
 konane.c: This handles the game being played. Takes in the user input and prints the move decided on in our alpha-beta search.
+
+How to use the makefile:
+
+To compile all the source files:
+make all
+
+To remove the .o and executables:
+make clean
+
+How to run the agent:
+./konane.exe "{text file with the board}" {Player type: "B" or "W"}
