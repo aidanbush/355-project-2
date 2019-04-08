@@ -22,16 +22,27 @@ We also sorted potential moves by their evaluation values to allow for Alpha-Bet
 % timing
 To time our agent, and ensure It had a move in the time allotted we used a separate thread with a timer.
 Before we started our search for each move we would create the thread to be our timer.
-The thread would sleep for the time allotted for the move, and then would wake up and set a variable to signify that the time was up.
-The search would check the timer variable and then recurse back out of the iterative deepening loop before printing off the move.
+The thread would sleep for the time allotted for the move, and then would wake up and set a flag to signify that the time was up.
+The search would check the timer flag and then recurse back out of the iterative deepening loop before printing off the move.
 
 To represent our state space we used a multi-dimensional array of 8 by 8 one byte integers.
 We used this model to allow easy access to each of the boards entries, and to simplify development.
 
 \subsection*{Enhancements}
 % saving moves
+To improve out approach we kept all moves throughout our successive moves.
+This allowed us to not have to re-search all the moves we had for our previous moves.
+Saving moves also allowed us to search deeper that if we had not as we would continue off on the search we stopped on.
+Specifically the agent would start searching at 3 less than the depth we stopped, to account for our, and our opponents move, and then would continue off on the last depth we were searching at.
+This improvement did have a downside, in that we would always generate all possible moves from a specific depth.
+If we did not we would have to constantly check for moves we left out when searching for our next move.
+Although this could be done in the time our opponent spent making a move.
 
 % timer in separate thread
+We implemented our timer in a separate thread from our main search.
+Using a second thread made checking the time easier, as we could just used a flag that would be set when the time was up.
+Using the flag resulted in searching though more moves and finding better moves, along with winning moves quicker.
+The second thread also slept which meant that it would not take up time from our main thread.
 
 \subsection*{Problems}
 % TODO add
