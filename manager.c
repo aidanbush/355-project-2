@@ -17,7 +17,7 @@
 
 #define MICROSECOND 1000
 #define SECOND      1000 * (MICROSECOND)
-#define SLEEP_TIME  9.5 * (SECOND)
+#define SLEEP_TIME  10 * (SECOND)
 
 manager_s manager;
 
@@ -25,6 +25,9 @@ void init_manager() {
     manager.heuristic = num_moves_diff;
     manager.stop = 0;
     manager.top_move = NULL;
+
+    manager.explored = 0;
+    manager.created = 0;
 
     manager.top_move_mutex = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 }

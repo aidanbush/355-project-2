@@ -17,6 +17,8 @@ typedef struct manager_s {
     int stop;
     state_s *top_move;
     pthread_mutex_t top_move_mutex;
+    int explored;
+    int created;
 } manager_s;
 
 void init_manager();

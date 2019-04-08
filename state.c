@@ -31,6 +31,8 @@ state_s *init_model(state_s *parent, uint8_t current[BOARD_SIZE][BOARD_SIZE], pl
         for (int j = 0; j < BOARD_SIZE; j++)
             model->board[i][j] = current[i][j];
 
+    manager.created++;
+
     model->eval = manager.heuristic(current);
 
     // move
