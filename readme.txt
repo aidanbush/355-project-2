@@ -37,3 +37,15 @@ make clean
 
 How to run the agent:
 ./konane.exe "{text file with the board}" {Player type: "B" or "W"}
+
+Usage: konane.exe [OPTIONS...] Boardfile Player
+Konane (Hawaiian Checkers) agent.
+
+Player is either "B" or "W"
+Options
+  -v verbosity (increases with more)
+  -g specify heuristic:
+     1 - difference in moves
+     2 - difference in stones
+     3 - combined heuristics
+  -h this usage message
