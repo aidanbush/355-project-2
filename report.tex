@@ -1,0 +1,31 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{fancyhdr}
+
+\pagestyle{fancyplain}
+\headheight 35pt
+\lhead{Aidan Bush, David Dowie, Ben Ha}
+\rhead{CMPT 355 \\ \today}
+\headsep 1.5em
+
+\begin{document}
+
+\section*{Project 2 Report}
+
+\subsection*{Abstract}
+For Project 2, we decided to Alpha-Beta pruning and iterative deepening in our Minimax search to create our Kōnane playing agent. Faced with a time constraint, our approach was meant to cut down the search time while exploring the breathed of the search tree. In addition, we also utilized multithreading so our search can be run while the agent is waiting for the opponent’s move.
+
+\subsection*{Implementation}
+
+\textbf{Search Algorithm} \par
+\\
+\textbf{Evaluation Function} \par
+For our evaluation, we used two different heuristics to come up with the best move for the agent, the Possible Moves Difference heuristic and the Remaining Stones Difference heuristic. In the first heuristic, the difference between possible moves for black and white at each state are calculated. With this evaluation, Min and Max will both be given their respective optimal decisions as Min will try to minimize the difference, and Max will aim to maximize it. Then, the second heuristic takes the difference between the remaining stones for black and white at each state. \par
+With our agent, one has the option to use only the first heuristic, only the second heurisitc, or both of them combined. In the combined evaluation function, the value is calculated as \texttt{moves * 2 + stones}. This is because our first heuristic provides a better evaluation, as in the game the number of moves is more important than the number of stones.
+
+
+\textbf{Problems Faced} \\
+% TODO
+
+\end{document}
