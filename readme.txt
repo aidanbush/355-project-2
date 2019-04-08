@@ -7,6 +7,8 @@ In the main directory you will be able to compile and run the implementation. Fr
 mini-report: directory that holds a makefile and mini-report.tex file to generate the mini-report.pdf (using "make all")
 report: directory that holds a makefile and report.tex file to generate the report.pdf (using "make all")
 
+results: result files from testing, including a python and R script to generate the plots used in the report.
+
 Given Files: D5.txt, E4.txt, ND.pl, newgame.txt, driver.pl
 
 Source Files:
