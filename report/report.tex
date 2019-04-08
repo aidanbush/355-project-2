@@ -72,7 +72,7 @@ In the other case, for min, the evaluation would return smaller values for when 
 \subsection*{Future Work}
 If we had the time, we would have liked to make a few improvements.
 Firstly we would introduce a memory pool for our states and their arrays of children.
-A memory pool would allow us to make less alloc system calls.
+A memory pool would allow us to make less memory allocating system calls.
 This would then reduce the number of context switches and letting our program to spend more time on the CPU.
 This would allow our agent to spend more time exploring nodes, so that we could find more optimal paths to take.
 
