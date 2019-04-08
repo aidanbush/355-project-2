@@ -26,7 +26,7 @@ Before we started our search for each move we would create the thread to be our 
 The thread would sleep for the time allotted for the move, and then would wake up and set a flag to signify that the time was up.
 The search would check the timer flag and then recurse back out of the iterative deepening loop before printing off the move.
 
-To represent our state space we used a multi-dimensional array of 8 by 8 one byte integers.
+To represent our state space we used a multi-dimensional array of 8 x 8 one byte integers.
 We used this model to allow easy access to each of the boards entries, and to simplify development.
 
 \subsection*{Enhancements}
@@ -139,8 +139,8 @@ A memory pool would allow us to make less memory allocating system calls.
 This would then reduce the number of context switches and letting our program to spend more time on the CPU.
 This would allow our agent to spend more time exploring nodes, so that we could find more optimal paths to take.
 
-Another improvement we would make, would be to modify our board representation to use just a single 64 bit integer.
-Ideally we would union this with an array of 8 8 bit integers for easier interfacing with the representation.
+Another improvement we would make, would be to modify our board representation to use just a single 64-bit integer.
+Ideally we would union this with an array of eight 8-bit integers for easier interfacing with the representation.
 This reduction is space used should speed up our agent as it would have to access less memory.
 The memory would also be less spread allowing it to take advantage of the principal of spacial locality, which modern caching systems are built on.
 
