@@ -61,14 +61,21 @@ Takes in the given state and calculates the number of moves for black and white 
 This would provide our minmax algorithm because it would return a larger value for when there are more available moves for black than white and a smaller value for the inverse.
 This would provide both min and max with their respective optimal decisions.
 The problem with using this heuristic is that it would not provide a big range between values resulting in more than one state returning the same value.
+To ensure that we prioritize win states, if we found a a endstate of the game we would multiply our heuristic value by a factor of 5.
+We found that this heuristic provided us with the best results therefore, this is the the evaluation function we used.
 
 \item \textbf{Remaining stones} -
 Takes the given state and counts the amount of remaining stones for both white and black.
 Taking the difference between the two counts would result in the minmax algorithm would return larger values for when the state has more black than white.
 In the other case, for min, the evaluation would return smaller values for when there are more white than black.
+This heuristic does not provide enough information to the agent that would prioritize getting to a endstate so we decided to not use it on its own.
 
 \item \textbf{Combined heuristic} - 
-% TODO add
+Since the remaining stones heuristic does not provide enough information to the agent to make a informed decision on which would be a optimal state, we opted into combining both heuristics.
+We thought that adding an extra layer of information to our heuristic would diversify our results.
+After implementing a combined heuristic, we found that this is not the case.
+We ran multiple tests and also experimented with with different multipliers to see if we could get more informed results.
+After testing our agent with Difference in Moves heuristic against another agent using the Combined heuristic, we found that the Difference in Moves was the optimal evaluation function.
 
 \end{itemize}
 
