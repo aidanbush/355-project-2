@@ -163,6 +163,19 @@ void print_usage(char *p_name) {
             "  -h this usage message\n", basename(p_name));
 }
 
+search_type next_search(search_type search) {
+    switch (search) {
+        case INIT_BLACK:
+            return INIT_WHITE;
+        case INIT_WHITE:
+        case SEARCH_WHITE:
+            return SEARCH_BLACK;
+        case SEARCH_BLACK:
+        default:
+            return SEARCH_WHITE;
+    }
+}
+
 void play_game(state_s *cur_state, char player) {
     char *move = NULL;
     size_t move_len;
@@ -188,11 +201,19 @@ void play_game(state_s *cur_state, char player) {
             perror("pthread_create");
             break;
         }
+
+        manager.explored = 0;
+        manager.created = 0;
         while (!manager.stop) {
             if (verbosity >= 1)
                 fprintf(stderr, "searching depth: %d\n", depth);
             minmax(cur_state, depth, search);
             depth++;
+        }
+
+        if (verbosity >= 1) {
+            fprintf(stderr, "explored %d\n", manager.explored);
+            fprintf(stderr, "created %d\n", manager.created);
         }
 
         print_move(cur_state->children[0]);
@@ -209,6 +230,10 @@ void play_game(state_s *cur_state, char player) {
         if (verbosity >= 2) {
             fprintf(stderr, "After our move\n");
             print_state(cur_state);
+        }
+
+        if (check_game_over(cur_state, next_search(search))) {
+            break;
         }
 
         // get move
