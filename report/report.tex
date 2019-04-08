@@ -43,13 +43,27 @@ We implemented our timer in a separate thread from our main search.
 Using a second thread made checking the time easier, as we could just used a flag that would be set when the time was up.
 Using the flag resulted in searching though more moves and finding better moves, along with winning moves quicker.
 The second thread also slept which meant that it would not take up time from our main thread.
-
 % compiler optimization
 
 \subsection*{Problems}
 % printing off and selected differing moves
+To ensure that we printed a valid move within the given decision making time we opted into printing the top move move the instant our thread sleep was completed.
+We also wanted to always sort the children of each state so that for max they are sorted in decending order and for min in ascending order.
+Since we sorted these nodes recursively, we were printing the state at children[0].
+Therefore we were not actually printing the best move for the given state.
+To fix this we changed our base case to be when; we found a end game state, we reached our specified max depth, or when the time is up.
+We then printed the move after the alpha-beta algorithm was completed leaving us with the most optimal move, based off our search,  every time.
 
 % missed leftmost column and topmost row moves
+Another problem we had was generating moves which required a jump that ended in either the top-most row or the left-most column.
+We were simply just not evaluating the state properly by looking at every index greater than zero for either left or up moves.
+After changing this comparison we were able to generate these moves.
+ 
+% generating two moves at the same time
+The final problem we had with generating valid moves was generating two moves and adding both moves to one child of the given state.
+We found that we were not reseting the the evaluation state between checking moves to the left and checking moves upwards.
+We fixed this evaluation by resetting the state but then decided to optimize our move generation.
+Instead of having a long method that reuses very similar methods we broke it into functions to make it more efficient.
 
 \subsection*{Heuristic}
 For our evaluation function we considered various ways of evaluating the given state in a way that would help us generate a optimal solution.
