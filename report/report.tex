@@ -2,6 +2,7 @@
 \usepackage{fullpage}
 \usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}
 \usepackage{fancyhdr}
+\usepackage{graphicx}
 
 \pagestyle{fancyplain}
 \headheight 35pt
@@ -47,6 +48,40 @@ The second thread also slept which meant that it would not take up time from our
 % compiler optimization
 We introduced compiler optimization though the -O3 optimization flag.
 Using compiler optimization improved performance of the agent allowing it to explore many more moves.
+
+\subsection*{Performance}
+We ran tests on Aidan's laptop to generate statistics on it running, which ran faster than the student server.
+
+Figure~\ref{fig:explore} shows the number of nodes explored per turn.
+This number is not necessarily the number of new nodes explored.
+The jump at the end is caused by our agent revisiting many nodes as it had explored all possible moves from that point.
+
+Figure~\ref{fig:create} shows the number of nodes created per turn.
+This is the number of new nodes that are created, at the end of the games it reaches 0 as all possible moves have been created.
+
+Figure~\ref{fig:depth} shows the maximum depth the agent reached per turn.
+Near the end when the agent reached all possible moves had been created the agents max depth starts to dip.
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{../results/explored_plot.pdf}
+  \caption{Plot of explored nodes for each turn.}
+  \label{fig:explore}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{../results/created_plot.pdf}
+  \caption{Plot of created nodes for each turn.}
+  \label{fig:create}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{../results/depth_plot.pdf}
+  \caption{Plot of max depth reached for each turn.}
+  \label{fig:depth}
+\end{figure}
 
 \subsection*{Problems}
 % printing off and selected differing moves
