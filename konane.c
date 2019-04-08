@@ -202,11 +202,13 @@ void play_game(state_s *cur_state, char player) {
             break;
         }
 
-        manager.explored = 0;
-        manager.created = 0;
+        reset_manager_stats();
+
         while (!manager.stop) {
-            if (verbosity >= 1)
+            if (verbosity >= 2)
                 fprintf(stderr, "searching depth: %d\n", depth);
+
+            manager.search_depth = depth;
             minmax(cur_state, depth, search);
             depth++;
         }
@@ -214,8 +216,10 @@ void play_game(state_s *cur_state, char player) {
         if (verbosity >= 1) {
             fprintf(stderr, "explored %d\n", manager.explored);
             fprintf(stderr, "created %d\n", manager.created);
+            fprintf(stderr, "max depth %d\n", manager.max_depth);
         }
 
+        // print best move
         print_move(cur_state->children[0]);
 
         // clean up thread
@@ -227,7 +231,7 @@ void play_game(state_s *cur_state, char player) {
         // set cur state to be selected state
         cur_state = new_state;
 
-        if (verbosity >= 2) {
+        if (verbosity >= 3) {
             fprintf(stderr, "After our move\n");
             print_state(cur_state);
         }
@@ -249,7 +253,7 @@ void play_game(state_s *cur_state, char player) {
         free_all_but_child(cur_state, opp_move);
         cur_state = new_state;
 
-        if (verbosity >= 2) {
+        if (verbosity >= 3) {
             fprintf(stderr, "After opponents move\n");
             print_state(cur_state);
         }

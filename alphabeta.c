@@ -23,6 +23,10 @@ int alpha_beta(state_s *state, int depth, int alpha, int beta, search_type searc
 	if (state->cur_size == 0)
 		valid_moves(state, search);
 
+    if ((manager.search_depth - depth) > manager.max_depth) {
+        manager.max_depth = manager.search_depth - depth;
+    }
+
 	if (depth == 0 || manager.stop || state->cur_size == 0) {
 		return state->eval;
 	}

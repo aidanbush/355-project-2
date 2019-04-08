@@ -19,6 +19,8 @@ typedef struct manager_s {
     pthread_mutex_t top_move_mutex;
     int explored;
     int created;
+    int max_depth;
+    int search_depth;
 } manager_s;
 
 void init_manager();
@@ -28,5 +30,7 @@ void set_manager_heuristic(int heuristic);
 void *move_timer(__attribute__((unused)) void *_);
 
 int setup_manager_timer(state_s *top_move);
+
+void reset_manager_stats();
 
 #endif /* MANAGER_H */

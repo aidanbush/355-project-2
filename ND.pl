@@ -26,15 +26,15 @@ else
        print "W:";
        print $ll;
        system("./knmovecheck aaa W $ll");
-       print "Press enter now!\n";
-       $K=getc(STDIN);
+       #iprint "Press enter now!\n";
+       #$K=getc(STDIN);
        print Writer1 $ll;
        $ll=<Reader1>;
        print "B:";
        print $ll;
        system("./knmovecheck aaa B $ll");
-       print "Press enter now!\n";
-       $K=getc(STDIN);
+       #print "Press enter now!\n";
+       #$K=getc(STDIN);
        print Writer2 $ll;
     }
  }

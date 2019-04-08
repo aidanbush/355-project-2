@@ -29,6 +29,8 @@ void init_manager() {
     manager.explored = 0;
     manager.created = 0;
 
+    manager.max_depth = 0;
+
     manager.top_move_mutex = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 }
 
@@ -82,4 +84,10 @@ void *move_timer(__attribute__((unused)) void *_) {
     pthread_mutex_unlock(&(manager.top_move_mutex));
 
     return NULL;
+}
+
+void reset_manager_stats() {
+    manager.explored = 0;
+    manager.created = 0;
+    manager.max_depth = 0;
 }
