@@ -17,22 +17,22 @@
 \subsection*{Implementation}
 In our approach we used Alpha-Beta pruning with iterative deepening.
 Iterative deepening was used so that we are able better work within the time limit.
-The iterative deepening also resulted in our agent in exploring an entire depth of possible moves.
+The iterative deepening also let the search explore more of a breadth of moves.
 We also sorted potential moves by their evaluation values to allow for Alpha-Beta pruning.
 
 % timing
-To time our agent, and ensure It had a move in the time allotted we used a separate thread with a timer.
+To time our agent and ensure It had a move in the time allotted we used a separate thread with a timer.
 Before we started our search for each move we would create the thread to be our timer.
 The thread would sleep for the time allotted for the move, and then would wake up and set a flag to signify that the time was up.
 The search would check the timer flag and then recurse back out of the iterative deepening loop before printing off the move.
 
-To represent our state space we used a multi-dimensional array of 8 by 8 one byte integers.
+To represent our state space we used a multi-dimensional array of 8 x 8 one byte integers.
 We used this model to allow easy access to each of the boards entries, and to simplify development.
 
 \subsection*{Enhancements}
 % saving moves
-To improve out approach we kept all moves throughout our successive moves.
-This allowed us to not have to re-search all the moves we had for our previous moves.
+To improve out approach we kept all relevant moves throughout our successive moves.
+This allowed us to avoid re-searching all the moves we had for our previous moves.
 Saving moves also allowed us to search deeper that if we had not as we would continue off on the search we stopped on.
 Specifically the agent would start searching at 3 less than the depth we stopped, to account for our, and our opponents move, and then would continue off on the last depth we were searching at.
 This improvement did have a downside, in that we would always generate all possible moves from a specific depth.
@@ -51,6 +51,7 @@ Using compiler optimization improved performance of the agent allowing it to exp
 
 \subsection*{Performance}
 We ran tests on Aidan's laptop to generate statistics on it running, which ran faster than the student server.
+In these tests we ran our agent against the random agent.
 
 Figure~\ref{fig:explore} shows the number of nodes explored per turn.
 This number is not necessarily the number of new nodes explored.
@@ -85,10 +86,10 @@ Near the end when the agent reached all possible moves had been created the agen
 
 \subsection*{Problems}
 % printing off and selected differing moves
-To ensure that we printed a valid move within the given decision making time we opted into printing the top move move the instant our thread sleep was completed.
-We also wanted to always sort the children of each state so that for max they are sorted in decending order and for min in ascending order.
+To ensure that we printed a valid move within the given decision making time we opted into printing the top move the instant our thread sleep was completed.
+We also wanted to always sort the children of each state so that for max they are sorted in descending order and for min in ascending order.
 Since we sorted these nodes recursively, we were printing the state at children[0].
-Therefore we were not actually printing the best move for the given state.
+Therefore we were not actually printing the best move for the given state, as sorting may not have been completed at that point.
 To fix this we changed our base case to be when; we found a end game state, we reached our specified max depth, or when the time is up.
 We then printed the move after the alpha-beta algorithm was completed leaving us with the most optimal move, based off our search,  every time.
 
@@ -99,7 +100,7 @@ After changing this comparison we were able to generate these moves.
  
 % generating two moves at the same time
 The final problem we had with generating valid moves was generating two moves and adding both moves to one child of the given state.
-We found that we were not reseting the the evaluation state between checking moves to the left and checking moves upwards.
+We found that we were not resetting the evaluation state between checking moves to the left and checking moves upwards.
 We fixed this evaluation by resetting the state but then decided to optimize our move generation.
 Instead of having a long method that reuses very similar methods we broke it into functions to make it more efficient.
 
@@ -113,14 +114,14 @@ Takes in the given state and calculates the number of moves for black and white 
 This would provide our minmax algorithm because it would return a larger value for when there are more available moves for black than white and a smaller value for the inverse.
 This would provide both min and max with their respective optimal decisions.
 The problem with using this heuristic is that it would not provide a big range between values resulting in more than one state returning the same value.
-To ensure that we prioritize win states, if we found a a endstate of the game we would multiply our heuristic value by a factor of 5.
-We found that this heuristic provided us with the best results therefore, this is the the evaluation function we used.
+To ensure that we prioritize win states, if we found an end state of the game we would multiply our heuristic value by a factor of 5.
+We found that this heuristic provided us with the best results therefore, this is the evaluation function we used.
 
 \item \textbf{Remaining stones} -
 Takes the given state and counts the amount of remaining stones for both white and black.
 Taking the difference between the two counts would result in the minmax algorithm would return larger values for when the state has more black than white.
 In the other case, for min, the evaluation would return smaller values for when there are more white than black.
-This heuristic does not provide enough information to the agent that would prioritize getting to a endstate so we decided to not use it on its own.
+This heuristic does not provide enough information to the agent that would prioritize getting to a end state so we decided to not use it on its own.
 
 \item \textbf{Combined heuristic} - 
 Since the remaining stones heuristic does not provide enough information to the agent to make a informed decision on which would be a optimal state, we opted into combining both heuristics.
@@ -138,8 +139,8 @@ A memory pool would allow us to make less memory allocating system calls.
 This would then reduce the number of context switches and letting our program to spend more time on the CPU.
 This would allow our agent to spend more time exploring nodes, so that we could find more optimal paths to take.
 
-Another improvement we would make, would be to modify our board representation to use just a single 64 bit integer.
-Ideally we would union this with an array of 8 8 bit integers for easier interfacing with the representation.
+Another improvement we would make, would be to modify our board representation to use just a single 64-bit integer.
+Ideally we would union this with an array of eight 8-bit integers for easier interfacing with the representation.
 This reduction is space used should speed up our agent as it would have to access less memory.
 The memory would also be less spread allowing it to take advantage of the principal of spacial locality, which modern caching systems are built on.
 
