@@ -44,6 +44,8 @@ Using a second thread made checking the time easier, as we could just used a fla
 Using the flag resulted in searching though more moves and finding better moves, along with winning moves quicker.
 The second thread also slept which meant that it would not take up time from our main thread.
 
+% compiler optimization
+
 \subsection*{Problems}
 % TODO add
 
@@ -67,7 +69,7 @@ In the other case, for min, the evaluation would return smaller values for when 
 
 \end{itemize}
 
-\subsection*{Improvements}
+\subsection*{Future Work}
 If we had the time, we would have liked to make a few improvements.
 Firstly we would introduce a memory pool for our states and their arrays of children.
 A memory pool would allow us to make less alloc system calls.
